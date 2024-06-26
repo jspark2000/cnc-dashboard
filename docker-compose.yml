@@ -1,21 +1,10 @@
 version: '3'
 
-# networks:
-#   kafka-net:
-#     driver: bridge
-#   broker:
-#     name: broker-net
-#     external: true
-
 services:
   cnc_database:
     container_name: cnc_database
 
     image: postgres:12
-    # volumes:
-    #   - ./custom-database/init/init.sql:/docker-entrypoint-initdb.d/init.sql
-    # networks:
-    #   - kafka-net
     ports:
       - '5432:5432'
     environment:
