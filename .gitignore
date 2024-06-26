@@ -374,3 +374,5 @@ sketch
 /**/prisma/generated
 
 *.txt
+
+/cnc_data/
