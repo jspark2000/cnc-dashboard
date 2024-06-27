@@ -8,6 +8,9 @@ import styled from 'styled-components';
 import Checkboxes from './components/CheckBoxes';
 import { Box, Checkbox, Stack, Typography } from '@mui/material';
 import ReactApexChart, { Props as ChartProps } from 'react-apexcharts';
+import { useDispatch, useSelector } from 'react-redux';
+import { IAppState } from '../../types';
+import { updateData } from '../../modules/dashboard';
 
 const ENDPOINT = "http://localhost:4000";
 
@@ -73,6 +76,8 @@ const initialvalues = [
 
 const Dashboard = () => {
 
+  const dispatch = useDispatch();
+
   const [data, setData] = useState<CNCData[]>([]);
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
 
@@ -84,6 +89,8 @@ const Dashboard = () => {
 
   const [timestamps, setTimestamps] = useState<string>('');
 
+  const dataRedux = useSelector((state: IAppState) => state.dashboard.data);
+
   const SHOW_COUNT = 7;
 
   const socket = io('http://localhost:4000', {});
@@ -93,18 +100,31 @@ const Dashboard = () => {
   });
 
   socket.on('FromAPI', (newData: CNCData) => {
-    // console.log(newData);
+
     setData((prevData) => [newData, ...prevData].slice(0, 50));
+    // if (dataRedux.length > 0) {
+    //   const newDataRedux = [newData, ...dataRedux].slice(0, 50);
+      
+    //   dispatch(updateData(newDataRedux));
+    // }
   });
 
   useEffect(() => {
     axios.get('http://localhost:4000/data')
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setData(res.data);
+        // dispatch(updateData(res.data));
       });
   }, []);
+  
+  useEffect(() => {
+    console.log(dataRedux);
+  }, [dataRedux]);
 
+  useEffect(() => {
+    dispatch(updateData(data));
+  }, [data]);
 
   useEffect(() => {
     const selectLabels = values.slice(0, Math.min(SHOW_COUNT, values.length)).map((val) => val.key);
@@ -123,12 +143,12 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    registerSeries(data);
-  }, [data]);
+    registerSeries(dataRedux);
+  }, [dataRedux]);
   
   useEffect(() => {
     // console.log(selectedLabels);
-    const selectedData = data.map((d) => {
+    const selectedData = dataRedux.map((d) => {
       const sd: any = { timestamp: d.timestamp };
       selectedLabels.forEach((label) => {
         sd[label] = d[label as keyof CNCData];
@@ -369,9 +389,9 @@ const Dashboard = () => {
   return (
     <DashboardContainer>
       {/* <h1>Dashboard</h1> */}
-      <Labels data={data[data.length - 1]} />
+      <Labels data={dataRedux[dataRedux.length - 1]} />
       <ChartContainer>
-        <Chart data={data} series={series} />
+        <Chart data={dataRedux} series={series} />
         <CheckBoxContainer>  
         {values.map((val) => (
             <Stack
