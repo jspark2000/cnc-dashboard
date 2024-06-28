@@ -2,5 +2,9 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "typescript.preferences.importModuleSpecifier": "shortest",
-  "typescript.preferences.preferTypeOnlyAutoImports": true
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.analysis.autoImportCompletions": true
 }
