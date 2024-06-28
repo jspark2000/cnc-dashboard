@@ -1,10 +1,9 @@
-import Dashboard from '@/components/Dashboard/Dashboard'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import DefaultLayout from '@/layouts/DefaultLayout'
-import MonitoringPage from '@/pages/monitoring/MonitoringPage'
-import DailyStatusPage from '@/pages/daily-status/DailyStatusPage'
-import DailyReportPage from '@/pages/daily-report/DailyReportPage'
-import WeeklyStatusPage from '@/pages/weekly-status/WeeklyStatusPage'
+import DefaultLayout from './layouts/DefaultLayout'
+import MonitoringPage from './pages/monitoring/MonitoringPage'
+import DailyStatusPage from './pages/daily-status/DailyStatusPage'
+import DailyReportPage from './pages/daily-report/DailyReportPage'
+import WeeklyStatusPage from './pages/weekly-status/WeeklyStatusPage'
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      <Dashboard />
     </div>
   )
 }

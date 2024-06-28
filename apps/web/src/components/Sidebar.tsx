@@ -1,12 +1,14 @@
 import { Cog6ToothIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const location = useLocation()
+
   const navigation = [
-    { name: '모니터링', href: '/', current: true },
-    { name: '일간현황', href: '/daily-status', current: false },
-    { name: '주간현황', href: '/weekly-status', current: false },
-    { name: '데일리리포트', href: '/daily-report', current: false }
+    { name: '모니터링', href: '/' },
+    { name: '일간현황', href: '/daily-status' },
+    { name: '주간현황', href: '/weekly-status' },
+    { name: '데일리리포트', href: '/daily-report' }
   ]
 
   const classNames = (...classes: string[]) => {
@@ -16,7 +18,7 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
       <div>
-        <div className="fixed inset-y-0 z-50 flex w-72 flex-col">
+        <div className="fixed inset-y-0 z-50 flex w-32 flex-col">
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
@@ -34,12 +36,14 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <Link
                           to={item.href}
                           className={classNames(
-                            item.current
-                              ? 'bg-gray-50 text-indigo-600'
-                              : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
+                            location.pathname === item.href
+                              ? 'bg-gray-100 text-indigo-900'
+                              : 'text-gray-600 hover:bg-gray-100 hover:text-indigo-900',
                             'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                           )}
-                        />
+                        >
+                          {item.name}
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -47,10 +51,10 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <li className="mt-auto">
                   <Link
                     to="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-900"
                   >
                     <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-900"
                       aria-hidden="true"
                     />
                     설정
@@ -60,9 +64,9 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </nav>
           </div>
         </div>
-        <div className="pl-72">
+        <div className="pl-32">
           <main>
-            <div className="min-h-screen w-full overflow-auto px-4 sm:px-6 lg:px-8">
+            <div className="min-h-screen w-full overflow-auto p-4">
               {children}
             </div>
           </main>

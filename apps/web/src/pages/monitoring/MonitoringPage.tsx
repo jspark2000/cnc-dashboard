@@ -1,5 +1,11 @@
+import Dashboard from '../../components/Dashboard/Dashboard'
+
 const MonitoringPage: React.FC = () => {
-  return <h1>모니터링 페이지</h1>
+  return (
+    <div className="flex flex-col">
+      <Dashboard />
+    </div>
+  )
 }
 
 export default MonitoringPage

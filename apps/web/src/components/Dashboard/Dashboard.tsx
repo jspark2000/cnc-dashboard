@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import axios from 'axios'
 import Chart from './components/Chart'
 import Labels from './components/Labels'
 import { CNCData } from '../../utils/cncData'
-import styled from 'styled-components'
-import Checkboxes from './components/CheckBoxes'
-import { Box, Checkbox, Stack, Typography } from '@mui/material'
-import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
+import { Checkbox, Stack, Typography } from '@mui/material'
+import { Props as ChartProps } from 'react-apexcharts'
 import { useDispatch, useSelector } from 'react-redux'
 import { IAppState } from '../../types'
 import { updateData } from '../../modules/dashboard'
-
-const ENDPOINT = 'http://localhost:4000'
-
-const colorArray = ['red', 'blue', 'purple', 'green']
 
 type ValueType = {
   key: string
@@ -448,12 +442,12 @@ const Dashboard = () => {
   }
 
   return (
-    <DashboardContainer>
+    <div className="flex w-full flex-col items-center p-5">
       {/* <h1>Dashboard</h1> */}
       <Labels data={dataRedux[dataRedux.length - 1]} />
-      <ChartContainer>
+      <div className="flex w-full flex-row items-center justify-center">
         <Chart data={dataRedux} series={series} />
-        <CheckBoxContainer>
+        <div className="mt-5 flex h-[700px] flex-col overflow-y-scroll">
           {values.map((val) => (
             <Stack direction={'row'} alignItems={'center'}>
               <Checkbox
@@ -463,34 +457,10 @@ const Dashboard = () => {
               <Typography> {val.key}</Typography>
             </Stack>
           ))}
-        </CheckBoxContainer>
-      </ChartContainer>
-    </DashboardContainer>
+        </div>
+      </div>
+    </div>
   )
 }
 
 export default Dashboard
-
-const DashboardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  width: 100%;
-`
-
-const CheckBoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-  height: 700px;
-  overflow-y: scroll;
-`
-
-const ChartContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`
