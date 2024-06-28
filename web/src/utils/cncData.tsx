@@ -1,4 +1,3 @@
-
 export interface CNCData {
   timestamp: string; // TIMESTAMP
   spindlerpm?: number; // INTEGER
