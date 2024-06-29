@@ -14,7 +14,7 @@ DB_PASSWORD = "password"
 DB_PORT = "5432"
 
 # 폴더 경로
-folder_path = "cnc_data"
+folder_path = "../../cnc_data"
 
 
 # PostgreSQL 데이터베이스에 연결
