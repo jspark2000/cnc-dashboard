@@ -1,5 +1,16 @@
+import ItemTable from "../../components/daily-report/\bItemTable"
+import Charts from "../../components/daily-report/Charts"
+import MachineTable from "../../components/daily-report/MachineTable"
+
 const DailyReportPage: React.FC = () => {
-  return <h1 className="text-3xl font-bold">데일리리포트 페이지</h1>
+
+  return (
+    <div className="flex flex-col">
+      <MachineTable />
+      <Charts />
+      <ItemTable />
+    </div>
+  )
 }
 
 export default DailyReportPage
