@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import axios from 'axios'
-import Chart from './components/Chart'
+import RealTimeChart from './components/RealTimeChart'
 import Labels from './components/Labels'
 import { CNCData } from '../../utils/cncData'
 import { Checkbox, Stack, Typography } from '@mui/material'
@@ -9,6 +9,8 @@ import { Props as ChartProps } from 'react-apexcharts'
 import { useDispatch, useSelector } from 'react-redux'
 import { IAppState } from '../../types'
 import { updateData } from '../../modules/dashboard'
+import ToolAreaChart from './components/ToolAreaChart'
+import ChartTitle from './components/ChartTitle'
 
 type ValueType = {
   key: string
@@ -445,16 +447,44 @@ const Dashboard = () => {
     <div className="flex w-full flex-col items-center p-5">
       {/* <h1>Dashboard</h1> */}
       <Labels data={dataRedux[dataRedux.length - 1]} />
-      <div className="flex w-full flex-row items-center justify-center">
-        <Chart data={dataRedux} series={series} />
-        <div className="mt-5 flex h-[700px] flex-col overflow-y-scroll">
+      <div className="flex w-full h-[400px] flex-row items-center justify-between relative border border-gray-400">
+        <ChartTitle title={'실시간'} />
+        <RealTimeChart data={dataRedux} series={series} />
+        <div className="mt-5 flex h-[200px] flex-col overflow-y-scroll absolute top-10 right-0 bg-black/20 shadow-lg">
           {values.map((val) => (
             <Stack direction={'row'} alignItems={'center'}>
               <Checkbox
                 checked={selectedLabels.includes(val.key)}
                 onChange={() => handleLabelChange(val.key)}
+                color='success'
+                style={{
+                  transform: "scale(0.7)",
+                  width: "30px",
+                  height: "30px"
+                }}
               ></Checkbox>
-              <Typography> {val.key}</Typography>
+              <div className="text-xs"> {val.key} </div>
+            </Stack>
+          ))}
+        </div>
+      </div>
+      <div className="flex w-full h-[400px] flex-row items-center justify-between mb-3 relative border-l border-r border-b border-gray-400">
+        <ChartTitle title={'가공구간'} />
+        <ToolAreaChart data={dataRedux} series={series} />
+        <div className="mt-5 flex h-[200px] flex-col overflow-y-scroll absolute top-10 right-0 bg-black/20 shadow-lg">
+          {values.map((val) => (
+            <Stack direction={'row'} alignItems={'center'}>
+              <Checkbox
+                checked={selectedLabels.includes(val.key)}
+                onChange={() => handleLabelChange(val.key)}
+                color='success'
+                style={{
+                  transform: "scale(0.7)",
+                  width: "30px",
+                  height: "30px"
+                }}
+              ></Checkbox>
+              <div className="text-xs"> {val.key} </div>
             </Stack>
           ))}
         </div>
