@@ -66,7 +66,7 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </div>
         <div className="pl-32">
           <main>
-            <div className="min-h-screen w-full overflow-auto p-4">
+            <div className="min-h-screen w-full overflow-auto bg-gray-50 p-4">
               {children}
             </div>
           </main>
