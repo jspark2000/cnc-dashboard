@@ -18,7 +18,7 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
       <div>
-        <div className="fixed inset-y-0 z-50 flex w-32 flex-col">
+        <div className="fixed inset-y-0 z-50 flex w-36 flex-col">
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
@@ -64,7 +64,7 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </nav>
           </div>
         </div>
-        <div className="pl-32">
+        <div className="pl-36">
           <main>
             <div className="min-h-screen w-full overflow-auto bg-gray-50 p-4">
               {children}

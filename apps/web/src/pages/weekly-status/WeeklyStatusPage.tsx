@@ -5,7 +5,7 @@ const WeeklyStatusPage: React.FC = () => {
   return (
     <div className="grid w-full grid-cols-12 gap-3">
       <div className="col-span-12">
-        <h1 className="text-3xl font-bold">주간현황</h1>
+        <h1 className="text-2xl font-bold">주간현황</h1>
       </div>
       <div className="col-span-4">
         <div className="my-2 grid grid-cols-2 bg-gray-200 p-5">

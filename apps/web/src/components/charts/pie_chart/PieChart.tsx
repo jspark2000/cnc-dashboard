@@ -8,7 +8,7 @@ const PieChart: React.FC = () => {
       <ReactApexChart
         type={'donut'}
         series={series}
-        width={300}
+        width={230}
         height={350}
         options={{
           responsive: [
@@ -16,7 +16,10 @@ const PieChart: React.FC = () => {
               breakpoint: 480,
               options: {}
             }
-          ]
+          ],
+          legend: {
+            position: 'bottom'
+          }
         }}
       />
     </div>
