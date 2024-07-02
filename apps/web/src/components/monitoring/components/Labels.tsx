@@ -1,32 +1,31 @@
 import { CNCData } from '../../../utils/cncData'
 
 const LabelItem = ({ title, text }: { title: string; text: string }) => (
-  <div className="flex h-12 flex-col items-center justify-center border-l border-b border-gray-400 p-2">
+  <div className="flex h-12 flex-col items-center justify-center border-b border-l border-gray-400 p-2">
     <div className="mb-1 text-xs font-medium">{title}</div>
     <div className="text-xs font-normal">{text}</div>
   </div>
 )
 
 const LabelTitle = ({ title }: { title: string }) => (
-  <div className='w-full text-center font-bold text-sm py-1 bg-gray-400 text-white'>
+  <div className="w-full bg-gray-400 py-1 text-center text-sm font-bold text-white">
     {title}
   </div>
 )
 
 const Labels = ({ data }: { data: CNCData }) => {
-
   const monitoringLabels = [
     { title: 'Spindle RPM', text: String(data?.spindlerpm ?? '') },
     { title: 'Current Feed Rate', text: String(data?.currentfeadrate ?? '') },
     { title: 'Spindle Load', text: String(data?.spindleload ?? '') },
     { title: 'Spindle No', text: String(data?.spindleno ?? '') },
     { title: 'Tool Group ID', text: String(data?.toolgroupid ?? '') },
-    { title: 'Tool Life Counter', text: String(data?.toollifecounter ?? '') },
+    { title: 'Tool Life Counter', text: String(data?.toollifecounter ?? '') }
   ]
 
   const positionLabels = [
     { title: 'X-Axis', text: String(data?.xaxis ?? '') },
-    { title: 'Z-Axis', text: String(data?.zaaxis ?? '') },
+    { title: 'Z-Axis', text: String(data?.zaaxis ?? '') }
   ]
 
   const programLabels = [
@@ -35,9 +34,8 @@ const Labels = ({ data }: { data: CNCData }) => {
     { title: 'Operation Mode', text: String(data?.operationmode ?? '') },
     { title: 'Gcode Group No', text: String(data?.gcodegroupno ?? '') },
     { title: 'Gcode Flag', text: String(data?.gcodeflag ?? '') },
-    { title: 'Gcode', text: String(data?.gcode ?? '') },
+    { title: 'Gcode', text: String(data?.gcode ?? '') }
   ]
-
 
   const labels = [
     { title: 'Spindle RPM', text: String(data?.spindlerpm ?? '') },
@@ -105,20 +103,20 @@ const Labels = ({ data }: { data: CNCData }) => {
   ]
 
   return (
-    <div className="flex w-full border-r border-gray-400 mb-8">
-      <div className="flex flex-col w-1/3">
-        <LabelTitle title='MONITORING' />
+    <div className="mb-8 flex w-full border-r border-gray-400">
+      <div className="flex w-1/3 flex-col">
+        <LabelTitle title="MONITORING" />
         <div className="grid border-collapse grid-cols-3 gap-0">
           {monitoringLabels.map((label, index) => (
             <LabelItem key={index} title={label.title} text={label.text} />
           ))}
         </div>
       </div>
-      <div className="flex flex-col w-1/3">
+      <div className="flex w-1/3 flex-col">
         {/* <div className='w-full text-center font-bold text-sm py-1 bg-gray-400 text-white'>
           POSITION
         </div> */}
-        <LabelTitle title='POSITION' />
+        <LabelTitle title="POSITION" />
         <div className="grid border-collapse grid-cols-3 gap-0">
           {positionLabels.map((label, index) => (
             <LabelItem key={index} title={label.title} text={label.text} />
@@ -129,8 +127,8 @@ const Labels = ({ data }: { data: CNCData }) => {
           <LabelItem title={''} text={''}></LabelItem>
         </div>
       </div>
-      <div className="flex flex-col w-1/3">
-        <LabelTitle title='PROGRAM' />
+      <div className="flex w-1/3 flex-col">
+        <LabelTitle title="PROGRAM" />
         <div className="grid border-collapse grid-cols-3 gap-0">
           {programLabels.map((label, index) => (
             <LabelItem key={index} title={label.title} text={label.text} />

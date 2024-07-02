@@ -447,20 +447,20 @@ const Dashboard = () => {
     <div className="flex w-full flex-col items-center p-5">
       {/* <h1>Dashboard</h1> */}
       <Labels data={dataRedux[dataRedux.length - 1]} />
-      <div className="flex w-full h-[400px] flex-row items-center justify-between relative border border-gray-400">
+      <div className="relative flex h-[400px] w-full flex-row items-center justify-between border border-gray-400">
         <ChartTitle title={'실시간'} />
         <RealTimeChart data={dataRedux} series={series} />
-        <div className="mt-5 flex h-[200px] flex-col overflow-y-scroll absolute top-10 right-0 bg-black/20 shadow-lg">
+        <div className="absolute right-0 top-10 mt-5 flex h-[200px] flex-col overflow-y-scroll bg-black/20 shadow-lg">
           {values.map((val) => (
             <Stack direction={'row'} alignItems={'center'}>
               <Checkbox
                 checked={selectedLabels.includes(val.key)}
                 onChange={() => handleLabelChange(val.key)}
-                color='success'
+                color="success"
                 style={{
-                  transform: "scale(0.7)",
-                  width: "30px",
-                  height: "30px"
+                  transform: 'scale(0.7)',
+                  width: '30px',
+                  height: '30px'
                 }}
               ></Checkbox>
               <div className="text-xs"> {val.key} </div>
@@ -468,20 +468,20 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-      <div className="flex w-full h-[400px] flex-row items-center justify-between mb-3 relative border-l border-r border-b border-gray-400">
+      <div className="relative mb-3 flex h-[400px] w-full flex-row items-center justify-between border-b border-l border-r border-gray-400">
         <ChartTitle title={'가공구간'} />
         <ToolAreaChart data={dataRedux} series={series} />
-        <div className="mt-5 flex h-[200px] flex-col overflow-y-scroll absolute top-10 right-0 bg-black/20 shadow-lg">
+        <div className="absolute right-0 top-10 mt-5 flex h-[200px] flex-col overflow-y-scroll bg-black/20 shadow-lg">
           {values.map((val) => (
             <Stack direction={'row'} alignItems={'center'}>
               <Checkbox
                 checked={selectedLabels.includes(val.key)}
                 onChange={() => handleLabelChange(val.key)}
-                color='success'
+                color="success"
                 style={{
-                  transform: "scale(0.7)",
-                  width: "30px",
-                  height: "30px"
+                  transform: 'scale(0.7)',
+                  width: '30px',
+                  height: '30px'
                 }}
               ></Checkbox>
               <div className="text-xs"> {val.key} </div>

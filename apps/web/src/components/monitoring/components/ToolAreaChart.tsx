@@ -11,7 +11,7 @@ const ToolAreaChart = ({
 }) => {
   return (
     <div className="flex">
-      <div className=" w-4/5">
+      <div className="w-4/5">
         <ReactApexChart
           options={{
             chart: {
