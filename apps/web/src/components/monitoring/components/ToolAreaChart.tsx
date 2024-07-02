@@ -2,7 +2,7 @@ import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
 import { CNCData } from '../../../utils/cncData'
 import { formatTime } from '../../../utils/formatTime'
 
-const Chart = ({
+const ToolAreaChart = ({
   data,
   series
 }: {
@@ -11,12 +11,12 @@ const Chart = ({
 }) => {
   return (
     <div className="flex">
-      <div className="h-[700px] w-4/5">
+      <div className=" w-4/5">
         <ReactApexChart
           options={{
             chart: {
               type: 'line',
-              height: 450,
+              height: 350,
               animations: {
                 enabled: true,
                 easing: 'linear',
@@ -32,15 +32,16 @@ const Chart = ({
               enabled: false
             },
             stroke: {
-              curve: 'straight'
+              curve: 'straight',
+              width: 1
             },
             title: {
-              text: 'CNC Data',
+              text: '',
               align: 'left'
             },
             grid: {
               row: {
-                colors: ['#f3f3f3', 'transparent'],
+                colors: ['transparent'],
                 opacity: 0.5
               }
             },
@@ -51,11 +52,11 @@ const Chart = ({
           series={series}
           type="line"
           width={1200}
-          height={700}
+          height={350}
         />
       </div>
     </div>
   )
 }
 
-export default Chart
+export default ToolAreaChart
