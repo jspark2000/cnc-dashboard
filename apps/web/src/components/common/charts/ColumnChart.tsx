@@ -2,47 +2,53 @@ import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
 
 const ColumnChart = ({
   series,
-  labels
+  labels,
+  height = 150,
+  isStacked = false
 }: {
   series: ChartProps['series']
   labels: any[]
+  height?: number
+  isStacked?: boolean
 }) => {
   return (
-    <div>
+    <div className="w-full">
       <ReactApexChart
+        series={series}
+        height={height}
+        width={'100%'}
+        type="bar"
         options={{
           chart: {
-            height: 150,
             type: 'bar',
             toolbar: {
               show: false
-            }
+            },
+            stacked: isStacked
           },
           plotOptions: {
             bar: {
               columnWidth: '45%',
-              distributed: true
+              distributed: !isStacked
             }
           },
           dataLabels: {
             enabled: true
           },
           legend: {
-            show: false
+            show: isStacked,
+            position: 'right',
+            offsetY: 0
           },
           xaxis: {
             labels: {
               style: {
-                // colors: 'gray',
                 fontSize: '12px'
               }
             },
             categories: labels
           }
         }}
-        series={series}
-        type="bar"
-        height={150}
       />
     </div>
   )

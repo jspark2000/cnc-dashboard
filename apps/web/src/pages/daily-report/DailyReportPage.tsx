@@ -1,4 +1,4 @@
-import ItemTable from '../../components/daily-report/\bItemTable'
+import ItemTable from '../../components/daily-report/ItemTable'
 import Charts from '../../components/daily-report/Charts'
 import MachineTable from '../../components/daily-report/MachineTable'
 

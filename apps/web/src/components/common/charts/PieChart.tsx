@@ -3,15 +3,20 @@ import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
 const PieChart = ({
   series,
   labels,
-  title
+  title,
+  height = 250
 }: {
   series: ChartProps['series']
   labels: any[]
-  title: string
+  title?: string
+  height?: number
 }) => {
   return (
     <div className="p-4">
       <ReactApexChart
+        series={series}
+        type="donut"
+        height={height}
         options={{
           chart: {
             type: 'donut'
@@ -34,9 +39,6 @@ const PieChart = ({
             position: 'bottom'
           }
         }}
-        series={series}
-        type="donut"
-        height={250}
       />
     </div>
   )

@@ -1,8 +1,7 @@
-import ColumnChart from './charts/ColumnChart'
-import GaugeChart from './charts/GaugeChart'
-import LineChart from './charts/LineChart'
-import PieChart from './charts/PieChart'
-import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
+import ColumnChart from '../common/charts/ColumnChart'
+import GaugeChart from '../common/charts/GaugeChart'
+import LineChart from '../common/charts/LineChart'
+import PieChart from '../common/charts/PieChart'
 
 // Function to generate a list of random integers
 const generateRandomList = (

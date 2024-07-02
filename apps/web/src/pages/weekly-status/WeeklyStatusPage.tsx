@@ -1,7 +1,25 @@
-import StackedColumnChart from '../../components/charts/column_chart/StackedColumnChart'
-import PieChart from '../../components/charts/pie_chart/PieChart'
+import PieChart from '../../components/common/charts/PieChart'
+import ColumnChart from '../../components/common/charts/ColumnChart'
 
 const WeeklyStatusPage: React.FC = () => {
+  const totalProductionSeries = [
+    {
+      name: 'MACHINE A',
+      data: [44, 55, 41, 67, 22, 43, 55]
+    },
+    {
+      name: 'MACHINE B',
+      data: [13, 23, 20, 8, 13, 27, 22]
+    },
+    {
+      name: 'MACHINE C',
+      data: [11, 17, 15, 15, 21, 14, 10]
+    }
+  ]
+
+  const weeklyProductStatusSeries = [708.0, 65.0]
+  const weeklyOperationTimeSeries = [6510.6, 797.7]
+
   return (
     <div className="grid w-full grid-cols-12 gap-3">
       <div className="col-span-12">
@@ -33,8 +51,13 @@ const WeeklyStatusPage: React.FC = () => {
                 <span className="block">가</span>
                 <span className="block">공</span>
               </div>
-              <div className="col-span-11">
-                <StackedColumnChart />
+              <div className="flex w-full">
+                <ColumnChart
+                  series={totalProductionSeries}
+                  labels={['월', '화', '수', '목', '금', '토', '일']}
+                  isStacked={true}
+                  height={350}
+                />
               </div>
             </div>
             <div className="flex bg-white">
@@ -44,8 +67,13 @@ const WeeklyStatusPage: React.FC = () => {
                 <span className="block">가</span>
                 <span className="block">공</span>
               </div>
-              <div className="col-span-11">
-                <StackedColumnChart />
+              <div className="flex w-full">
+                <ColumnChart
+                  series={totalProductionSeries}
+                  labels={['월', '화', '수', '목', '금', '토', '일']}
+                  isStacked={true}
+                  height={350}
+                />
               </div>
             </div>
           </div>
@@ -55,9 +83,21 @@ const WeeklyStatusPage: React.FC = () => {
             <p>WEEKLY PRODUCT STATUS</p>
             <p>(단위: 개수)</p>
           </div>
-          <div className="grid grid-cols-1 gap-1">
-            <PieChart />
-            <PieChart />
+          <div className="flex flex-col space-y-1">
+            <div className="flex h-[365px] items-center justify-center bg-white">
+              <PieChart
+                series={weeklyProductStatusSeries}
+                labels={['MACHINE A', 'MACHINE B']}
+                height={350}
+              />
+            </div>
+            <div className="flex h-[365px] items-center justify-center bg-white">
+              <PieChart
+                series={weeklyProductStatusSeries}
+                labels={['MACHINE A', 'MACHINE B']}
+                height={350}
+              />
+            </div>
           </div>
         </div>
         <div className="col-span-1">
@@ -65,9 +105,21 @@ const WeeklyStatusPage: React.FC = () => {
             <p>WEEKLY OPERATION TIME</p>
             <p>(단위: 시간)</p>
           </div>
-          <div className="grid grid-cols-1 gap-1">
-            <PieChart />
-            <PieChart />
+          <div className="flex flex-col space-y-1">
+            <div className="flex h-[365px] items-center justify-center bg-white">
+              <PieChart
+                series={weeklyOperationTimeSeries}
+                labels={['MACHINE A', 'MACHINE B']}
+                height={350}
+              />
+            </div>
+            <div className="flex h-[365px] items-center justify-center bg-white">
+              <PieChart
+                series={weeklyOperationTimeSeries}
+                labels={['MACHINE A', 'MACHINE B']}
+                height={350}
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import TableTitle from './TableTitle'
-import TableValue from './TableValue'
+import TableTitle from '../common/table/TableTitle'
+import TableValue from '../common/table/TableValue'
 
 const SectionTitle = ({ title }: { title: string }) => {
   return (
