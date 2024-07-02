@@ -1,7 +1,8 @@
-
 const TableValue = ({ value }: { value: string }) => {
   return (
-    <div className="text-xs flex items-center justify-center h-12 border-l border-gray-400 p-1">{value}</div>
+    <div className="flex h-12 items-center justify-center border-l border-gray-400 p-1 text-xs">
+      {value}
+    </div>
   )
 }
 

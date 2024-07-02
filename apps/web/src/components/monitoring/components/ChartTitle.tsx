@@ -1,9 +1,9 @@
-
-
 const ChartTitle = ({ title }: { title: string }) => {
   return (
-    <div className="w-12 h-full flex justify-center items-center bg-gray-400">
-      <h2 className="text-xl w-4 h-full flex justify-center items-center font-semibold text-white">{title}</h2>
+    <div className="flex h-full w-12 items-center justify-center bg-gray-400">
+      <h2 className="flex h-full w-4 items-center justify-center text-xl font-semibold text-white">
+        {title}
+      </h2>
     </div>
   )
 }

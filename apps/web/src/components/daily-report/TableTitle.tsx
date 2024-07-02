@@ -1,9 +1,13 @@
-
-const TableTitle = ({ title, unit }: { title: string, unit: string }) => {
+const TableTitle = ({ title, unit }: { title: string; unit: string }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-16 border border-gray-400 p-2 bg-gray-400">
-      <div className="text-sm whitespace-pre font-bold text-white">{title}</div>
-      {unit === "" ? null : <div className="text-sm whitespace-pre font-bold text-white"> {"( "+unit+" )"} </div>}
+    <div className="flex h-16 flex-col items-center justify-center border border-gray-400 bg-gray-400 p-2">
+      <div className="whitespace-pre text-sm font-bold text-white">{title}</div>
+      {unit === '' ? null : (
+        <div className="whitespace-pre text-sm font-bold text-white">
+          {' '}
+          {'( ' + unit + ' )'}{' '}
+        </div>
+      )}
     </div>
   )
 }

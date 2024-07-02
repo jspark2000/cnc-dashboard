@@ -22,7 +22,7 @@ const BasicLineChart: React.FC = () => {
   ]
 
   return (
-    <div className="flex h-[350px] bg-white w-full">
+    <div className="flex h-[350px] w-full bg-white">
       <ReactApexChart
         type={'line'}
         width={1700}

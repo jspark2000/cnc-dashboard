@@ -1,10 +1,16 @@
 import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
 
-const GaugeChart = ({series, label}: {series: ChartProps['series'], label: string}) => {
-
+const GaugeChart = ({
+  series,
+  label
+}: {
+  series: ChartProps['series']
+  label: string
+}) => {
   return (
     <div>
-      <ReactApexChart options={{
+      <ReactApexChart
+        options={{
           series: series,
           chart: {
             type: 'radialBar',
@@ -18,7 +24,7 @@ const GaugeChart = ({series, label}: {series: ChartProps['series'], label: strin
               startAngle: -90,
               endAngle: 90,
               track: {
-                background: "#e7e7e7",
+                background: '#e7e7e7',
                 strokeWidth: '97%',
                 margin: 5, // margin is in pixels
                 dropShadow: {
@@ -55,22 +61,26 @@ const GaugeChart = ({series, label}: {series: ChartProps['series'], label: strin
               opacityFrom: 1,
               opacityTo: 1,
               stops: [0, 50, 53, 91]
-            },
+            }
           },
           title: {
             text: '',
             align: 'center',
             style: {
-              fontSize: '0px',
-            },
+              fontSize: '0px'
+            }
           },
-          labels: [label],
-        }} series={series} type="radialBar" height={350} />
-        <div>
-          <h1 className="text-xs text-center">{label}</h1>
-        </div>
+          labels: [label]
+        }}
+        series={series}
+        type="radialBar"
+        height={350}
+      />
+      <div>
+        <h1 className="text-center text-xs">{label}</h1>
+      </div>
     </div>
-  );
+  )
 }
 
-export default GaugeChart;
+export default GaugeChart
