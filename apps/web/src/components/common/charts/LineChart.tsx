@@ -2,17 +2,23 @@ import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
 
 const LineChart = ({
   series,
-  categories
+  categories,
+  height = 200
 }: {
   series: ChartProps['series']
   categories: any[]
+  height?: number
 }) => {
   return (
-    <div>
+    <div className="w-full">
       <ReactApexChart
+        series={series}
+        type="line"
+        height={height}
+        width={'100%'}
         options={{
           chart: {
-            height: 200,
+            height,
             type: 'line',
             toolbar: {
               show: false
@@ -45,10 +51,6 @@ const LineChart = ({
             categories: categories
           }
         }}
-        series={series}
-        type="line"
-        height={200}
-        width={'100%'}
       />
     </div>
   )

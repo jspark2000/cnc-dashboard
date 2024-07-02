@@ -1,5 +1,6 @@
 import PieChart from '../../components/common/charts/PieChart'
 import ColumnChart from '../../components/common/charts/ColumnChart'
+import ModelCard from '../../components/common/card/ModelCard'
 
 const WeeklyStatusPage: React.FC = () => {
   const totalProductionSeries = [
@@ -16,7 +17,6 @@ const WeeklyStatusPage: React.FC = () => {
       data: [11, 17, 15, 15, 21, 14, 10]
     }
   ]
-
   const weeklyProductStatusSeries = [708.0, 65.0]
   const weeklyOperationTimeSeries = [6510.6, 797.7]
 
@@ -26,16 +26,11 @@ const WeeklyStatusPage: React.FC = () => {
         <h1 className="text-2xl font-bold">주간현황</h1>
       </div>
       <div className="col-span-4">
-        <div className="my-2 grid grid-cols-2 bg-gray-200 p-5">
-          <div className="flex flex-col space-y-2">
-            <h2 className="text-sm">현재 품번 / 프로그램명</h2>
-            <p className="text-sm font-semibold">APH 025 MAIN / O7534</p>
-          </div>
-          <div className="flex flex-col space-y-2">
-            <h2 className="text-sm">장비모델</h2>
-            <p className="text-sm font-semibold">WIAVF500D</p>
-          </div>
-        </div>
+        <ModelCard
+          productNumber={'APH 025 MAIN'}
+          programName={'O7534'}
+          equipmentModel={'WIAVF500D'}
+        />
       </div>
       <div className="col-span-12 grid grid-cols-5 gap-1">
         <div className="col-span-3">
