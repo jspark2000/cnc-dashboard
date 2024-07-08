@@ -3,12 +3,12 @@ import io from 'socket.io-client'
 import axios from 'axios'
 import RealTimeChart from './components/RealTimeChart'
 import Labels from './components/Labels'
-import { CNCData } from '../../utils/cncData'
+import { CNCData, CNCRealTimeData } from '../../utils/cncData'
 import { Checkbox, Stack, Typography } from '@mui/material'
 import { Props as ChartProps } from 'react-apexcharts'
 import { useDispatch, useSelector } from 'react-redux'
 import { IAppState } from '../../types'
-import { updateData } from '../../modules/dashboard'
+import { updateData, updateRealTimeData } from '../../modules/dashboard'
 import ToolAreaChart from './components/ToolAreaChart'
 import ChartTitle from './components/ChartTitle'
 
@@ -68,13 +68,31 @@ const initialvalues = [
   // { key: "gcode", value: false },
 ]
 
+const realTimeInitialValues = [
+  { key: 'timestamp', value: true },
+  { key: 'spindlerpm', value: true },
+  { key: 'servocurrent1', value: false },
+  { key: 'servocurrent2', value: false },
+  { key: 'servocurrent3', value: false },
+  { key: 'servocurrent4', value: false },
+  { key: 'servocurrent5', value: false },
+  { key: 'servomotorspeed1', value: false },
+  { key: 'servomotorspeed2', value: false },
+  { key: 'servomotorspeed3', value: false },
+  { key: 'servomotorspeed4', value: false },
+  { key: 'servomotorspeed5', value: false },
+  { key: 'temp', value: false }
+]
+
 const Dashboard = () => {
   const dispatch = useDispatch()
 
   const [data, setData] = useState<CNCData[]>([])
   const [selectedLabels, setSelectedLabels] = useState<string[]>([])
+  const [selectedRealTimeLabels, setSelectedRealTimeLabels] = useState<string[]>([])
 
   const [values, setValues] = useState<ValueType[]>(initialvalues)
+  const [realTimeValues, setRealTimeValues] = useState<ValueType[]>(realTimeInitialValues)
 
   // const [selectedData, setSelectedData] = useState<CNCData[]>([]);
 
@@ -82,9 +100,14 @@ const Dashboard = () => {
     { name: '', data: [] }
   ])
 
+  const [realTimeSeries, setRealTimeSeries] = useState<ChartProps['series']>([
+    { name: '', data: [] }
+  ])
+
   const [timestamps, setTimestamps] = useState<string>('')
 
   const dataRedux = useSelector((state: IAppState) => state.dashboard.data)
+  const realTimeDataRedux = useSelector((state: IAppState) => state.dashboard.realTimeData)
 
   const SHOW_COUNT = 7
 
@@ -105,18 +128,23 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios.get('http://localhost:4000/data').then((res) => {
-      // console.log(res.data);
       setData(res.data)
       // dispatch(updateData(res.data));
     })
   }, [])
 
   useEffect(() => {
-    console.log(dataRedux)
-  }, [dataRedux])
+    // 특정 key값을 가진 데이터만 추출
+    const temp = data.map((d) => {
+      const sd: any = { timestamp: d.timestamp };
+      selectedRealTimeLabels.forEach((label) => {
+        sd[label] = d[label as keyof CNCRealTimeData];
+      });
+      return sd;
+    });
 
-  useEffect(() => {
     dispatch(updateData(data))
+    dispatch(updateRealTimeData(temp))
   }, [data])
 
   useEffect(() => {
@@ -124,7 +152,12 @@ const Dashboard = () => {
       .slice(0, Math.min(SHOW_COUNT, values.length))
       .map((val) => val.key)
 
+    const selectRealTimeLabels = realTimeValues
+      .slice(0, Math.min(SHOW_COUNT, realTimeValues.length))
+      .map((val) => val.key)
+
     setSelectedLabels(selectLabels)
+    setSelectedRealTimeLabels(selectRealTimeLabels)
   }, [])
 
   const handleLabelChange = (key: string) => {
@@ -135,12 +168,23 @@ const Dashboard = () => {
     }
   }
 
+  const handleRealTimeLabelChange = (key: string) => {
+    if (selectedRealTimeLabels.includes(key)) {
+      setSelectedRealTimeLabels(selectedRealTimeLabels.filter((label) => label !== key))
+    } else {
+      setSelectedRealTimeLabels([...selectedRealTimeLabels, key])
+    }
+  }
+
   useEffect(() => {
     registerSeries(dataRedux)
   }, [dataRedux])
 
   useEffect(() => {
-    // console.log(selectedLabels);
+    registerRealTimeSeries(realTimeDataRedux)
+  }, [realTimeDataRedux])
+
+  useEffect(() => {
     const selectedData = dataRedux.map((d) => {
       const sd: any = { timestamp: d.timestamp }
       selectedLabels.forEach((label) => {
@@ -151,6 +195,18 @@ const Dashboard = () => {
 
     registerSeries(selectedData)
   }, [selectedLabels])
+
+  useEffect(() => {
+    const selectedData = realTimeDataRedux.map((d) => {
+      const sd: any = { timestamp: d.timestamp }
+      selectedRealTimeLabels.forEach((label) => {
+        sd[label] = d[label as keyof CNCRealTimeData]
+      })
+      return sd
+    })
+
+    registerRealTimeSeries(selectedData)
+  }, [selectedRealTimeLabels])
 
   const registerSeries = (data: CNCData[]) => {
     if (data.length === 0) {
@@ -443,19 +499,130 @@ const Dashboard = () => {
     setSeries(series)
   }
 
+  const registerRealTimeSeries = (data: CNCRealTimeData[]) => {
+    if (data.length === 0) {
+      return
+    }
+
+    const series: any[] = []
+
+    selectedRealTimeLabels.forEach((l) => {
+           // if (d.timestamp) {
+      //   timestamps.push(d.timestamp);
+      // }
+
+      if (l.includes('spindlerpm')) {
+        const spindlerpm = {
+          name: 'Spindle RPM',
+          data: data.map((d) => d.spindlerpm)
+        }
+        series.push(spindlerpm)
+      }
+
+      if (l.includes('servocurrent1')) {
+        const servocurrent1 = {
+          name: 'ServoCurrent1',
+          data: data.map((d) => d.servocurrent1)
+        }
+        series.push(servocurrent1)
+      }
+
+      if (l.includes('servocurrent2')) {
+        const servocurrent2 = {
+          name: 'ServoCurrent2',
+          data: data.map((d) => d.servocurrent2)
+        }
+        series.push(servocurrent2)
+      }
+
+      if (l.includes('servocurrent3')) {
+        const servocurrent3 = {
+          name: 'ServoCurrent3',
+          data: data.map((d) => d.servocurrent3)
+        }
+        series.push(servocurrent3)
+      }
+
+      if (l.includes('servocurrent4')) {
+        const servocurrent4 = {
+          name: 'ServoCurrent4',
+          data: data.map((d) => d.servocurrent4)
+        }
+        series.push(servocurrent4)
+      }
+
+      if (l.includes('servocurrent5')) {
+        const servocurrent5 = {
+          name: 'ServoCurrent5',
+          data: data.map((d) => d.servocurrent5)
+        }
+        series.push(servocurrent5)
+      }
+
+      if (l.includes('servomotorspeed1')) {
+        const servomotorspeed1 = {
+          name: 'ServoMotorSpeed1',
+          data: data.map((d) => d.servomotorspeed1)
+        }
+        series.push(servomotorspeed1)
+      }
+
+      if (l.includes('servomotorspeed2')) {
+        const servomotorspeed2 = {
+          name: 'ServoMotorSpeed2',
+          data: data.map((d) => d.servomotorspeed2)
+        }
+        series.push(servomotorspeed2)
+      }
+
+      if (l.includes('servomotorspeed3')) {
+        const servomotorspeed3 = {
+          name: 'ServoMotorSpeed3',
+          data: data.map((d) => d.servomotorspeed3)
+        }
+        series.push(servomotorspeed3)
+      }
+
+      if (l.includes('servomotorspeed4')) {
+        const servomotorspeed4 = {
+          name: 'ServoMotorSpeed4',
+          data: data.map((d) => d.servomotorspeed4)
+        }
+        series.push(servomotorspeed4)
+      }
+
+      if (l.includes('servomotorspeed5')) {
+        const servomotorspeed5 = {
+          name: 'ServoMotorSpeed5',
+          data: data.map((d) => d.servomotorspeed5)
+        }
+        series.push(servomotorspeed5)
+      }
+
+      if (l.includes('temp')) {
+        const temp = { name: 'Temp', data: data.map((d) => d.temp) }
+        series.push(temp)
+      }
+
+    })
+
+    setRealTimeSeries(series)
+  }
+
+
   return (
     <div className="flex w-full flex-col items-center p-5">
       {/* <h1>Dashboard</h1> */}
       <Labels data={dataRedux[dataRedux.length - 1]} />
       <div className="relative flex h-[400px] w-full flex-row items-center justify-between border border-gray-400">
         <ChartTitle title={'실시간'} />
-        <RealTimeChart data={dataRedux} series={series} />
+        <RealTimeChart data={realTimeDataRedux} series={realTimeSeries} />
         <div className="absolute right-0 top-10 mt-5 flex h-[200px] flex-col overflow-y-scroll bg-black/20 shadow-lg">
-          {values.map((val) => (
+          {realTimeValues.map((val) => (
             <Stack direction={'row'} alignItems={'center'}>
               <Checkbox
-                checked={selectedLabels.includes(val.key)}
-                onChange={() => handleLabelChange(val.key)}
+                checked={selectedRealTimeLabels.includes(val.key)}
+                onChange={() => handleRealTimeLabelChange(val.key)}
                 color="success"
                 style={{
                   transform: 'scale(0.7)',

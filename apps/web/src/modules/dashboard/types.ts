@@ -10,6 +10,11 @@ interface IUpdateData {
   readonly data: any
 }
 
-type ActionTypes = IReceiveSafety | IUpdateData
+interface IUpdateRealTimeData {
+  readonly type: 'dashboard/UPDATE_REALTIME_DATA'
+  readonly data: any
+}
+
+type ActionTypes = IReceiveSafety | IUpdateData | IUpdateRealTimeData
 
 export default ActionTypes

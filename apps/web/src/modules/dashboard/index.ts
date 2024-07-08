@@ -2,10 +2,11 @@ import * as DashboardAPIUtil from './api'
 import axios from 'axios'
 import ActionTypes from './types'
 import { Dispatch } from 'redux'
-import { CNCData } from '../../utils/cncData'
+import { CNCData, type CNCRealTimeData } from '../../utils/cncData'
 
 const RECEIVE_SAFETY = 'dashboard/RECEIVE_SAFETY'
 const UPDATE_DATA = 'dashboard/UPDATE_DATA'
+const UPDATE_REALTIME_DATA = 'dashboard/UPDATE_REALTIME_DATA'
 
 export const receiveSafety = (safety: any) => ({
   type: RECEIVE_SAFETY,
@@ -14,6 +15,11 @@ export const receiveSafety = (safety: any) => ({
 
 export const updateData = (data: any) => ({
   type: UPDATE_DATA,
+  data
+})
+
+export const updateRealTimeData = (data: any) => ({
+  type: UPDATE_REALTIME_DATA,
   data
 })
 
@@ -26,11 +32,13 @@ export const GetSafety = (spot_id: number) => async (dispatch: Dispatch) => {
 export interface IDashboardState {
   safety: any
   data: CNCData[]
+  realTimeData: CNCRealTimeData[]
 }
 
 export const initialState: IDashboardState = {
   safety: {},
-  data: []
+  data: [],
+  realTimeData: []
 }
 
 const reducer = (
@@ -51,6 +59,12 @@ const reducer = (
       return {
         ...newState,
         data: action.data
+      }
+
+    case UPDATE_REALTIME_DATA:
+      return {
+        ...newState,
+        realTimeData: action.data
       }
 
     default:

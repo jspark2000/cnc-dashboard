@@ -48,3 +48,19 @@ export interface CNCData {
   gcodeflag?: number // INTEGER
   gcode?: string // VARCHAR(10)
 }
+
+export interface CNCRealTimeData {
+  timestamp: string // TIMESTAMP
+  spindlerpm?: number // INTEGER
+  servocurrent1?: number // INTEGER
+  servocurrent2?: number // INTEGER
+  servocurrent3?: number // INTEGER
+  servocurrent4?: number // INTEGER
+  servocurrent5?: number // INTEGER
+  servomotorspeed1?: number // INTEGER
+  servomotorspeed2?: number // INTEGER
+  servomotorspeed3?: number // INTEGER
+  servomotorspeed4?: number // INTEGER
+  servomotorspeed5?: number // INTEGER
+  temp?: number // FLOAT
+}
