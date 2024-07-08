@@ -8,7 +8,10 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     { name: '모니터링', href: '/' },
     { name: '일간현황', href: '/daily-status' },
     { name: '주간현황', href: '/weekly-status' },
-    { name: '데일리리포트', href: '/daily-report' }
+    { name: '데일리리포트', href: '/daily-report' },
+    { name: '모델성능', href: '/model-performance' },
+    { name: '모델학습', href: '/model-training' },
+    { name: '생산주요인자', href: '/production-factor' },
   ]
 
   const classNames = (...classes: string[]) => {

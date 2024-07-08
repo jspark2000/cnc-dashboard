@@ -27,14 +27,14 @@ const LineChart = ({
           dataLabels: {
             enabled: false
           },
-          legend: {
-            show: true,
-            position: 'bottom',
-            horizontalAlign: 'right',
-            offsetY: -5,
-            floating: true,
-            markers: {}
-          },
+          // legend: {
+          //   show: true,
+          //   position: 'bottom',
+          //   horizontalAlign: 'right',
+          //   offsetY: -5,
+          //   floating: true,
+          //   markers: {}
+          // },
           stroke: {
             curve: 'straight',
             width: 1

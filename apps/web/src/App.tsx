@@ -4,6 +4,9 @@ import MonitoringPage from './pages/monitoring/MonitoringPage'
 import DailyStatusPage from './pages/daily-status/DailyStatusPage'
 import DailyReportPage from './pages/daily-report/DailyReportPage'
 import WeeklyStatusPage from './pages/weekly-status/WeeklyStatusPage'
+import ModelPerformancePage from './pages/model-performance/ModelPerformancePage'
+import ModelTrainingPage from './pages/model-training/ModelTrainingPage'
+import ProductionFactorPage from './pages/production-factor/ProductionFactorPage'
 
 function App() {
   return (
@@ -15,6 +18,10 @@ function App() {
             <Route path="/daily-status" element={<DailyStatusPage />} />
             <Route path="/daily-report" element={<DailyReportPage />} />
             <Route path="/weekly-status" element={<WeeklyStatusPage />} />
+            <Route path="/model-performance" element={<ModelPerformancePage />} />
+            <Route path="/model-training" element={<ModelTrainingPage />} />
+            <Route path="/production-factor" element={<ProductionFactorPage />} />
+
           </Route>
         </Routes>
       </BrowserRouter>

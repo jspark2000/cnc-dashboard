@@ -39,7 +39,6 @@ const Charts = () => {
 
   const loadCategories = generateSequentialList(164)
 
-  console.log(loadSeries, loadCategories)
   return (
     <div>
       <div className="mt-3 flex h-[250px] items-center">
