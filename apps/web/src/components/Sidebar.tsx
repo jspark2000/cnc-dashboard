@@ -5,13 +5,13 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation()
 
   const navigation = [
-    { name: '모니터링', href: '/' },
+    { name: '모니터링', href: '/mornitoring' },
     { name: '일간현황', href: '/daily-status' },
     { name: '주간현황', href: '/weekly-status' },
     { name: '데일리리포트', href: '/daily-report' },
     { name: '모델성능', href: '/model-performance' },
     { name: '모델학습', href: '/model-training' },
-    { name: '생산주요인자', href: '/production-factor' },
+    { name: '생산주요인자', href: '/production-factor' }
   ]
 
   const classNames = (...classes: string[]) => {
@@ -24,11 +24,7 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div className="fixed inset-y-0 z-50 flex w-36 flex-col">
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="CNC Dashboard"
-              />
+              <img className="h-8 w-auto" src="/logo.png" alt="Crois" />
             </div>
             <nav className="flex flex-1 flex-col">
               <ul className="flex flex-1 flex-col gap-y-7">
