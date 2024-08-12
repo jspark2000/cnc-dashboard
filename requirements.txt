@@ -2,3 +2,4 @@ black
 flake8
 pandas
 psycopg2-binary
+influxdb-client
