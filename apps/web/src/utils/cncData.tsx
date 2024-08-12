@@ -64,3 +64,11 @@ export interface CNCRealTimeData {
   servomotorspeed5?: number // INTEGER
   temp?: number // FLOAT
 }
+
+export interface CNCTempData {
+  current: number[]
+  time: string[]
+  x: number[]
+  y: number[]
+  z: number[]
+}
