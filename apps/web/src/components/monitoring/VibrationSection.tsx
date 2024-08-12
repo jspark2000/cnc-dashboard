@@ -151,15 +151,15 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
   }
 
   return (
-    <div className="flex w-full flex-col space-y-3">
-      <p>CNC 데이터 시각: {time}</p>
-      {loading < 100 && <p>데이터 로딩: {loading}%</p>}
+    <div className="grid grid-cols-2 gap-3">
+      <p className="col-span-2">CNC 데이터 시각: {time}</p>
+      {loading < 100 && <p className="col-span-2">데이터 로딩: {loading}%</p>}
       <div className="flex h-[300px] flex-col">
         {data.length > 0 && <FFT2DComponent data={data} />}
       </div>
-      {data.length > 0 && <FFT3DComponent data={data} />}
       {spectrogramData && <STFTSpectogram spectrogramData={spectrogramData} />}
-      {orbitData && <OrbitChart data={orbitData} />}
+      {data.length > 0 && <FFT3DComponent data={data} />}
+      {/* {orbitData && <OrbitChart data={orbitData} />} */}
     </div>
   )
 }

@@ -20,7 +20,7 @@ const VibrationAndCurrentPage: React.FC = () => {
 
   return (
     <div className="flex min-h-screen w-full items-start overflow-x-scroll p-5">
-      <div className="flex w-1/2 flex-col">
+      <div className="flex w-full flex-col">
         <div className="flex items-center space-x-5 pb-5">
           <h1 className="text-xl font-bold">데이터 컬럼 선택</h1>
           <div className="relative inline-block text-left">
