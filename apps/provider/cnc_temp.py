@@ -98,7 +98,7 @@ async def get_production_factors(
     import "math"
 
     from(bucket: "{bucket}")
-      |> range(start: -2m, stop: now())
+      |> range(start: -150s, stop: now())
       |> filter(fn: (r) => r._field == "{field_name}")
       |> map(fn: (r) => ({{"_time": r._time, "_value": float(v: r._value), "_value_squared": float(v: r._value) * float(v: r._value), "_value_abs": math.abs(x: float(v: r._value))}}))
       |> reduce(
@@ -149,7 +149,7 @@ async def get_mean_rms(
     import "math"
 
     from(bucket: "{bucket}")
-      |> range(start: -2m, stop: now())
+      |> range(start: -2s, stop: now())
       |> filter(fn: (r) => r._field == "{field_name}")
       |> map(fn: (r) => ({{"_time": r._time, "_value": float(v: r._value), "_value_squared": float(v: r._value) * float(v: r._value)}}))
       |> reduce(

@@ -1,27 +1,29 @@
-
-const ProductionFactorCard = ({ title, data }: { title: string, data: { good: number, now: number } }) => {
-
+const ProductionFactorCard = ({
+  title,
+  category,
+  data
+}: {
+  title: string
+  category: string
+  data: { good: number; now: number }
+}) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden px-4">
-      <div className="py-2 text-sm font-semibold my-1">
-        {title}
+    <div className="overflow-hidden rounded-lg bg-white px-4 shadow-lg">
+      <div className="my-1 flex items-center gap-x-1 py-2">
+        <h2 className="text-sm font-bold">{title}</h2>
+        <h2 className="text-xs text-gray-400">{category}</h2>
       </div>
-      <div className="flex justify-start items-center my-1">
-        <div className="w-[8px] h-[8px] rounded-full bg-blue-500 mr-2"></div>
-        <div className="text-xs text-gray-900 font-semibold">GOOD</div>
+      <div className="my-1 flex items-center justify-start">
+        <div className="mr-2 h-[8px] w-[8px] rounded-full bg-blue-500"></div>
+        <div className="text-xs font-semibold text-gray-900">GOOD</div>
       </div>
-      <div className="text-blue-500 font-extrabold mt-1 mb-3">
-        {data.good}
-      </div>
+      <div className="mb-3 mt-1 font-extrabold text-blue-500">{data.good}</div>
 
-      <div className="flex justify-start items-center my-1">
-        <div className="w-[8px] h-[8px] rounded-full bg-red-500 mr-2"></div>
-        <div className="text-xs text-gray-900 font-semibold">NOW</div>
+      <div className="my-1 flex items-center justify-start">
+        <div className="mr-2 h-[8px] w-[8px] rounded-full bg-red-500"></div>
+        <div className="text-xs font-semibold text-gray-900">NOW</div>
       </div>
-      <div className="text-red-500 font-extrabold mt-1 mb-2">
-        {data.now}
-      </div>
-
+      <div className="mb-2 mt-1 font-extrabold text-red-500">{data.now}</div>
     </div>
   )
 }
