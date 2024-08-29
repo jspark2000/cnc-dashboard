@@ -3,3 +3,7 @@ flake8
 pandas
 psycopg2-binary
 influxdb-client
+python-socketio
+fastapi
+pydantic
+uvicorn

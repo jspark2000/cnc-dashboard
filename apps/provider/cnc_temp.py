@@ -27,10 +27,10 @@ app.add_middleware(
 
 MQTT_BROKER = "121.167.176.201"
 MQTT_PORT = 18810
-MQTT_TOPIC = "data"
+MQTT_TOPIC = "data1"
 
 url = "http://localhost:8086"
-token = "wLM-7NdcNLo7F1EuMl9dPCAXnH1NN3dhkkd0xo_jLfkajSLGsbhmfNrqm_JeME7uFVGkDj-5ng27N8ZSYjnG4Q=="
+token = "Xe7corpXrKKhDQLDyb0xtMZ83L1LZii1k-uJykJsViFyQ21Sx_x1F5bu1jhGLsZqXLT1qb_q8mzzzLOrDIfSNg=="
 org = "crois"
 bucket = "cnc_current"
 

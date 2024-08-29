@@ -7,7 +7,7 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 cur_measurement, measurement_offset = None, None
 
 influxdb_url = "http://localhost:8086"
-influxdb_token = "wLM-7NdcNLo7F1EuMl9dPCAXnH1NN3dhkkd0xo_jLfkajSLGsbhmfNrqm_JeME7uFVGkDj-5ng27N8ZSYjnG4Q=="
+influxdb_token = "Xe7corpXrKKhDQLDyb0xtMZ83L1LZii1k-uJykJsViFyQ21Sx_x1F5bu1jhGLsZqXLT1qb_q8mzzzLOrDIfSNg=="
 influxdb_org = "crois"
 influxdb_bucket = "cnc_current"
 
