@@ -1,0 +1,53 @@
+from sqlalchemy import Column, Integer, BOOLEAN
+from sqlalchemy.dialects.postgresql import FLOAT, TIMESTAMP, VARCHAR
+from app.models import Base
+
+
+class PredictResult2023(Base):
+    __tablename__ = "predict_result_2023"
+    __table_args__ = {"schema": "public"}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    start_time = Column(TIMESTAMP, nullable=False)
+    end_time = Column(TIMESTAMP, nullable=False)
+    inserted_at = Column(TIMESTAMP, nullable=False)
+    start_parquet_file = Column(VARCHAR(255), nullable=False)
+    end_parquet_file = Column(VARCHAR(255), nullable=False)
+    vibration_anomaly_score = Column(FLOAT, nullable=False)
+    current_anomaly_score = Column(FLOAT, nullable=False)
+    anomaly_score = Column(FLOAT, nullable=False)
+    threshold = Column(FLOAT, nullable=False)
+    is_anomaly = Column(BOOLEAN, nullable=False)
+    x_max = Column(FLOAT, nullable=False)
+    x_rms = Column(FLOAT, nullable=False)
+    x_std = Column(FLOAT, nullable=False)
+    x_crest_factor = Column(FLOAT, nullable=False)
+    x_impact_factor = Column(FLOAT, nullable=False)
+    x_mean_square_frequency = Column(FLOAT, nullable=False)
+    x_mean_power_spectrum = Column(FLOAT, nullable=False)
+    y_max = Column(FLOAT, nullable=False)
+    y_rms = Column(FLOAT, nullable=False)
+    y_std = Column(FLOAT, nullable=False)
+    y_crest_factor = Column(FLOAT, nullable=False)
+    y_impact_factor = Column(FLOAT, nullable=False)
+    y_mean_square_frequency = Column(FLOAT, nullable=False)
+    y_mean_power_spectrum = Column(FLOAT, nullable=False)
+    z_max = Column(FLOAT, nullable=False)
+    z_rms = Column(FLOAT, nullable=False)
+    z_std = Column(FLOAT, nullable=False)
+    z_crest_factor = Column(FLOAT, nullable=False)
+    z_impact_factor = Column(FLOAT, nullable=False)
+    z_mean_square_frequency = Column(FLOAT, nullable=False)
+    z_mean_power_spectrum = Column(FLOAT, nullable=False)
+    pf_p2p_1 = Column(FLOAT, nullable=False)
+    pf_p2p_2 = Column(FLOAT, nullable=False)
+    pf_p2p_3 = Column(FLOAT, nullable=False)
+    pf_rms_1 = Column(FLOAT, nullable=False)
+    pf_rms_2 = Column(FLOAT, nullable=False)
+    pf_rms_3 = Column(FLOAT, nullable=False)
+    current_rms_1 = Column(FLOAT, nullable=False)
+    current_rms_2 = Column(FLOAT, nullable=False)
+    current_rms_3 = Column(FLOAT, nullable=False)
+    voltage_rms_1 = Column(FLOAT, nullable=False)
+    voltage_rms_2 = Column(FLOAT, nullable=False)
+    voltage_rms_3 = Column(FLOAT, nullable=False)
