@@ -12,6 +12,8 @@ from threading import Thread
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+message_queue = asyncio.Queue()
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -47,7 +49,7 @@ app.add_middleware(
 
 app.include_router(router)
 
-# 웹 소켓 + MQTT 설정
+
 connected_clients = []
 
 broker = "121.167.176.201"
@@ -56,7 +58,7 @@ topic = "sincewin_power"
 client_id = "fastapi-mqtt-client"
 
 
-def connect_mqtt():
+def connect_mqtt(loop):
     def on_connect(client, userdata, flags, rc):
         logger.debug("Attempting to connect to MQTT broker...")
 
@@ -68,17 +70,22 @@ def connect_mqtt():
 
     def on_message(client, userdata, msg):
         message = msg.payload.decode()
-        logger.info(f"Received {message} from {msg.topic} topic")
+        # logger.info(f"Received {message} from {msg.topic} topic")
 
-        for connection in connected_clients:
-            asyncio.create_task(connection.send_text(message))
+        asyncio.run_coroutine_threadsafe(message_queue.put(message), loop)
 
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
 
     client.connect(broker, port, 60)
-    client.loop_forever()
+    client.loop_start()
+
+
+main_loop = asyncio.get_event_loop()
+
+mqtt_thread = Thread(target=connect_mqtt, args=(main_loop,))
+mqtt_thread.start()
 
 
 @app.websocket("/mqtt")
@@ -87,7 +94,9 @@ async def websocket_endpoint(websocket: WebSocket):
     connected_clients.append(websocket)
     try:
         while True:
-            await websocket.receive_text()
+            data = await message_queue.get()
+            for connection in connected_clients:
+                await connection.send_text(data)
     except WebSocketDisconnect:
         connected_clients.remove(websocket)
         logger.info("Client disconnected")
