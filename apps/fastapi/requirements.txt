@@ -1,9 +1,12 @@
 black
 flake8
 pandas
-psycopg2-binary
-influxdb-client
+numpy
 python-socketio
 fastapi
 pydantic
 uvicorn
+sqlalchemy
+uvicorn
+python-dotenv
+dependency_injector
