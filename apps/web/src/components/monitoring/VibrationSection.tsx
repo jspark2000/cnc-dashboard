@@ -40,13 +40,17 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
     setData([])
     setSpectrogramData(null)
 
-    const socket = io('http://localhost:8002')
+    const socket = new WebSocket('ws://localhost:4000/mqtt')
 
-    socket.on('connect', () => {
-      console.log('Connected to socket.io server')
-    })
+    socket.onopen = function (_) {
+      console.log('Connected to the server')
+    }
 
-    socket.on('message', (data: CNCTempData) => {
+    socket.onmessage = (event) => {
+      const data = event.data as CNCTempData
+
+      console.log(data)
+
       const newSignal = data[col]
       setSignalBuffer((prevBuffer) => {
         setTime(data.time.pop() ?? '')
@@ -62,10 +66,10 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
         }
         return updatedBuffer
       })
-    })
+    }
 
     return () => {
-      socket.disconnect()
+      socket.close()
     }
   }, [col])
 
