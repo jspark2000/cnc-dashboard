@@ -3,9 +3,8 @@ import FFT from 'fft.js'
 import FFT2DComponent from './components/fft/FFT2DComponent'
 import FFT3DComponent from './components/fft/FFT3DComponent'
 import STFTSpectogram from './components/stft/STFTSpectogram'
-import { io } from 'socket.io-client'
 import type { CNCTempData } from '../../utils/cncData'
-import OrbitChart from './components/orbit/Orbit'
+import LineChart from '../common/charts/LineChart'
 
 interface FFTData {
   x: number[]
@@ -47,7 +46,7 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
     }
 
     socket.onmessage = (event) => {
-      const data = event.data as CNCTempData
+      const data = JSON.parse(event.data) as CNCTempData
 
       console.log(data)
 
@@ -153,15 +152,145 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <p className="col-span-2">CNC 데이터 시각: {time}</p>
-      {loading < 100 && <p className="col-span-2">데이터 로딩: {loading}%</p>}
+    <div className="grid grid-cols-3 gap-3">
+      <p className="col-span-3">CNC 데이터 시각: {time}</p>
+      {loading < 100 && <p className="col-span-3">데이터 로딩: {loading}%</p>}
       <div className="flex h-[300px] flex-col">
         {data.length > 0 && <FFT2DComponent data={data} />}
       </div>
-      {spectrogramData && <STFTSpectogram spectrogramData={spectrogramData} />}
-      {data.length > 0 && <FFT3DComponent data={data} />}
+      <div>
+        {spectrogramData && (
+          <STFTSpectogram spectrogramData={spectrogramData} />
+        )}
+      </div>
+      <div>{data.length > 0 && <FFT3DComponent data={data} />}</div>
       {/* {orbitData && <OrbitChart data={orbitData} />} */}
+      <div className="col-span-3 pb-5">
+        <h2 className="text-xl font-bold">Vibraion Charts</h2>
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">RMS</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'x', data: [1, 2, 3, 4, 5] },
+            { name: 'y', data: [3, 2, 3, 3, 4] },
+            { name: 'z', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">MAX</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'x', data: [1, 2, 3, 4, 5] },
+            { name: 'y', data: [3, 2, 3, 3, 4] },
+            { name: 'z', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">STD</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'x', data: [1, 2, 3, 4, 5] },
+            { name: 'y', data: [3, 2, 3, 3, 4] },
+            { name: 'z', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">IMPACT FACTOR</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'x', data: [1, 2, 3, 4, 5] },
+            { name: 'y', data: [3, 2, 3, 3, 4] },
+            { name: 'z', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">CREST FACTOR</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'x', data: [1, 2, 3, 4, 5] },
+            { name: 'y', data: [3, 2, 3, 3, 4] },
+            { name: 'z', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">MEAN POWER SPECTRUM</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'x', data: [1, 2, 3, 4, 5] },
+            { name: 'y', data: [3, 2, 3, 3, 4] },
+            { name: 'z', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="col-span-3 pb-5">
+        <h2 className="text-xl font-bold">Current Charts</h2>
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">RMS(Power Factor)</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'phase #1', data: [1, 2, 3, 4, 5] },
+            { name: 'phase #2', data: [3, 2, 3, 3, 4] },
+            { name: 'phase #3', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">RMS(Current)</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'phase #1', data: [1, 2, 3, 4, 5] },
+            { name: 'phase #2', data: [3, 2, 3, 3, 4] },
+            { name: 'phase #3', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">RMS(Voltage)</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'phase #1', data: [1, 2, 3, 4, 5] },
+            { name: 'phase #2', data: [3, 2, 3, 3, 4] },
+            { name: 'phase #3', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">Peak to Peak</p>
+        <LineChart
+          height={250}
+          categories={[]}
+          series={[
+            { name: 'phase #1', data: [1, 2, 3, 4, 5] },
+            { name: 'phase #2', data: [3, 2, 3, 3, 4] },
+            { name: 'phase #3', data: [1, 5, 1, 1, 1] }
+          ]}
+        />
+      </div>
     </div>
   )
 }

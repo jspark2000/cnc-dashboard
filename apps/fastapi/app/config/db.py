@@ -6,7 +6,7 @@ import os
 class DBConfig(BaseSettings):
     load_dotenv()
 
-    POSTGRES_URL: str = os.getenv("DATABASE_URL")
+    POSTGRES_URL: str = os.getenv("DATABASE_URL") or ""
 
 
 db_config = DBConfig()

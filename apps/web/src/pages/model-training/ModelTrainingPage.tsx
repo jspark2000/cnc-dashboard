@@ -12,7 +12,6 @@ const ModelTrainingPage = () => {
   const categories = [
     'LightGBM',
     'XGBoost',
-    'ExtraTree',
     'Stacked CNN',
     'ResNet50',
     'GoogleNet',
@@ -72,27 +71,6 @@ const ModelTrainingPage = () => {
     { name: 'Created Date', value: 'created_date' }
   ]
 
-  const parameters = [
-    {
-      name: 'AdaBoost',
-      learning_rate: 0.1,
-      n_estimators: 100,
-      random_state: 0
-    },
-    { name: 'Decision Tree', criterion: 'gini', max_depth: 5, random_state: 0 },
-    { name: 'Naive Bayes', var_smoothing: 1e-9 },
-    { name: 'Nearest Neighbors', n_neighbors: 5, weights: 'uniform' },
-    {
-      name: 'Neural Net',
-      hidden_layer_sizes: '(100,)',
-      max_iter: 200,
-      random_state: 0
-    },
-    { name: 'QDA', reg_param: 0.0 },
-    { name: 'RBF SVM', C: 1.0, gamma: 'scale' },
-    { name: 'Random Forest', max_depth: 5, n_estimators: 10, random_state: 0 }
-  ]
-
   return (
     <div>
       <div className="flex w-full">
@@ -100,7 +78,11 @@ const ModelTrainingPage = () => {
           <div className="mb-2 text-lg font-semibold text-gray-800">
             모델별 학습소요시간
           </div>
-          <ColumnChart series={series} labels={categories} height={450} />
+          <ColumnChart
+            series={series}
+            labels={models.map((item) => item.model)}
+            height={450}
+          />
         </div>
         <div className="w-1/2">
           <List data={models} header={header} title="6개월 평균 학습소요시간" />

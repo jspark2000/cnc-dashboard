@@ -54,7 +54,7 @@ connected_clients = []
 
 broker = "121.167.176.201"
 port = 18810
-topic = "sincewin_power"
+topic = "data1"
 client_id = "fastapi-mqtt-client"
 
 
@@ -70,7 +70,7 @@ def connect_mqtt(loop):
 
     def on_message(client, userdata, msg):
         message = msg.payload.decode()
-        # logger.info(f"Received {message} from {msg.topic} topic")
+        logger.info(f"Received {message} from {msg.topic} topic")
 
         asyncio.run_coroutine_threadsafe(message_queue.put(message), loop)
 
