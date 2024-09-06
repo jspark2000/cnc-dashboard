@@ -42,7 +42,7 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
 
     const socket = new WebSocket('ws://localhost:4000/mqtt')
 
-    socket.onopen = function (_) {
+    socket.onopen = (_) => {
       console.log('Connected to the server')
     }
 
@@ -68,9 +68,7 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
       })
     }
 
-    return () => {
-      socket.close()
-    }
+    return () => socket.close()
   }, [col])
 
   const processFFT = (data: number[]) => {

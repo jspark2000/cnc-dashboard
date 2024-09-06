@@ -1,37 +1,40 @@
 import { useEffect, useState } from 'react'
 import ProductionFactorCard from '../../components/common/card/ProductionFactorCard'
 import RadarChart from '../../components/common/charts/RadarChart'
+import axios from 'axios'
+import type { PredictResult } from '../../types/interfaces'
 
 const ProductionFactorPage = () => {
   const [data, setData] = useState<number[]>([])
+  const [goodData, setGoodData] = useState<number[]>([
+    0.4, 0.35, 52, 30, 0.5, 0.5, 0.5, 0.45
+  ])
 
   const fetchPower = async () => {
     try {
-      const powerResponse = await fetch(
-        'http://127.0.0.1:8002/production-factor/Apparent_Power_Va3'
-      )
-      const powerResult = (await powerResponse.json()) as any
+      const predictResult = await axios
+        .get<PredictResult[]>('http://127.0.0.1:4000/predict_result')
+        .then((result) => result.data)
 
-      const currentResponse = await fetch(
-        'http://127.0.0.1:8002/production-mean-and-rms/Line_Current_L3'
-      )
-      const currentResult = (await currentResponse.json()) as any
+      if (predictResult.length > 0) {
+        const target = predictResult[0]
 
-      const voltageResponse = await fetch(
-        'http://127.0.0.1:8002/production-mean-and-rms/Line_Voltage_V31'
-      )
-      const voltageResult = (await voltageResponse.json()) as any
+        const totalVibrationRms =
+          (target.x_rms || 0) * (target.x_rms || 0) +
+          (target.y_rms || 0) * (target.y_rms || 0) +
+          (target.z_rms || 0) * (target.z_rms || 0)
 
-      setData([
-        powerResult.rms,
-        powerResult.mean,
-        powerResult.impact_factor,
-        powerResult.crest_factor,
-        currentResult.rms,
-        currentResult.mean,
-        voltageResult.rms,
-        voltageResult.mean
-      ])
+        setData([
+          target.x_rms || 0,
+          target.x_std || 0,
+          target.x_impact_factor || 0,
+          target.x_crest_factor || 0,
+          target.pf_p2p_1 || 0,
+          target.pf_p2p_2 || 0,
+          target.pf_p2p_3 || 0,
+          Math.sqrt(totalVibrationRms)
+        ])
+      }
     } catch (error) {
       console.error('Error fetching data:', error)
     }
@@ -48,31 +51,31 @@ const ProductionFactorPage = () => {
   }, [])
 
   const titles = [
-    'MEAN',
     'RMS',
+    'STD',
     'IMPACT FACTOR',
     'CREST FACTOR',
-    'MEAN',
-    'RMS',
-    'MEAN',
+    'Peek2Peek',
+    'Peek2Peek',
+    'Peek2Peek',
     'RMS'
   ]
 
   const categories = [
-    'Apparent_Power_Va3',
-    'Apparent_Power_Va3',
-    'Apparent_Power_Va3',
-    'Apparent_Power_Va3',
-    'Line_Current_L3',
-    'Line_Current_L3',
-    'Line_Voltage_V31',
-    'Line_Voltage_V31'
+    'X축 진동',
+    'X축 진동',
+    'X축 진동',
+    'X축 진동',
+    '#1 Phase Current',
+    '#2 Phase Current',
+    '#3 Phase Current',
+    '총 진동량'
   ]
 
   const series = [
     {
       name: 'GOOD',
-      data: [7.349, 58, 16.94, 59.18, 65.42, 80, 21, 85]
+      data: goodData
     },
     {
       name: 'NOW',
