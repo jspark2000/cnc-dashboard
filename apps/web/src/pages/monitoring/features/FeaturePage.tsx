@@ -37,7 +37,7 @@ const FeaturePage: React.FC = () => {
       {data && (
         <>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
               RMS
             </p>
             <LineChart
@@ -52,7 +52,7 @@ const FeaturePage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
               MAX
             </p>
             <LineChart
@@ -67,7 +67,7 @@ const FeaturePage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
               STD
             </p>
             <LineChart
@@ -82,7 +82,7 @@ const FeaturePage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
               IMPACT FACTOR
             </p>
             <LineChart
@@ -97,7 +97,7 @@ const FeaturePage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
               CREST FACTOR
             </p>
             <LineChart
@@ -112,7 +112,7 @@ const FeaturePage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-orange-300 px-4 py-1 text-base font-bold text-zinc-50">
               MEAN POWER SPECTRUM
             </p>
             <LineChart
@@ -135,7 +135,7 @@ const FeaturePage: React.FC = () => {
       {data && (
         <>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-indigo-400 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-indigo-400 px-4 py-1 text-base font-bold text-zinc-50">
               RMS(Power Factor)
             </p>
             <LineChart
@@ -150,7 +150,7 @@ const FeaturePage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-indigo-400 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-indigo-400 px-4 py-1 text-base font-bold text-zinc-50">
               RMS(Current)
             </p>
             <LineChart
@@ -165,7 +165,7 @@ const FeaturePage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <p className="ml-4 rounded-md bg-indigo-400 px-4 py-1 text-base font-bold text-zinc-50">
+            <p className="ml-4 bg-indigo-400 px-4 py-1 text-base font-bold text-zinc-50">
               RMS(Voltage)
             </p>
             <LineChart
