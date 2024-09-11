@@ -1,6 +1,5 @@
-from pydantic import BaseModel
 from app.db.postgres import PostgeSQL
-from app.dao.predict_result import get_all_predict_results
+from app.dao.predict_result import *
 from sqlalchemy.orm import Session
 
 
@@ -11,6 +10,13 @@ class PredictResultService:
     def get_predict_result(self):
         session: Session = self.db.connect()
         try:
-            return get_all_predict_results(session)
+            return get_latest_predict_results(session)
+        finally:
+            session.close()
+
+    def get_predict_result_groupby_factor(self):
+        session: Session = self.db.connect()
+        try:
+            return get_predict_results_by_factor(session)
         finally:
             session.close()

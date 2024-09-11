@@ -3,10 +3,12 @@ import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
 const LineChart = ({
   series,
   categories,
+  type,
   height = 200
 }: {
   series: ChartProps['series']
   categories: any[]
+  type?: 'category' | 'datetime' | 'numeric'
   height?: number | string
 }) => {
   return (
@@ -48,7 +50,20 @@ const LineChart = ({
             // },
             tickAmount: 15,
             // stepSize: 5,
-            categories: categories
+            categories: categories,
+            type: type ? type : 'category'
+          },
+          yaxis: {
+            labels: {
+              formatter(val) {
+                if (typeof val === 'number' && val >= 1000) {
+                  const exponent = Math.floor(Math.log10(val))
+                  const base = val / Math.pow(10, exponent)
+                  return base.toFixed(1) + 'E' + exponent
+                }
+                return val.toString()
+              }
+            }
           }
         }}
       />

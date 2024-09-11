@@ -50,3 +50,36 @@ export interface ModelEvaluation {
   duration: number
   parameters: Record<string, any>
 }
+
+export interface AxisData {
+  x: number[]
+  y: number[]
+  z: number[]
+}
+
+export interface PhaseData {
+  p1: number[]
+  p2: number[]
+  p3: number[]
+}
+
+export interface VibrationData {
+  rms: AxisData
+  max: AxisData
+  std: AxisData
+  impact_factor: AxisData
+  crest_factor: AxisData
+  mean_power_spectrum: AxisData
+}
+
+export interface CurrentData {
+  rms_power: PhaseData
+  rms_current: PhaseData
+  rms_voltage: PhaseData
+}
+
+export interface GroupedPredictResult {
+  vibration: VibrationData
+  current: CurrentData
+  time: number[]
+}

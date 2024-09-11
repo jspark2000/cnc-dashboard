@@ -12,3 +12,11 @@ def get_predict_result(
     service: PredictResultService = Depends(Provide[Container.predict_result_service]),
 ):
     return service.get_predict_result()
+
+
+@router.get("/predict_result/factors")
+@inject
+def get_predict_result_groupby_factor(
+    service: PredictResultService = Depends(Provide[Container.predict_result_service]),
+):
+    return service.get_predict_result_groupby_factor()
