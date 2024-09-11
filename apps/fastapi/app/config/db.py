@@ -1,12 +1,11 @@
 from pydantic_settings import BaseSettings
-from dotenv import load_dotenv
-import os
 
 
 class DBConfig(BaseSettings):
-    load_dotenv()
+    DATABASE_URL: str = "default_value"
 
-    POSTGRES_URL: str = os.getenv("DATABASE_URL") or ""
+    class Config:
+        env_file = ".env"
 
 
 db_config = DBConfig()

@@ -1,18 +1,18 @@
 import uvicorn
 import asyncio
 import logging
-import paho.mqtt.client as mqtt
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.middleware.cors import CORSMiddleware
 from app.containers import Container
 from contextlib import asynccontextmanager
 from app.routes import router
-from threading import Thread
+from app.mqtt import include_mqtt
+from app.config import add_cors_settings
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 message_queue = asyncio.Queue()
+connected_clients = []
 
 
 @asynccontextmanager
@@ -36,56 +36,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-origins = ["http://localhost:3000"]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["*"],
-)
-
+add_cors_settings(app)
 app.include_router(router)
-
-
-connected_clients = []
-
-broker = "121.167.176.201"
-port = 18810
-topic = "data1"
-client_id = "fastapi-mqtt-client"
-
-
-def connect_mqtt(loop):
-    def on_connect(client, userdata, flags, rc):
-        logger.debug("Attempting to connect to MQTT broker...")
-
-        if rc == 0:
-            client.subscribe(topic)
-            logger.info(f"Connected to MQTT broker and subscribed to topic: {topic}")
-        else:
-            logger.error(f"Failed to connect to MQTT broker, return code {rc}")
-
-    def on_message(client, userdata, msg):
-        message = msg.payload.decode()
-        logger.info(f"Received {message} from {msg.topic} topic")
-
-        asyncio.run_coroutine_threadsafe(message_queue.put(message), loop)
-
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message
-
-    client.connect(broker, port, 60)
-    client.loop_start()
-
-
-main_loop = asyncio.get_event_loop()
-
-mqtt_thread = Thread(target=connect_mqtt, args=(main_loop,))
-mqtt_thread.start()
+include_mqtt(message_queue)
 
 
 @app.websocket("/mqtt")

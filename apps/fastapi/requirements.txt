@@ -9,7 +9,6 @@ pydantic
 uvicorn
 sqlalchemy
 uvicorn
-python-dotenv
 dependency_injector
 pydantic_settings
 paho-mqtt
