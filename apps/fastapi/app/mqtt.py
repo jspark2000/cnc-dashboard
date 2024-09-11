@@ -3,19 +3,16 @@ import logging
 import paho.mqtt.client as mqtt
 from threading import Thread
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("uvicorn.info")
 
 broker: str = "121.167.176.201"
 port = 18810
-topic = "data1"
-client_id = "fastapi-mqtt-client"
+topic = "data_ujeong"
 
 
 def connect_mqtt(loop: asyncio.AbstractEventLoop, message_queue: asyncio.Queue):
     def on_connect(client, userdata, flags, rc):
         logger.debug("Attempting to connect to MQTT broker...")
-
         if rc == 0:
             client.subscribe(topic)
             logger.info(f"Connected to MQTT broker and subscribed to topic: {topic}")

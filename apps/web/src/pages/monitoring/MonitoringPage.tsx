@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import CncPage from './cnc/CncPage'
 import queryString from 'query-string'
-import VibrationAndCurrentPage from './vibration&current/VibrationAndCurrentPage'
+import FFTAndSTFTPage from './fft&stft/FFTAndSTFTPage'
 import SubNavigation from './SubNavigation'
+import FeaturePage from './features/FeaturePage'
 
 const MornitoringPage: React.FC = () => {
   const navigate = useNavigate()
@@ -15,11 +16,14 @@ const MornitoringPage: React.FC = () => {
     }
   }, [])
 
-  const routePages = () => {
-    if (query.view === 'vibration-and-current') {
-      return <VibrationAndCurrentPage />
-    } else {
-      return <CncPage />
+  const renderTab = () => {
+    switch (query.view) {
+      case 'fft-stft':
+        return <FFTAndSTFTPage />
+      case 'features':
+        return <FeaturePage />
+      default:
+        return <CncPage />
     }
   }
 
@@ -28,7 +32,7 @@ const MornitoringPage: React.FC = () => {
       <div>
         <SubNavigation />
       </div>
-      <section className="flex flex-col">{routePages()}</section>
+      <section className="flex flex-col">{renderTab()}</section>
     </div>
   )
 }

@@ -9,7 +9,7 @@ from app.mqtt import include_mqtt
 from app.config import add_cors_settings
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("uvicorn.info")
 
 message_queue = asyncio.Queue()
 connected_clients = []

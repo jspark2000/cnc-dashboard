@@ -7,7 +7,7 @@ const LineChart = ({
 }: {
   series: ChartProps['series']
   categories: any[]
-  height?: number
+  height?: number | string
 }) => {
   return (
     <div className="w-full">
