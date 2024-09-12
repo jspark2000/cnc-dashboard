@@ -21,11 +21,11 @@ const STFTSpectogram: React.FC<STFTSpectogramProps> = ({ spectrogramData }) => {
       ]}
       layout={{
         autosize: true,
-        margin: { l: 40, r: 10, b: 40, t: 50, pad: 0 },
+        margin: { l: 50, r: 10, b: 50, t: 50, pad: 0 },
         title: {
-          text: 'Spectrogram',
+          text: 'STFT Spectrogram',
           x: 0.5,
-          y: 0.95,
+          y: 0.97,
           xanchor: 'center',
           yanchor: 'top'
         },
@@ -35,6 +35,7 @@ const STFTSpectogram: React.FC<STFTSpectogramProps> = ({ spectrogramData }) => {
       config={{
         displayModeBar: false
       }}
+      style={{ width: '100%', height: '100%' }}
     />
   )
 }

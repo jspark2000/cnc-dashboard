@@ -38,7 +38,7 @@ const FFTSection: React.FC<FFTSectionProps> = ({
     setData([])
     setSpectrogramData(null)
 
-    const socket = new WebSocket('ws://localhost:4000/mqtt')
+    const socket = new WebSocket('ws://localhost:4000/mqtt/vibration')
 
     socket.onopen = (_) => {
       console.log('Connected to the server')
@@ -150,18 +150,27 @@ const FFTSection: React.FC<FFTSectionProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <p className="col-span-3">CNC 데이터 시각: {time}</p>
-      {loading < 100 && <p className="col-span-3">데이터 로딩: {loading}%</p>}
-      <div className="flex h-[300px] flex-col">
-        {data.length > 0 && <FFT2DComponent data={data} />}
-      </div>
+    <div className="grid h-full w-full grid-cols-2 gap-3">
+      <p className="col-span-2">CNC 데이터 시각: {time}</p>
+      {loading < 100 && <p className="col-span-2">데이터 로딩: {loading}%</p>}
       <div>
-        {spectrogramData && (
-          <STFTSpectogram spectrogramData={spectrogramData} />
+        {data.length > 0 && (
+          <div className="mb-5 h-[400px]">
+            <FFT2DComponent data={data} />
+          </div>
+        )}
+        {data.length > 0 && (
+          <div className="h-[400px]">
+            <FFT3DComponent data={data} />{' '}
+          </div>
         )}
       </div>
-      <div>{data.length > 0 && <FFT3DComponent data={data} />}</div>
+      {spectrogramData && (
+        <div className="h-[820px]">
+          {' '}
+          <STFTSpectogram spectrogramData={spectrogramData} />{' '}
+        </div>
+      )}
     </div>
   )
 }

@@ -7,7 +7,7 @@ logger = logging.getLogger("uvicorn.info")
 
 broker: str = "121.167.176.201"
 port = 18810
-topic = "data_ujeong"
+topic = "#"
 
 
 def connect_mqtt(loop: asyncio.AbstractEventLoop, message_queue: asyncio.Queue):
@@ -21,9 +21,10 @@ def connect_mqtt(loop: asyncio.AbstractEventLoop, message_queue: asyncio.Queue):
 
     def on_message(client, userdata, msg):
         message = msg.payload.decode()
-        # logger.info(f"Received {message} from {msg.topic} topic")
-
-        asyncio.run_coroutine_threadsafe(message_queue.put(message), loop)
+        if msg.topic == "data_namdo":
+            asyncio.run_coroutine_threadsafe(message_queue.put(message), loop)
+        else:
+            print(msg.topic)
 
     client = mqtt.Client()
     client.on_connect = on_connect

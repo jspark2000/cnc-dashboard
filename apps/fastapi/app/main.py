@@ -11,7 +11,12 @@ from app.config import add_cors_settings
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("uvicorn.info")
 
-message_queue = asyncio.Queue()
+# 진동 데이터 클라이언트 큐
+vibration_message_queue = asyncio.Queue()
+
+# CNC 데이터 클라이언트 큐
+cnc_message_queue = asyncio.Queue()
+
 connected_clients = []
 
 
@@ -38,16 +43,34 @@ app = FastAPI(lifespan=lifespan)
 
 add_cors_settings(app)
 app.include_router(router)
-include_mqtt(message_queue)
+include_mqtt(vibration_message_queue)
 
 
-@app.websocket("/mqtt")
-async def websocket_endpoint(websocket: WebSocket):
+@app.websocket("/mqtt/vibration")
+async def websocket_endpoint_vibration(websocket: WebSocket):
     await websocket.accept()
     connected_clients.append(websocket)
     try:
         while True:
-            data = await message_queue.get()
+            data = await vibration_message_queue.get()
+            for connection in connected_clients:
+                await connection.send_text(data)
+    except WebSocketDisconnect:
+        connected_clients.remove(websocket)
+        logger.info("Client disconnected")
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        connected_clients.remove(websocket)
+        await websocket.close(code=1000)
+
+
+@app.websocket("/mqtt/cnc")
+async def websocket_endpoint_cnc(websocket: WebSocket):
+    await websocket.accept()
+    connected_clients.append(websocket)
+    try:
+        while True:
+            data = await cnc_message_queue.get()
             for connection in connected_clients:
                 await connection.send_text(data)
     except WebSocketDisconnect:

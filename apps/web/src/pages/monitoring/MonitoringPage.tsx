@@ -14,7 +14,7 @@ const MornitoringPage: React.FC = () => {
     if (!query.view) {
       navigate('/mornitoring?view=cnc')
     }
-  }, [])
+  }, [query])
 
   const renderTab = () => {
     switch (query.view) {
@@ -32,7 +32,7 @@ const MornitoringPage: React.FC = () => {
       <div>
         <SubNavigation />
       </div>
-      <section className="flex flex-col">{renderTab()}</section>
+      <section>{renderTab()}</section>
     </div>
   )
 }

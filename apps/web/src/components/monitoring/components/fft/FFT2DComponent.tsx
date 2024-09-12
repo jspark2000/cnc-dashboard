@@ -41,7 +41,7 @@ const FFT2DComponent: React.FC<FFT2DComponentProps> = ({ data }) => {
       config={{
         displayModeBar: false
       }}
-      style={{ width: '100%', height: '50vh' }}
+      style={{ width: '100%', height: '100%' }}
     />
   )
 }

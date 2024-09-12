@@ -19,7 +19,7 @@ const FFTAndSTFTPage: React.FC = () => {
   const options: ('current' | 'x' | 'y' | 'z')[] = ['current', 'x', 'y', 'z']
 
   return (
-    <div className="flex min-h-screen w-full items-start overflow-x-scroll p-5">
+    <div className="flex w-full items-start overflow-x-scroll p-5">
       <div className="flex w-full flex-col">
         <div className="flex items-center space-x-5 pb-5">
           <h1 className="text-xl font-bold">데이터 컬럼 선택</h1>
