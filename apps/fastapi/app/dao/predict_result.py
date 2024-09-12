@@ -1,24 +1,45 @@
+import math
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.models.predict_result import PredictResult
+from app.models.predict_result_2023 import PredictResult2023
+import pandas as pd
+
+
+def get_all_2023_predict_results(session: Session) -> list[PredictResult2023]:
+    return (
+        session.query(PredictResult2023)
+        .order_by(PredictResult2023.inserted_at.asc())
+        .all()
+    )
+
+
+def get_daily_predict_results(
+    session: Session, target_date: str
+) -> list[PredictResult]:
+    return (
+        session.query(PredictResult)
+        .filter(func.date(PredictResult.inserted_at) == target_date)
+        .order_by(PredictResult.inserted_at.asc())
+        .all()
+    )
 
 
 def get_latest_predict_results(session: Session) -> list[PredictResult]:
-    """
-    가장 최근의 predict_result 레코드를 반환합니다.
-
-    Args:
-      session (Session): 데이터베이스 세션
-
-    Returns:
-      list[PredictResult]: predict_result 레코드
-
-    """
-    return session.query(PredictResult).order_by(PredictResult.id.desc()).limit(1).all()
+    return (
+        session.query(PredictResult)
+        .order_by(PredictResult.inserted_at.desc())
+        .limit(1)
+        .all()
+    )
 
 
 def get_predict_results_by_factor(session: Session):
     predict_results = (
-        session.query(PredictResult).order_by(PredictResult.id.desc()).limit(60).all()
+        session.query(PredictResult)
+        .order_by(PredictResult.inserted_at.desc())
+        .limit(30)
+        .all()
     )
 
     result = {

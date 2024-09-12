@@ -23,8 +23,6 @@ def connect_mqtt(loop: asyncio.AbstractEventLoop, message_queue: asyncio.Queue):
         message = msg.payload.decode()
         if msg.topic == "data_namdo":
             asyncio.run_coroutine_threadsafe(message_queue.put(message), loop)
-        else:
-            print(msg.topic)
 
     client = mqtt.Client()
     client.on_connect = on_connect

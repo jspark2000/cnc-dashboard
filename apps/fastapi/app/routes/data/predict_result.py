@@ -20,3 +20,11 @@ def get_predict_result_groupby_factor(
     service: PredictResultService = Depends(Provide[Container.predict_result_service]),
 ):
     return service.get_predict_result_groupby_factor()
+
+
+@router.get("/predict_result/anomaly")
+@inject
+def get_anomaly_factor(
+    service: PredictResultService = Depends(Provide[Container.predict_result_service]),
+):
+    return service.get_anomaly_factor()

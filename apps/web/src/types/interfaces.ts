@@ -83,3 +83,19 @@ export interface GroupedPredictResult {
   current: CurrentData
   time: number[]
 }
+
+export interface AnomalyData {
+  timestamp: string
+  severity: number
+  anomaly_score: number
+  current_anomaly_score: number
+  vibration_anomaly_score: number
+  threshold: number
+  is_anomaly: boolean
+}
+
+export interface AnomalyRatio {
+  lv1: number
+  lv2: number
+  lv3: number
+}

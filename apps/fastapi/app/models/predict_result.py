@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, BOOLEAN
-from sqlalchemy.dialects.postgresql import FLOAT, TIMESTAMP, VARCHAR
+from sqlalchemy import Column, Integer, BOOLEAN, FLOAT
+from sqlalchemy.dialects.postgresql import TIMESTAMP
 from app.models import Base
 
 
