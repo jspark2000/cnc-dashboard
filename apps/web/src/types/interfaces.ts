@@ -91,7 +91,9 @@ export interface AnomalyData {
   current_anomaly_score: number
   vibration_anomaly_score: number
   threshold: number
-  is_anomaly: boolean
+  is_anomaly: boolean | string
+  start_time: string
+  end_time: string
 }
 
 export interface AnomalyRatio {

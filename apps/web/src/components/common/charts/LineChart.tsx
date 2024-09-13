@@ -42,13 +42,15 @@ const LineChart = ({
             width: 1
           },
           xaxis: {
-            // labels: {
-            //   style: {
-            //     // colors: 'gray',
-            //     fontSize: '12px'
-            //   }
-            // },
-            tickAmount: 15,
+            labels: {
+              datetimeFormatter: {
+                year: 'yyyy년',
+                month: 'MM월',
+                day: 'dd일',
+                hour: 'HH시'
+              }
+            },
+            tickAmount: 30,
             // stepSize: 5,
             categories: categories,
             type: type ? type : 'category'

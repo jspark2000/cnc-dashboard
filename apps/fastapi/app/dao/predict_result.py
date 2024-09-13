@@ -9,7 +9,7 @@ import pandas as pd
 def get_all_2023_predict_results(session: Session) -> list[PredictResult2023]:
     return (
         session.query(PredictResult2023)
-        .order_by(PredictResult2023.inserted_at.asc())
+        .order_by(PredictResult2023.start_time.asc())
         .all()
     )
 
@@ -20,7 +20,7 @@ def get_daily_predict_results(
     return (
         session.query(PredictResult)
         .filter(func.date(PredictResult.inserted_at) == target_date)
-        .order_by(PredictResult.inserted_at.asc())
+        .order_by(PredictResult.start_time.asc())
         .all()
     )
 

@@ -1,7 +1,9 @@
+from datetime import datetime
 from app.db.postgres import PostgeSQL
 from app.dao.predict_result import *
 from sqlalchemy.orm import Session
 import numpy as np
+import pandas as pd
 
 
 class PredictResultService:
@@ -28,9 +30,6 @@ class PredictResultService:
             predict_results = get_daily_predict_results(session, "2024-09-20")
             predict_results_2023 = get_all_2023_predict_results(session)
 
-            print(len(predict_results_2023))
-            print(len(predict_results))
-
             data = list(
                 map(
                     lambda x: [
@@ -40,6 +39,8 @@ class PredictResultService:
                         x.vibration_anomaly_score,
                         x.threshold,
                         x.is_anomaly,
+                        x.start_time,
+                        x.end_time,
                     ],
                     predict_results_2023,
                 )
@@ -52,15 +53,24 @@ class PredictResultService:
                         x.vibration_anomaly_score,
                         x.threshold,
                         x.is_anomaly,
+                        x.start_time,
+                        x.end_time,
                     ],
                     predict_results,
                 )
             )
 
-            print(len(data))
+            data = pd.DataFrame(data).dropna()
+            data.columns = ["0", "1", "2", "3", "4", "5", "6", "7"]
+            data = data.sort_values(by=data.columns[6], ascending=True)
 
-            data_np = np.array(data)
-            anomaly_slice = data_np[:, 1]
+            now = datetime.now()
+            start_time = pd.date_range(end=now, periods=len(data), freq="2min")
+            data["6"] = start_time[::-1]
+
+            data = data.to_numpy()
+
+            anomaly_slice = data[:, 1]
 
             anomaly_lv1 = anomaly_slice < 0.3
             anomaly_lv2 = (anomaly_slice >= 0.3) & (anomaly_slice < 0.5)
@@ -76,6 +86,8 @@ class PredictResultService:
                         "vibration_anomaly_score": x[3],
                         "threshold": x[4],
                         "is_anomaly": x[5],
+                        "start_time": x[6],
+                        "end_time": x[7],
                     },
                     data,
                 )

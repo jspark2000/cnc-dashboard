@@ -4,7 +4,7 @@ import type { AnomalyData, AnomalyRatio } from '../../types/interfaces'
 import axios from 'axios'
 
 const Lists = () => {
-  const [anomalyData, setAnomalyData] = useState<AnomalyData[]>()
+  const [anomalyData, setAnomalyData] = useState<Partial<AnomalyData>[]>()
 
   const anomalyHeader = [
     { name: 'Timestamp', value: 'timestamp' },
@@ -27,8 +27,6 @@ const Lists = () => {
         .then((result) => result.data)
 
       if (result) {
-        console.log(`fetch ${result.data_len} rows`)
-
         const anomalyRows = result.data.slice(
           result.data_len - 10,
           result.data_len - 1
@@ -37,13 +35,15 @@ const Lists = () => {
         setAnomalyData(
           anomalyRows.map((row) => {
             return {
-              ...row,
               timestamp: new Date(row.timestamp).toLocaleString(),
+              severity: row.severity,
               anomaly_score: Math.round(row.anomaly_score * 1000) / 1000,
               current_anomaly_score:
                 Math.round(row.current_anomaly_score * 1000) / 1000,
               vibration_anomaly_score:
-                Math.round(row.vibration_anomaly_score * 1000) / 1000
+                Math.round(row.vibration_anomaly_score * 1000) / 1000,
+              threshold: row.threshold,
+              is_anomaly: row.is_anomaly ? 'true' : 'false'
             }
           })
         )

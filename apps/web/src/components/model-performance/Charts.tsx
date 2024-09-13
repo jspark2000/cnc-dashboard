@@ -5,13 +5,6 @@ import PieChart from '../common/charts/PieChart'
 import { useEffect, useState } from 'react'
 
 const Charts = () => {
-  const lossSeries = [
-    { name: 'Th 1', data: [0, 0, 0] },
-    { name: 'Th 2', data: [0.3, 0.3, 0.3] },
-    { name: 'Th 3', data: [0.5, 0.5, 0.5] },
-    { name: 'Th 4', data: [1.0, 1.0, 1.0] }
-  ]
-
   const [anomalyData, setAnomalyData] = useState<AnomalyData[]>()
   const [anomalyRate, setAnomalyRate] = useState<AnomalyRatio>()
   const [anomalySeries, setAnomalySeries] = useState<{
@@ -33,7 +26,7 @@ const Charts = () => {
         setAnomalyData(result.data)
         setAnomalyRate(result.anomaly_th_count)
         setAnomalySeries({
-          time: result.data.map((item) => item.timestamp),
+          time: result.data.map((item) => item.start_time),
           data: result.data.map((item) => item.anomaly_score)
         })
       }
@@ -44,11 +37,10 @@ const Charts = () => {
 
   return (
     <div>
-      <h2></h2>
       <div className="mt-3 flex w-full items-center">
         <div className="w-3/4">
           <div className="ml-5 text-lg font-semibold text-gray-800">
-            단계별 이상치 분포
+            이상치 분포
           </div>
           {anomalySeries && (
             <LineChart
