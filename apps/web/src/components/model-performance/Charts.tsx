@@ -48,6 +48,7 @@ const Charts = () => {
               series={[{ name: 'anomaly_score', data: anomalySeries.data }]}
               categories={anomalySeries.time}
               type="datetime"
+              threshold={true}
             />
           )}
         </div>

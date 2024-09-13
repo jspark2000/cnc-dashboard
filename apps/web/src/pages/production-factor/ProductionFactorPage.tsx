@@ -5,71 +5,73 @@ import axios from 'axios'
 import type { PredictResult } from '../../types/interfaces'
 
 const ProductionFactorPage = () => {
-  const [data, setData] = useState<number[]>([])
+  const [data, setData] = useState<number[]>([
+    5.96, 4.83, 4.75, 4.45, 4.29, 3.59, 3.15, 2.51
+  ])
   const [goodData, setGoodData] = useState<number[]>([
-    0.4, 0.35, 52, 30, 0.5, 0.5, 0.5, 0.45
+    5.01, 4.53, 4.82, 4.45, 4.22, 3.57, 3.2, 2.0
   ])
 
-  const fetchPower = async () => {
-    try {
-      const predictResult = await axios
-        .get<PredictResult[]>('http://127.0.0.1:4000/predict_result')
-        .then((result) => result.data)
+  // const fetchPower = async () => {
+  //   try {
+  //     const predictResult = await axios
+  //       .get<PredictResult[]>('http://127.0.0.1:4000/predict_result')
+  //       .then((result) => result.data)
 
-      if (predictResult.length > 0) {
-        const target = predictResult[0]
+  //     if (predictResult.length > 0) {
+  //       const target = predictResult[0]
 
-        const totalVibrationRms =
-          (target.x_rms || 0) * (target.x_rms || 0) +
-          (target.y_rms || 0) * (target.y_rms || 0) +
-          (target.z_rms || 0) * (target.z_rms || 0)
+  //       const totalVibrationRms =
+  //         (target.x_rms || 0) * (target.x_rms || 0) +
+  //         (target.y_rms || 0) * (target.y_rms || 0) +
+  //         (target.z_rms || 0) * (target.z_rms || 0)
 
-        setData([
-          target.x_rms || 0,
-          target.x_std || 0,
-          target.x_impact_factor || 0,
-          target.x_crest_factor || 0,
-          target.pf_p2p_1 || 0,
-          target.pf_p2p_2 || 0,
-          target.pf_p2p_3 || 0,
-          Math.sqrt(totalVibrationRms)
-        ])
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
+  //       setData([
+  //         target.x_rms || 0,
+  //         target.x_std || 0,
+  //         target.x_impact_factor || 0,
+  //         target.x_crest_factor || 0,
+  //         target.pf_p2p_1 || 0,
+  //         target.pf_p2p_2 || 0,
+  //         target.pf_p2p_3 || 0,
+  //         Math.sqrt(totalVibrationRms)
+  //       ])
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error)
+  //   }
+  // }
 
-  useEffect(() => {
-    fetchPower()
+  // useEffect(() => {
+  //   fetchPower()
 
-    const intervalId = setInterval(() => {
-      fetchPower()
-    }, 1000)
+  //   const intervalId = setInterval(() => {
+  //     fetchPower()
+  //   }, 1000)
 
-    return () => clearInterval(intervalId)
-  }, [])
+  //   return () => clearInterval(intervalId)
+  // }, [])
 
   const titles = [
+    'Peak',
+    'Mean',
+    'Frequency Centroid',
+    'Mean',
+    'MPS',
     'RMS',
-    'STD',
-    'IMPACT FACTOR',
-    'CREST FACTOR',
-    'Peek2Peek',
-    'Peek2Peek',
-    'Peek2Peek',
-    'RMS'
+    'Frequency Centroid',
+    'Frequency Centroid'
   ]
 
   const categories = [
-    'X축 진동',
-    'X축 진동',
-    'X축 진동',
-    'X축 진동',
-    '#1 Phase Current',
-    '#2 Phase Current',
-    '#3 Phase Current',
-    '총 진동량'
+    'Force_Z',
+    'Accer_X',
+    'Accer_Z',
+    'Force_Z',
+    'Force_Z',
+    'Force_Z',
+    'Accer_X',
+    'Force_X'
   ]
 
   const series = [

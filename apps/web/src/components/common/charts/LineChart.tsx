@@ -4,12 +4,14 @@ const LineChart = ({
   series,
   categories,
   type,
-  height = 200
+  height = 200,
+  threshold = false
 }: {
   series: ChartProps['series']
   categories: any[]
   type?: 'category' | 'datetime' | 'numeric'
   height?: number | string
+  threshold?: boolean
 }) => {
   return (
     <div className="w-full">
@@ -66,6 +68,38 @@ const LineChart = ({
                 return val.toString()
               }
             }
+          },
+          annotations: {
+            yaxis: threshold
+              ? [
+                  {
+                    y: 0.3,
+                    borderWidth: 3,
+                    borderColor: '#FF0000',
+                    label: {
+                      borderColor: '#FF4560',
+                      style: {
+                        color: '#fff',
+                        background: '#FF4560'
+                      },
+                      text: 'Threshold 1'
+                    }
+                  },
+                  {
+                    y: 0.5,
+                    borderWidth: 3,
+                    borderColor: '#FF0000',
+                    label: {
+                      borderColor: '#FF4560',
+                      style: {
+                        color: '#fff',
+                        background: '#FF4560'
+                      },
+                      text: 'Threshold 2'
+                    }
+                  }
+                ]
+              : []
           }
         }}
       />

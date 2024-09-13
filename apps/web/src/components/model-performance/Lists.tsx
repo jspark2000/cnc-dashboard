@@ -28,7 +28,7 @@ const Lists = () => {
 
       if (result) {
         const anomalyRows = result.data.slice(
-          result.data_len - 10,
+          result.data_len - 7,
           result.data_len - 1
         )
         anomalyRows
