@@ -20,6 +20,8 @@ const ModelTrainingPage = () => {
     'RandomForest'
   ]
 
+  const cnnBased = ['Stacked CNN', 'ResNet50', 'GoogleNet', 'EfficientNet']
+
   useEffect(() => {
     const fetchModelData = async () => {
       const data = await axios
@@ -32,7 +34,9 @@ const ModelTrainingPage = () => {
         if (!target) return
 
         return {
-          model: category,
+          model: `${category} ${
+            cnnBased.includes(category) ? '(CNN)' : '(Tree)'
+          }`,
           time: target.duration,
           created_date: target.created_date
         }
