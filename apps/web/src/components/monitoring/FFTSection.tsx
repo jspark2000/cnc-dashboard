@@ -3,9 +3,8 @@ import FFT from 'fft.js'
 import FFT2DComponent from './components/fft/FFT2DComponent'
 import FFT3DComponent from './components/fft/FFT3DComponent'
 import STFTSpectogram from './components/stft/STFTSpectogram'
-import { io } from 'socket.io-client'
 import type { CNCTempData } from '../../utils/cncData'
-import OrbitChart from './components/orbit/Orbit'
+import LineChart from '../common/charts/LineChart'
 
 interface FFTData {
   x: number[]
@@ -14,19 +13,18 @@ interface FFTData {
   colors: string[]
 }
 
-interface VibrationSectionProps {
+interface FFTSectionProps {
   col: 'x' | 'y' | 'z' | 'current'
   magnitudeThreshold?: number
 }
 
-const VibrationSection: React.FC<VibrationSectionProps> = ({
+const FFTSection: React.FC<FFTSectionProps> = ({
   col = 'current',
   magnitudeThreshold = 500
 }) => {
   const [loading, setLoading] = useState<number>(0)
   const [time, setTime] = useState<string>('')
   const [data, setData] = useState<FFTData[]>([])
-  const [orbitData, setOrbitData] = useState<CNCTempData>()
   const [spectrogramData, setSpectrogramData] = useState<{
     t: number[]
     f: number[]
@@ -40,17 +38,20 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
     setData([])
     setSpectrogramData(null)
 
-    const socket = io('http://localhost:8002')
+    const socket = new WebSocket('ws://localhost:4000/mqtt/vibration')
 
-    socket.on('connect', () => {
-      console.log('Connected to socket.io server')
-    })
+    socket.onopen = (_) => {
+      console.log('Connected to the server')
+    }
 
-    socket.on('message', (data: CNCTempData) => {
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data) as CNCTempData
+
+      console.log(data)
+
       const newSignal = data[col]
       setSignalBuffer((prevBuffer) => {
         setTime(data.time.pop() ?? '')
-        setOrbitData(data)
         const updatedBuffer = [...prevBuffer, ...newSignal]
         setLoading((updatedBuffer.length / 25000) * 100)
         if (updatedBuffer.length >= 25000) {
@@ -62,11 +63,9 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
         }
         return updatedBuffer
       })
-    })
-
-    return () => {
-      socket.disconnect()
     }
+
+    return () => socket.close()
   }, [col])
 
   const processFFT = (data: number[]) => {
@@ -151,17 +150,29 @@ const VibrationSection: React.FC<VibrationSectionProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid h-full w-full grid-cols-2 gap-3">
       <p className="col-span-2">CNC 데이터 시각: {time}</p>
       {loading < 100 && <p className="col-span-2">데이터 로딩: {loading}%</p>}
-      <div className="flex h-[300px] flex-col">
-        {data.length > 0 && <FFT2DComponent data={data} />}
+      <div>
+        {data.length > 0 && (
+          <div className="mb-5 h-[400px]">
+            <FFT2DComponent data={data} />
+          </div>
+        )}
+        {data.length > 0 && (
+          <div className="h-[400px]">
+            <FFT3DComponent data={data} />{' '}
+          </div>
+        )}
       </div>
-      {spectrogramData && <STFTSpectogram spectrogramData={spectrogramData} />}
-      {data.length > 0 && <FFT3DComponent data={data} />}
-      {/* {orbitData && <OrbitChart data={orbitData} />} */}
+      {spectrogramData && (
+        <div className="h-[820px]">
+          {' '}
+          <STFTSpectogram spectrogramData={spectrogramData} />{' '}
+        </div>
+      )}
     </div>
   )
 }
 
-export default VibrationSection
+export default FFTSection

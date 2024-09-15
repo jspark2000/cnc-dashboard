@@ -1,0 +1,51 @@
+from sqlalchemy import Column, Integer, BOOLEAN, FLOAT
+from sqlalchemy.dialects.postgresql import TIMESTAMP
+from app.models import Base
+
+
+class PredictResult(Base):
+    __tablename__ = "predict_result"
+    __table_args__ = {"schema": "public"}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    start_time = Column(TIMESTAMP, nullable=False)
+    end_time = Column(TIMESTAMP, nullable=False)
+    inserted_at = Column(TIMESTAMP, nullable=False)
+    vibration_anomaly_score = Column(FLOAT, nullable=False)
+    current_anomaly_score = Column(FLOAT, nullable=False)
+    anomaly_score = Column(FLOAT, nullable=False)
+    threshold = Column(FLOAT, nullable=False)
+    is_anomaly = Column(BOOLEAN, nullable=False)
+    x_max = Column(FLOAT, nullable=True)
+    x_rms = Column(FLOAT, nullable=True)
+    x_std = Column(FLOAT, nullable=True)
+    x_crest_factor = Column(FLOAT, nullable=True)
+    x_impact_factor = Column(FLOAT, nullable=True)
+    x_mean_square_frequency = Column(FLOAT, nullable=True)
+    x_mean_power_spectrum = Column(FLOAT, nullable=True)
+    y_max = Column(FLOAT, nullable=True)
+    y_rms = Column(FLOAT, nullable=True)
+    y_std = Column(FLOAT, nullable=True)
+    y_crest_factor = Column(FLOAT, nullable=True)
+    y_impact_factor = Column(FLOAT, nullable=True)
+    y_mean_square_frequency = Column(FLOAT, nullable=True)
+    y_mean_power_spectrum = Column(FLOAT, nullable=True)
+    z_max = Column(FLOAT, nullable=True)
+    z_rms = Column(FLOAT, nullable=True)
+    z_std = Column(FLOAT, nullable=True)
+    z_crest_factor = Column(FLOAT, nullable=True)
+    z_impact_factor = Column(FLOAT, nullable=True)
+    z_mean_square_frequency = Column(FLOAT, nullable=True)
+    z_mean_power_spectrum = Column(FLOAT, nullable=True)
+    pf_p2p_1 = Column(FLOAT, nullable=True)
+    pf_p2p_2 = Column(FLOAT, nullable=True)
+    pf_p2p_3 = Column(FLOAT, nullable=True)
+    pf_rms_1 = Column(FLOAT, nullable=True)
+    pf_rms_2 = Column(FLOAT, nullable=True)
+    pf_rms_3 = Column(FLOAT, nullable=True)
+    current_rms_1 = Column(FLOAT, nullable=True)
+    current_rms_2 = Column(FLOAT, nullable=True)
+    current_rms_3 = Column(FLOAT, nullable=True)
+    voltage_rms_1 = Column(FLOAT, nullable=True)
+    voltage_rms_2 = Column(FLOAT, nullable=True)
+    voltage_rms_3 = Column(FLOAT, nullable=True)

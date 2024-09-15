@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import VibrationSection from '../../../components/monitoring/VibrationSection'
+import FFTSection from '../../../components/monitoring/FFTSection'
 
-const VibrationAndCurrentPage: React.FC = () => {
+const FFTAndSTFTPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState<
     'current' | 'x' | 'y' | 'z'
@@ -19,7 +19,7 @@ const VibrationAndCurrentPage: React.FC = () => {
   const options: ('current' | 'x' | 'y' | 'z')[] = ['current', 'x', 'y', 'z']
 
   return (
-    <div className="flex min-h-screen w-full items-start overflow-x-scroll p-5">
+    <div className="flex w-full items-start overflow-x-scroll p-5">
       <div className="flex w-full flex-col">
         <div className="flex items-center space-x-5 pb-5">
           <h1 className="text-xl font-bold">데이터 컬럼 선택</h1>
@@ -58,10 +58,10 @@ const VibrationAndCurrentPage: React.FC = () => {
             )}
           </div>
         </div>
-        <VibrationSection col={selectedOption} magnitudeThreshold={100} />
+        <FFTSection col={selectedOption} magnitudeThreshold={100} />
       </div>
     </div>
   )
 }
 
-export default VibrationAndCurrentPage
+export default FFTAndSTFTPage

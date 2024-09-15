@@ -89,10 +89,14 @@ const Dashboard = () => {
 
   const [data, setData] = useState<CNCData[]>([])
   const [selectedLabels, setSelectedLabels] = useState<string[]>([])
-  const [selectedRealTimeLabels, setSelectedRealTimeLabels] = useState<string[]>([])
+  const [selectedRealTimeLabels, setSelectedRealTimeLabels] = useState<
+    string[]
+  >([])
 
   const [values, setValues] = useState<ValueType[]>(initialvalues)
-  const [realTimeValues, setRealTimeValues] = useState<ValueType[]>(realTimeInitialValues)
+  const [realTimeValues, setRealTimeValues] = useState<ValueType[]>(
+    realTimeInitialValues
+  )
 
   // const [selectedData, setSelectedData] = useState<CNCData[]>([]);
 
@@ -107,41 +111,57 @@ const Dashboard = () => {
   const [timestamps, setTimestamps] = useState<string>('')
 
   const dataRedux = useSelector((state: IAppState) => state.dashboard.data)
-  const realTimeDataRedux = useSelector((state: IAppState) => state.dashboard.realTimeData)
+  const realTimeDataRedux = useSelector(
+    (state: IAppState) => state.dashboard.realTimeData
+  )
 
   const SHOW_COUNT = 7
 
-  const socket = io('http://localhost:4000', {})
+  // const socket = io('http://localhost:4000', {})
 
-  socket.on('connect', () => {
-    console.log('connected')
-  })
+  // socket.on('connect', () => {
+  //   console.log('connected')
+  // })
 
-  socket.on('FromAPI', (newData: CNCData) => {
-    setData((prevData) => [newData, ...prevData].slice(0, 50))
-    // if (dataRedux.length > 0) {
-    //   const newDataRedux = [newData, ...dataRedux].slice(0, 50);
+  // socket.on('FromAPI', (newData: CNCData) => {
+  //   setData((prevData) => [newData, ...prevData].slice(0, 50))
+  //   // if (dataRedux.length > 0) {
+  //   //   const newDataRedux = [newData, ...dataRedux].slice(0, 50);
 
-    //   dispatch(updateData(newDataRedux));
-    // }
-  })
+  //   //   dispatch(updateData(newDataRedux));
+  //   // }
+  // })
 
   useEffect(() => {
     axios.get('http://localhost:4000/data').then((res) => {
-      setData(res.data)
+      // setData(res.data)
       // dispatch(updateData(res.data));
     })
   }, [])
 
   useEffect(() => {
+    const socket = new WebSocket('ws://localhost:4000/mqtt')
+
+    socket.onopen = (_) => console.log('Connedted to the server')
+
+    socket.onmessage = (event) => {
+      const data = event.data
+
+      console.log(JSON.parse(data))
+    }
+
+    return () => socket.close()
+  }, [])
+
+  useEffect(() => {
     // 특정 key값을 가진 데이터만 추출
     const temp = data.map((d) => {
-      const sd: any = { timestamp: d.timestamp };
+      const sd: any = { timestamp: d.timestamp }
       selectedRealTimeLabels.forEach((label) => {
-        sd[label] = d[label as keyof CNCRealTimeData];
-      });
-      return sd;
-    });
+        sd[label] = d[label as keyof CNCRealTimeData]
+      })
+      return sd
+    })
 
     dispatch(updateData(data))
     dispatch(updateRealTimeData(temp))
@@ -170,7 +190,9 @@ const Dashboard = () => {
 
   const handleRealTimeLabelChange = (key: string) => {
     if (selectedRealTimeLabels.includes(key)) {
-      setSelectedRealTimeLabels(selectedRealTimeLabels.filter((label) => label !== key))
+      setSelectedRealTimeLabels(
+        selectedRealTimeLabels.filter((label) => label !== key)
+      )
     } else {
       setSelectedRealTimeLabels([...selectedRealTimeLabels, key])
     }
@@ -507,7 +529,7 @@ const Dashboard = () => {
     const series: any[] = []
 
     selectedRealTimeLabels.forEach((l) => {
-           // if (d.timestamp) {
+      // if (d.timestamp) {
       //   timestamps.push(d.timestamp);
       // }
 
@@ -603,18 +625,16 @@ const Dashboard = () => {
         const temp = { name: 'Temp', data: data.map((d) => d.temp) }
         series.push(temp)
       }
-
     })
 
     setRealTimeSeries(series)
   }
 
-
   return (
     <div className="flex w-full flex-col items-center p-5">
       {/* <h1>Dashboard</h1> */}
       <Labels data={dataRedux[dataRedux.length - 1]} />
-      <div className="relative flex h-[400px] w-full flex-row items-center justify-between border border-gray-400">
+      <div className="relative flex h-full w-full flex-row items-center justify-between border border-gray-400">
         <ChartTitle title={'실시간'} />
         <RealTimeChart data={realTimeDataRedux} series={realTimeSeries} />
         <div className="absolute right-0 top-10 mt-5 flex h-[200px] flex-col overflow-y-scroll bg-black/20 shadow-lg">
@@ -635,7 +655,7 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-      <div className="relative mb-3 flex h-[400px] w-full flex-row items-center justify-between border-b border-l border-r border-gray-400">
+      <div className="relative mb-3 flex h-full w-full flex-row items-center justify-between border-b border-l border-r border-gray-400">
         <ChartTitle title={'가공구간'} />
         <ToolAreaChart data={dataRedux} series={series} />
         <div className="absolute right-0 top-10 mt-5 flex h-[200px] flex-col overflow-y-scroll bg-black/20 shadow-lg">

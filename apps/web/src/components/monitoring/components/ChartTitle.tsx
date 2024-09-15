@@ -1,9 +1,9 @@
 const ChartTitle = ({ title }: { title: string }) => {
   return (
-    <div className="flex h-full w-12 items-center justify-center bg-gray-400">
-      <h2 className="flex h-full w-4 items-center justify-center text-xl font-semibold text-white">
-        {title}
-      </h2>
+    <div className="mr-10 flex flex-col items-center justify-center bg-gray-400 px-4 py-10">
+      {title.split('').map((letter) => (
+        <p className="font-bold text-white">{letter}</p>
+      ))}
     </div>
   )
 }

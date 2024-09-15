@@ -27,11 +27,4 @@ else
     echo "package.json not found. Skipping npm install."
 fi
 
-if [ -f requirements.txt ]; then
-    echo "Installing Python packages..."
-    pip install -r requirements.txt
-else
-    echo "requirements.txt not found. Skipping pip install."
-fi
-
 echo "Setup complete."

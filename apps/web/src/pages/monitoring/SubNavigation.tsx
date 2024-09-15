@@ -17,33 +17,46 @@ const SubNavigation: React.FC = () => {
   }
 
   return (
-    <div className="px-6 py-2">
-      <div className="flex flex-row space-x-4 font-semibold">
+    <div className="py-2 pl-4">
+      <div className="flex flex-row space-x-2 font-semibold">
         <button
           className={classNames(
             query.view === 'cnc'
-              ? 'rounded-lg bg-indigo-800 p-4 text-gray-50'
-              : 'rounded-lg bg-indigo-800 p-4 text-indigo-300'
+              ? 'rounded-md border border-zinc-400 bg-zinc-800 px-4 py-2 text-zinc-50 shadow-sm'
+              : 'rounded-md border border-zinc-400 px-4 py-2 text-zinc-800 shadow-sm'
           )}
           onClick={() => {
             changeQueryString({ view: 'cnc' })
           }}
           disabled={query.view === 'cnc'}
         >
-          CnC
+          CNC
         </button>
         <button
           className={classNames(
-            query.view === 'vibration-and-current'
-              ? 'rounded-lg bg-indigo-800 p-4 text-gray-50'
-              : 'rounded-lg bg-indigo-800 p-4 text-indigo-300'
+            query.view === 'fft-stft'
+              ? 'rounded-md border border-zinc-400 bg-zinc-800 px-4 py-2 text-zinc-50 shadow-sm'
+              : 'rounded-md border border-zinc-400 px-4 py-2 text-zinc-800 shadow-sm'
           )}
           onClick={() => {
-            changeQueryString({ view: 'vibration-and-current' })
+            changeQueryString({ view: 'fft-stft' })
           }}
-          disabled={query.view === 'vibration-and-current'}
+          disabled={query.view === 'fft-stft'}
         >
-          진동 및 전류
+          FFT / STFT
+        </button>
+        <button
+          className={classNames(
+            query.view === 'features'
+              ? 'rounded-md border border-zinc-400 bg-zinc-800 px-4 py-2 text-zinc-50 shadow-sm'
+              : 'rounded-md border border-zinc-400 px-4 py-2 text-zinc-800 shadow-sm'
+          )}
+          onClick={() => {
+            changeQueryString({ view: 'features' })
+          }}
+          disabled={query.view === 'features'}
+        >
+          진동 및 전류 Features
         </button>
       </div>
     </div>

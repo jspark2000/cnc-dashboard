@@ -10,51 +10,49 @@ const RealTimeChart = ({
   series: ChartProps['series']
 }) => {
   return (
-    <div className="flex">
-      <div className="w-4/5">
-        <ReactApexChart
-          options={{
-            chart: {
-              type: 'line',
-              height: 350,
-              animations: {
-                enabled: true,
-                easing: 'linear',
-                dynamicAnimation: {
-                  speed: 1000
-                }
-              },
-              zoom: {
-                enabled: false
+    <div className="w-full">
+      <ReactApexChart
+        options={{
+          chart: {
+            type: 'line',
+            height: 350,
+            animations: {
+              enabled: true,
+              easing: 'linear',
+              dynamicAnimation: {
+                speed: 1000
               }
             },
-            dataLabels: {
+            zoom: {
               enabled: false
-            },
-            stroke: {
-              curve: 'straight',
-              width: 1
-            },
-            title: {
-              text: '',
-              align: 'left'
-            },
-            grid: {
-              row: {
-                colors: ['transparent'],
-                opacity: 0.5
-              }
-            },
-            xaxis: {
-              categories: data.map((d) => formatTime(d.timestamp))
             }
-          }}
-          series={series}
-          type="line"
-          width={1200}
-          height={350}
-        />
-      </div>
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'straight',
+            width: 1
+          },
+          title: {
+            text: '',
+            align: 'left'
+          },
+          grid: {
+            row: {
+              colors: ['transparent'],
+              opacity: 0.5
+            }
+          },
+          xaxis: {
+            categories: data.map((d) => formatTime(d.timestamp))
+          }
+        }}
+        series={series}
+        type="line"
+        width={'100%'}
+        height={350}
+      />
     </div>
   )
 }

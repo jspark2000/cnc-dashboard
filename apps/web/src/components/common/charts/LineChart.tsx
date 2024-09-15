@@ -3,15 +3,15 @@ import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
 const LineChart = ({
   series,
   categories,
+  type,
   height = 200,
-  // min,
-  // max
+  threshold = false
 }: {
   series: ChartProps['series']
   categories: any[]
-  height?: number
-  // min?: number
-  // max?: number
+  type?: 'category' | 'datetime' | 'numeric'
+  height?: number | string
+  threshold?: boolean
 }) => {
   return (
     <div className="w-full">
@@ -44,17 +44,62 @@ const LineChart = ({
             width: 1
           },
           xaxis: {
-            // labels: {
-            //   style: {
-            //     // colors: 'gray',
-            //     fontSize: '12px'
-            //   }
-            // },
-            tickAmount: 15,
+            labels: {
+              datetimeFormatter: {
+                year: 'yyyy년',
+                month: 'MM월',
+                day: 'dd일',
+                hour: 'HH시'
+              }
+            },
+            tickAmount: 30,
             // stepSize: 5,
             categories: categories,
-            // min,
-            // max
+            type: type ? type : 'category'
+          },
+          yaxis: {
+            labels: {
+              formatter(val) {
+                if (typeof val === 'number' && val >= 1000) {
+                  const exponent = Math.floor(Math.log10(val))
+                  const base = val / Math.pow(10, exponent)
+                  return base.toFixed(1) + 'E' + exponent
+                }
+                return val.toString()
+              }
+            }
+          },
+          annotations: {
+            yaxis: threshold
+              ? [
+                  {
+                    y: 0.3,
+                    borderWidth: 3,
+                    borderColor: '#FF0000',
+                    label: {
+                      borderColor: '#FF4560',
+                      style: {
+                        color: '#fff',
+                        background: '#FF4560'
+                      },
+                      text: 'Threshold 1'
+                    }
+                  },
+                  {
+                    y: 0.5,
+                    borderWidth: 3,
+                    borderColor: '#FF0000',
+                    label: {
+                      borderColor: '#FF4560',
+                      style: {
+                        color: '#fff',
+                        background: '#FF4560'
+                      },
+                      text: 'Threshold 2'
+                    }
+                  }
+                ]
+              : []
           },
           yaxis: {
             labels: {
@@ -62,7 +107,6 @@ const LineChart = ({
                 return (val.toFixed(2)).toString();
               }
             }
-
           }
         }}
       />
