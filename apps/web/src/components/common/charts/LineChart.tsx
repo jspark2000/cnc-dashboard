@@ -100,6 +100,13 @@ const LineChart = ({
                   }
                 ]
               : []
+          },
+          yaxis: {
+            labels: {
+              formatter: function(val: number): string {
+                return (val.toFixed(2)).toString();
+              }
+            }
           }
         }}
       />
