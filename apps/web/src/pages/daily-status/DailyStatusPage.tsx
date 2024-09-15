@@ -39,6 +39,7 @@ const DailyStatusPage: React.FC = () => {
         />
       </div>
       <div className="col-span-12"></div>
+
       <div className="col-span-12 grid grid-cols-5 bg-white">
         <div className="col-span-3 flex flex-col space-y-1">
           <div className="flex">

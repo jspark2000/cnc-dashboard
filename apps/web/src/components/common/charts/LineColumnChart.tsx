@@ -17,7 +17,7 @@ const LineChart = ({
     <div className="w-full">
       <ReactApexChart
         series={series}
-        type="line"
+        // type="line"
         height={height}
         width={'100%'}
         options={{
@@ -41,7 +41,8 @@ const LineChart = ({
           // },
           stroke: {
             curve: 'straight',
-            width: 1
+            width: 2,
+            show : true
           },
           xaxis: {
             // labels: {
@@ -56,14 +57,24 @@ const LineChart = ({
             // min,
             // max
           },
-          yaxis: {
-            labels: {
-              formatter: function(val: number): string {
-                return (val.toFixed(2)).toString();
-              }
-            }
-
-          }
+          yaxis: [{
+            title: {
+              text: 'Tooling Series',
+            },
+            max: 1,
+            min: 0,
+            tickAmount: 1,
+            show: false
+          }, {
+            opposite: true,
+            title: {
+              text: 'Limit Series'
+            },
+            max: 100,
+            min: 0,
+            tickAmount: 1,
+            show: false
+          }]
         }}
       />
     </div>
