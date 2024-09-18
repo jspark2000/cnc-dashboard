@@ -2,6 +2,7 @@ from dependency_injector import containers, providers
 from app.db.postgres import PostgeSQL
 from app.services.model_evaluation import ModelEvaluationService
 from app.services.predict_result import PredictResultService
+from app.services.random_cnc import RandomCNCService
 
 
 class Container(containers.DeclarativeContainer):
@@ -9,6 +10,7 @@ class Container(containers.DeclarativeContainer):
         modules=[
             "app.routes.data.model_evaluation",
             "app.routes.data.predict_result",
+            "app.routes.data.random_cnc",
         ]
     )
 
@@ -22,5 +24,10 @@ class Container(containers.DeclarativeContainer):
 
     predict_result_service = providers.Factory(
         PredictResultService,
+        database=database,
+    )
+
+    random_cnc_service = providers.Factory(
+        RandomCNCService,
         database=database,
     )
