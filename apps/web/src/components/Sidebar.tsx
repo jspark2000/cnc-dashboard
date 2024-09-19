@@ -6,10 +6,9 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const navigation = [
     { name: '모니터링', href: '/mornitoring' },
-    { name: '일간현황', href: '/daily-status' },
+    { name: 'AI 이상탐지', href: '/model-performance' },
     { name: '주간현황', href: '/weekly-status' },
     { name: '데일리리포트', href: '/daily-report' },
-    { name: 'AI 이상탐지', href: '/model-performance' },
     { name: '모델학습', href: '/model-training' },
     { name: '생산주요인자', href: '/production-factor' }
   ]

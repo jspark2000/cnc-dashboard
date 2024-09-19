@@ -14,10 +14,10 @@ const ModelTrainingPage = () => {
     'XGBoost',
     'Stacked CNN',
     'ResNet50',
-    'GoogleNet',
-    'EfficientNet',
     'ExtraTree',
-    'RandomForest'
+    'RandomForest',
+    'GoogleNet',
+    'EfficientNet'
   ]
 
   const cnnBased = ['Stacked CNN', 'ResNet50', 'GoogleNet', 'EfficientNet']
@@ -93,7 +93,16 @@ const ModelTrainingPage = () => {
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-4 gap-4 px-6">
+      <div className="grid grid-cols-2 gap-4 px-6">
+        <h2 className="text-lg font-semibold text-zinc-800">
+          Tree Based Models
+        </h2>
+        <h2 className="text-lg font-semibold text-zinc-800">
+          CNN Based Models
+        </h2>
+      </div>
+
+      <div className="mt-3 grid grid-cols-4 gap-4 px-6">
         {params.map((parameter: any, index: any) => (
           <ParameterCard key={index} title={parameter.name} data={parameter} />
         ))}

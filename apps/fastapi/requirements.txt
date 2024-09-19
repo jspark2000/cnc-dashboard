@@ -12,3 +12,4 @@ uvicorn
 dependency_injector
 pydantic_settings
 paho-mqtt
+asyncpg

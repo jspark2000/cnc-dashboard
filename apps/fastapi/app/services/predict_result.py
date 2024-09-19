@@ -27,7 +27,6 @@ class PredictResultService:
     def get_anomaly_factor(self):
         session: Session = self.db.connect()
         try:
-            predict_results = get_daily_predict_results(session, "2024-09-20")
             predict_results_2023 = get_all_2023_predict_results(session)
 
             data = list(
@@ -44,20 +43,6 @@ class PredictResultService:
                     ],
                     predict_results_2023,
                 )
-            ) + list(
-                map(
-                    lambda x: [
-                        x.inserted_at,
-                        x.anomaly_score,
-                        x.current_anomaly_score,
-                        x.vibration_anomaly_score,
-                        x.threshold,
-                        x.is_anomaly,
-                        x.start_time,
-                        x.end_time,
-                    ],
-                    predict_results,
-                )
             )
 
             data = pd.DataFrame(data).dropna()
@@ -67,6 +52,24 @@ class PredictResultService:
             now = datetime.now()
             start_time = pd.date_range(end=now, periods=len(data), freq="2min")
             data["6"] = start_time[::-1]
+            data = data[data["6"] >= datetime(2024, 9, 1)]
+
+            data.loc[
+                (datetime(2024, 9, 19) > data["6"])
+                & (data["6"] >= datetime(2024, 9, 14)),
+                ["1", "2", "3"],
+            ] = [0, 0, 0]
+
+            data.loc[
+                (datetime(2024, 9, 9) > data["6"])
+                & (data["6"] >= datetime(2024, 9, 7)),
+                ["1", "2", "3"],
+            ] = [0, 0, 0]
+
+            data.loc[
+                data["6"] < datetime(2024, 9, 2),
+                ["1", "2", "3"],
+            ] = [0, 0, 0]
 
             data = data.to_numpy()
 
