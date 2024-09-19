@@ -3,8 +3,10 @@ from datetime import datetime
 import json
 import logging
 import random
-import paho.mqtt.client as mqtt
+
+# import paho.mqtt.client as mqtt
 from threading import Thread
+import numpy as np
 
 logger = logging.getLogger("uvicorn.info")
 
@@ -15,9 +17,9 @@ logger = logging.getLogger("uvicorn.info")
 
 async def periodic_message_generator(message_queue: asyncio.Queue):
     while True:
-        await message_queue.put(json.dumps(generate_fake_data()))
+        await message_queue.put(json.dumps(generate_fake_message()))
         logger.info(f"Generated and pushed message")
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
 
 
 def start_mqtt_loop(loop, message_queue):
@@ -31,16 +33,12 @@ def include_mqtt(message_queue: asyncio.Queue):
     mqtt_thread.start()
 
 
-def generate_float_list(min_value: float, max_value: float, length: int = 5000) -> list:
-    return [random.uniform(min_value, max_value) for _ in range(length)]
-
-
-def generate_fake_data():
+def generate_fake_message():
     return {
-        "x": generate_float_list(0, 1.0),
-        "y": generate_float_list(0, 1.0),
-        "z": generate_float_list(0, 1.0),
-        "current": generate_float_list(0.0, 0.1),
+        "x": generate_float_list(0, 0.1, 4096),
+        "y": generate_float_list(0, 0.08, 4096),
+        "z": generate_float_list(0, 0.2, 4096),
+        "current": generate_float_list(0, 1, 4096),
         "time": [datetime.now().isoformat()],
     }
 
@@ -67,3 +65,26 @@ def generate_fake_data():
 
 #     client.connect(broker, port, 60)
 #     client.loop_start()
+
+
+def generate_float_list(min_value: float, max_value: float, length: int = 5000) -> list:
+    return [random.uniform(min_value, max_value) for _ in range(length)]
+
+
+def generate_random_frequency():
+    # 파라미터 설정
+    Fs = 8192
+    T = 1.0
+    N = int(Fs * T)
+    t = np.linspace(0, T, N, endpoint=False)
+
+    signal = np.zeros(N)  # 신호 초기화
+
+    # 임의의 합성파 생성
+
+    for freq in [10, 45, 100, 154, 1200]:  # 0Hz ~ 4096Hz 사이의 주파수
+        amplitude = np.random.uniform(0.5, 1.5)  # 진폭 (0.5 ~ 1.5 사이의 값)
+        phase = np.random.uniform(0, 2 * np.pi)  # 위상 (0 ~ 2π 사이의 값)
+        signal += amplitude * np.sin(2 * np.pi * freq * t + phase)
+
+    return signal.tolist()

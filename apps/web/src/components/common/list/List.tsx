@@ -22,9 +22,15 @@ const List = ({ data, header, title }: any) => {
               {data.map((d: any, index: number) => (
                 <tr key={index}>
                   {Object.keys(d).map((key: any, index: number) => (
+                    /**임시로 넣어놓음 수정필요 */
                     <td
                       key={index}
-                      className="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-800 sm:pl-0"
+                      className={
+                        typeof d[key] === 'string' &&
+                        d[key].includes('예지보전')
+                          ? 'whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-blue-800 sm:pl-0'
+                          : 'whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-800 sm:pl-0'
+                      }
                     >
                       {d[key]}
                     </td>
