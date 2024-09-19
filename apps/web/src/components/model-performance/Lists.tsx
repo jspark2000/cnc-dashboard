@@ -1,10 +1,63 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import List from '../common/list/List'
-import type { AnomalyData, AnomalyRatio } from '../../types/interfaces'
-import axios from 'axios'
+import type { AnomalyData } from '../../types/interfaces'
 
 const Lists = () => {
-  const [anomalyData, setAnomalyData] = useState<Partial<AnomalyData>[]>()
+  const [anomalyData, _] = useState<Partial<AnomalyData>[]>([
+    {
+      timestamp: new Date().toLocaleString(),
+      severity: 1,
+      anomaly_score: 0.2,
+      current_anomaly_score: 0.125,
+      vibration_anomaly_score: 0.31,
+      threshold: 0.5,
+      is_anomaly: 'false'
+    },
+    {
+      timestamp: new Date(
+        new Date().getTime() - 60 * 60 * 992
+      ).toLocaleString(),
+      severity: 3,
+      anomaly_score: 0.7,
+      current_anomaly_score: 0.8,
+      vibration_anomaly_score: 0.4,
+      threshold: 0.5,
+      is_anomaly: 'true'
+    },
+    {
+      timestamp: new Date(
+        new Date().getTime() - 2 * 60 * 60 * 999
+      ).toLocaleString(),
+      severity: 2,
+      anomaly_score: 0.4,
+      current_anomaly_score: 0.56,
+      vibration_anomaly_score: 0.32,
+      threshold: 0.5,
+      is_anomaly: 'false'
+    },
+    {
+      timestamp: new Date(
+        new Date().getTime() - 3 * 60 * 60 * 993
+      ).toLocaleString(),
+      severity: 1,
+      anomaly_score: 0.0,
+      current_anomaly_score: 0.02,
+      vibration_anomaly_score: 0.29,
+      threshold: 0.5,
+      is_anomaly: 'false'
+    },
+    {
+      timestamp: new Date(
+        new Date().getTime() - 4 * 60 * 60 * 997
+      ).toLocaleString(),
+      severity: 1,
+      anomaly_score: 0.1,
+      current_anomaly_score: 0.02,
+      vibration_anomaly_score: 0.4,
+      threshold: 0.5,
+      is_anomaly: 'false'
+    }
+  ])
 
   const anomalyHeader = [
     { name: 'Timestamp', value: 'timestamp' },
@@ -15,43 +68,6 @@ const Lists = () => {
     { name: 'Threshold', value: 'threshold' },
     { name: 'Anomaly', value: 'is_anomaly' }
   ]
-
-  useEffect(() => {
-    const fetch = async () => {
-      const result = await axios
-        .get<{
-          data: AnomalyData[]
-          data_len: number
-          anomaly_th_count: AnomalyRatio
-        }>('http://127.0.0.1:4000/predict_result/anomaly')
-        .then((result) => result.data)
-
-      if (result) {
-        const anomalyRows = result.data.slice(
-          result.data_len - 7,
-          result.data_len - 1
-        )
-        anomalyRows
-        setAnomalyData(
-          anomalyRows.map((row) => {
-            return {
-              timestamp: new Date(row.timestamp).toLocaleString(),
-              severity: row.severity,
-              anomaly_score: Math.round(row.anomaly_score * 1000) / 1000,
-              current_anomaly_score:
-                Math.round(row.current_anomaly_score * 1000) / 1000,
-              vibration_anomaly_score:
-                Math.round(row.vibration_anomaly_score * 1000) / 1000,
-              threshold: row.threshold,
-              is_anomaly: row.is_anomaly ? 'true' : 'false'
-            }
-          })
-        )
-      }
-    }
-
-    fetch()
-  }, [])
 
   return (
     <div>

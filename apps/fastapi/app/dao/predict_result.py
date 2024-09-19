@@ -1,4 +1,4 @@
-import math
+from datetime import datetime, timedelta
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.models.predict_result import PredictResult
@@ -95,6 +95,20 @@ def get_predict_results_by_factor(session: Session):
         result["current"]["rms_voltage"]["p2"].append(predict_result.voltage_rms_2)
         result["current"]["rms_voltage"]["p3"].append(predict_result.voltage_rms_3)
 
-        result["time"].append(predict_result.inserted_at)
+    result["time"] = get_time_intervals()
 
     return result
+
+
+def get_time_intervals():
+    now = datetime.now()
+    interval = timedelta(minutes=2)
+    end_time = now - timedelta(hours=1)
+
+    time_list = []
+
+    while now >= end_time:
+        time_list.append(now.strftime("%Y-%m-%d %H:%M:%S"))
+        now -= interval
+
+    return time_list
