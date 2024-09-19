@@ -53,12 +53,14 @@ def generate_two_months_data():
         "xaxis": "X-10",
         "zaaxis": "Z-0",
     }
-    start_time = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    # 오전 8시 시작
+    start_time = datetime.utcnow().replace(hour=8, minute=0, second=0, microsecond=0)
     data = []
-    total_production_time = 18 * 60  # 12시간 (분 단위)
+    total_production_time = 16 * 60  # 16시간 (분 단위)
     items_produced = 0
     production_time = 0
     tool_life_counter = 100
+    running_time = 0
 
     while production_time < total_production_time:
         # 생산 시간 (G00 상태)
@@ -72,7 +74,7 @@ def generate_two_months_data():
             data_template["toollifecounter"] = tool_life_counter
             data.append(data_template.copy())
             production_time += 1
-
+            running_time += 1
         # 정지 시간 (G01 상태)
         stop_duration = 1  # 1분 정지
         current_time = start_time + timedelta(minutes=production_time)
@@ -138,8 +140,9 @@ def generate_two_months_data():
         data.append(data_template.copy())
         production_time += 1
 
+    print(running_time)
     # 데이터를 JSON 파일로 저장
-    with open("18_hours_data.json", "w") as f:
+    with open("16_hours_data.json", "w") as f:
         json.dump(data, f, indent=4)
 
 
