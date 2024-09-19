@@ -35,7 +35,7 @@ const ModelTrainingPage = () => {
 
         return {
           model: `${category} ${
-            cnnBased.includes(category) ? '(CNN)' : '(Tree)'
+            cnnBased.includes(category) ? '(예지보전 AI)' : '(공구최적가공 AI)'
           }`,
           time: target.duration,
           created_date: target.created_date
@@ -94,12 +94,8 @@ const ModelTrainingPage = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 px-6">
-        <h2 className="text-lg font-semibold text-zinc-800">
-          Tree Based Models
-        </h2>
-        <h2 className="text-lg font-semibold text-zinc-800">
-          CNN Based Models
-        </h2>
+        <h2 className="text-lg font-semibold text-zinc-800">공구최적가공 AI</h2>
+        <h2 className="text-lg font-semibold text-zinc-800">예지보전 AI</h2>
       </div>
 
       <div className="mt-3 grid grid-cols-4 gap-4 px-6">
