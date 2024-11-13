@@ -3,7 +3,7 @@ import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
 const LineChart = ({
   series,
   categories,
-  height = 200,
+  height = 200
   // min,
   // max
 }: {
@@ -42,7 +42,7 @@ const LineChart = ({
           stroke: {
             curve: 'straight',
             width: 2,
-            show : true
+            show: true
           },
           xaxis: {
             // labels: {
@@ -53,28 +53,31 @@ const LineChart = ({
             // },
             tickAmount: 15,
             // stepSize: 5,
-            categories: categories,
+            categories: categories
             // min,
             // max
           },
-          yaxis: [{
-            title: {
-              text: 'Tooling Series',
+          yaxis: [
+            {
+              title: {
+                text: 'Tooling Series'
+              },
+              max: 1,
+              min: 0,
+              tickAmount: 1,
+              show: false
             },
-            max: 1,
-            min: 0,
-            tickAmount: 1,
-            show: false
-          }, {
-            opposite: true,
-            title: {
-              text: 'Limit Series'
-            },
-            max: 100,
-            min: 0,
-            tickAmount: 1,
-            show: false
-          }]
+            {
+              opposite: true,
+              title: {
+                text: 'Limit Series'
+              },
+              max: 100,
+              min: 0,
+              tickAmount: 1,
+              show: false
+            }
+          ]
         }}
       />
     </div>

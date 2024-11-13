@@ -6,13 +6,12 @@ const TimelineChart = ({
   min,
   max
 }: {
-  series: ChartProps['series'],
+  series: ChartProps['series']
   // categories: any[]
-  height?: number,
-  min?: number,
+  height?: number
+  min?: number
   max?: number
 }) => {
-
   // const s = series?.map((item) => {
   //   return {
   //     name: item?.name as string,
@@ -31,31 +30,32 @@ const TimelineChart = ({
         options={{
           chart: {
             // height: 450,
-            type: 'rangeBar',
+            type: 'rangeBar'
             // type: 'line',
           },
           plotOptions: {
             bar: {
-              horizontal: true,
+              horizontal: true
               // barHeight: '80%'
             }
           },
           xaxis: {
             type: 'datetime',
             min: min,
-            max: max,
+            max: max
             // tickAmount: 1000,
           },
-          yaxis: [{
-            title: {
-              text: ''
+          yaxis: [
+            {
+              title: {
+                text: ''
+              }
             }
-          },
-          // {
-          //   opposite: true,
-          //   title: {
-          //     text: 'Line Series'
-          //   }}
+            // {
+            //   opposite: true,
+            //   title: {
+            //     text: 'Line Series'
+            //   }}
           ],
           stroke: {
             width: 1
@@ -67,8 +67,7 @@ const TimelineChart = ({
           legend: {
             position: 'top',
             horizontalAlign: 'left'
-          },
-
+          }
         }}
       />
     </div>

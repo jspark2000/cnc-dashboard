@@ -1,3 +1,5 @@
 node_modules
 apps/provider
+apps/server
+apps/backend
 .flake8

@@ -1,5 +1,5 @@
-import Charts from "../../components/model-performance/Charts"
-import Lists from "../../components/model-performance/Lists"
+import Charts from '../../components/model-performance/Charts'
+import Lists from '../../components/model-performance/Lists'
 import TimelineChart from '../../components/common/charts/TimelineChart'
 import LineChart from '../../components/common/charts/LineChart'
 import LineColumnChart from '../../components/common/charts/LineColumnChart'
@@ -9,7 +9,6 @@ import { CNCData } from '../../utils/cncData'
 import { mockdata } from './MockData'
 
 const ModelPerformancePage = () => {
-
   type ValueType = {
     key: string
     value: boolean
@@ -82,16 +81,14 @@ const ModelPerformancePage = () => {
     { key: 'temp', value: false }
   ]
   const formatDateToLocaleString = (date: Date): string => {
-    const month = ('0' + (date.getUTCMonth() + 1)).slice(-2);  // getUTCMonth is zero-based
-    const day = ('0' + date.getUTCDate()).slice(-2);
-    const hours = ('0' + date.getUTCHours()).slice(-2);
-    const minutes = ('0' + date.getUTCMinutes()).slice(-2);
-    const seconds = ('0' + date.getUTCSeconds()).slice(-2);
+    const month = ('0' + (date.getUTCMonth() + 1)).slice(-2) // getUTCMonth is zero-based
+    const day = ('0' + date.getUTCDate()).slice(-2)
+    const hours = ('0' + date.getUTCHours()).slice(-2)
+    const minutes = ('0' + date.getUTCMinutes()).slice(-2)
+    const seconds = ('0' + date.getUTCSeconds()).slice(-2)
 
-    return `${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return `${month}-${day} ${hours}:${minutes}:${seconds}`
   }
-
-
 
   const [data, setData] = useState<CNCData[]>([])
 
@@ -135,11 +132,10 @@ const ModelPerformancePage = () => {
     data.forEach((item, index) => {
       // console.log(formatDateToLocaleString(new Date(item.timestamp)))
       if (item.gcode === 'G00') {
-
         lineSeriesData.push({
           x: formatDateToLocaleString(new Date(item.timestamp)),
           y: item.toollifecounter || 0
-        });
+        })
 
         toolingData.push({
           x: formatDateToLocaleString(new Date(item.timestamp)),
@@ -151,12 +147,11 @@ const ModelPerformancePage = () => {
         lineSeriesData.push({
           x: formatDateToLocaleString(new Date(item.timestamp)),
           y: item.toollifecounter || 0
-        });
+        })
         toolingData.push({
           x: formatDateToLocaleString(new Date(item.timestamp)),
           y: 0
         })
-
       }
       categories.push(formatDateToLocaleString(new Date(item.timestamp)))
       // currentCode = 'G01'
@@ -180,7 +175,6 @@ const ModelPerformancePage = () => {
     // lineSeriesData.pop();
 
     setSeries([
-
       {
         name: 'Tooling Series',
         type: 'column',
@@ -199,19 +193,15 @@ const ModelPerformancePage = () => {
       <Charts />
       <div className="col-span-full grid grid-cols-5">
         <div className="col-span-full flex flex-col space-y-1">
-
-          <div className="text-lg font-semibold ml-6">
-            전체가공
-          </div>
+          <div className="ml-6 text-lg font-semibold">전체가공</div>
           <div className="flex">
-            {
-              series.length > 0 && (
+            {series.length > 0 && (
               <LineColumnChart
                 series={series}
                 categories={categories}
                 height={250}
               />
-             )}
+            )}
           </div>
           {/* <div>
               {

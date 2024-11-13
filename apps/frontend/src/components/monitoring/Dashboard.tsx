@@ -89,10 +89,14 @@ const Dashboard = () => {
 
   const [data, setData] = useState<CNCData[]>([])
   const [selectedLabels, setSelectedLabels] = useState<string[]>([])
-  const [selectedRealTimeLabels, setSelectedRealTimeLabels] = useState<string[]>([])
+  const [selectedRealTimeLabels, setSelectedRealTimeLabels] = useState<
+    string[]
+  >([])
 
   const [values, setValues] = useState<ValueType[]>(initialvalues)
-  const [realTimeValues, setRealTimeValues] = useState<ValueType[]>(realTimeInitialValues)
+  const [realTimeValues, setRealTimeValues] = useState<ValueType[]>(
+    realTimeInitialValues
+  )
 
   // const [selectedData, setSelectedData] = useState<CNCData[]>([]);
 
@@ -107,7 +111,9 @@ const Dashboard = () => {
   const [timestamps, setTimestamps] = useState<string>('')
 
   const dataRedux = useSelector((state: IAppState) => state.dashboard.data)
-  const realTimeDataRedux = useSelector((state: IAppState) => state.dashboard.realTimeData)
+  const realTimeDataRedux = useSelector(
+    (state: IAppState) => state.dashboard.realTimeData
+  )
 
   const SHOW_COUNT = 7
 
@@ -128,7 +134,6 @@ const Dashboard = () => {
     return () => socket.close()
   }, [])
 
-
   useEffect(() => {
     axios.get('http://localhost:4000/random_cnc').then((res) => {
       setData(res.data)
@@ -140,12 +145,12 @@ const Dashboard = () => {
     // 특정 key값을 가진 데이터만 추출
     console.log(data)
     const temp = data.map((d) => {
-      const sd: any = { timestamp: d.timestamp };
+      const sd: any = { timestamp: d.timestamp }
       selectedRealTimeLabels.forEach((label) => {
-        sd[label] = d[label as keyof CNCRealTimeData];
-      });
-      return sd;
-    });
+        sd[label] = d[label as keyof CNCRealTimeData]
+      })
+      return sd
+    })
 
     dispatch(updateData(data))
     dispatch(updateRealTimeData(temp))
@@ -174,7 +179,9 @@ const Dashboard = () => {
 
   const handleRealTimeLabelChange = (key: string) => {
     if (selectedRealTimeLabels.includes(key)) {
-      setSelectedRealTimeLabels(selectedRealTimeLabels.filter((label) => label !== key))
+      setSelectedRealTimeLabels(
+        selectedRealTimeLabels.filter((label) => label !== key)
+      )
     } else {
       setSelectedRealTimeLabels([...selectedRealTimeLabels, key])
     }
@@ -511,7 +518,7 @@ const Dashboard = () => {
     const series: any[] = []
 
     selectedRealTimeLabels.forEach((l) => {
-           // if (d.timestamp) {
+      // if (d.timestamp) {
       //   timestamps.push(d.timestamp);
       // }
 
@@ -607,12 +614,10 @@ const Dashboard = () => {
         const temp = { name: 'Temp', data: data.map((d) => d.temp) }
         series.push(temp)
       }
-
     })
 
     setRealTimeSeries(series)
   }
-
 
   return (
     <div className="flex w-full flex-col items-center p-5">

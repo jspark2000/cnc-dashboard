@@ -19,8 +19,7 @@ const ItemTable = () => {
     { title: '알람', value: '0', unit: 'No./h' },
     {
       title: '가공공구(사용시간)',
-      value:
-        '1 (정삭)',
+      value: '1 (정삭)',
       unit: ''
     },
     { title: '작업시간', value: '07:38:00', unit: 'h:m:s' },

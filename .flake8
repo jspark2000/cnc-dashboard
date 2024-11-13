@@ -8,6 +8,7 @@ exclude =
     venv,
     .env,
     apps/server,
-    apps/web
+    apps/frontend,
+    node_modules
 
 ignore = W291, E128, E501
