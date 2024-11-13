@@ -12,12 +12,12 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: postgres
 
-  cnc-web:
-    container_name: cnc-web
+  cnc-react:
+    container_name: cnc_react
     build:
-      context: ./apps/web
+      context: ./apps/frontend
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '5173:5173'
     volumes:
-      - ./apps/web:/app
+      - ./apps/frontend:/app
