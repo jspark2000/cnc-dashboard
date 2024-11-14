@@ -7,20 +7,14 @@ from contextlib import asynccontextmanager
 from app.routes import router
 from app.mqtt import include_mqtt
 from app.config import add_cors_settings
-import json
-import asyncpg
+from app.config.socket import *
 
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("uvicorn.info")
 
-# 진동 데이터 클라이언트 큐
 vibration_message_queue = asyncio.Queue()
-
-# CNC 데이터 클라이언트 큐
 cnc_message_queue = asyncio.Queue()
-
-# CNC 실시간 데이터 클라이언트 큐
 cnc_realtime_message_queue = asyncio.Queue()
 
 connected_clients = []
@@ -47,80 +41,40 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+ws_manager = WebSocketManager(
+    queues={
+        DataSource.CNC: cnc_message_queue,
+        DataSource.CNC_REALTIME: cnc_realtime_message_queue,
+        DataSource.VIBRATION: vibration_message_queue,
+    }
+)
 
 add_cors_settings(app)
 app.include_router(router)
 include_mqtt(vibration_message_queue)
 
 
-@app.websocket("/mqtt/vibration")
-async def websocket_endpoint_vibration(websocket: WebSocket):
-    await websocket.accept()
-    connected_clients.append(websocket)
+@app.websocket("/ws/mqtt")
+async def websocket_endpoint(websocket: WebSocket):
+    connection = await ws_manager.connect(websocket)
     try:
         while True:
-            data = await vibration_message_queue.get()
-            for connection in connected_clients:
-                await connection.send_text(data)
+            message = await websocket.receive_json()
+
+            if message.get("action") == "subscribe":
+                source = DataSource(message.get("source"))
+                connection.subscriptions.add(source)
+
+            elif message.get("action") == "unsubscribe":
+                source = DataSource(message.get("source"))
+                connection.subscriptions.discard(source)
+
     except WebSocketDisconnect:
-        connected_clients.remove(websocket)
+        ws_manager.disconnect(connection)
         logger.info("Client disconnected")
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
-        connected_clients.remove(websocket)
-        await websocket.close(code=1000)
-
-
-@app.websocket("/mqtt/cnc")
-async def websocket_endpoint_cnc(websocket: WebSocket):
-    await websocket.accept()
-    connected_clients.append(websocket)
-    try:
-        while True:
-            data = await cnc_message_queue.get()
-            for connection in connected_clients:
-                await connection.send_text(data)
-    except WebSocketDisconnect:
-        connected_clients.remove(websocket)
-        logger.info("Client disconnected")
-    except Exception as e:
-        logger.error(f"Unexpected error: {e}")
-        connected_clients.remove(websocket)
-        await websocket.close(code=1000)
-
-
-async def listen_to_db(websocket: WebSocket):
-    conn = await asyncpg.connect(
-        user="postgres", password="password", database="postgres", host="localhost"
-    )
-    await conn.add_listener(
-        "cnc_data",
-        lambda conn, pid, channel, payload: asyncio.create_task(
-            websocket.send_text(json.dumps(json.loads(payload)))
-        ),
-    )
-
-    try:
-        while True:
-            # WebSocket 클라이언트 연결 유지
-            await websocket.receive_text()
-    except WebSocketDisconnect:
-        await conn.close()
-
-
-@app.websocket("/mqtt/cnc_realtime")
-async def websocket_endpoint_cnc_realtime(websocket: WebSocket):
-    await websocket.accept()
-    connected_clients.append(websocket)
-    try:
-        await listen_to_db(websocket)
-
-    except WebSocketDisconnect:
-        connected_clients.remove(websocket)
-        logger.info("Client disconnected")
-    except Exception as e:
-        logger.error(f"Unexpected error: {e}")
-        connected_clients.remove(websocket)
+        ws_manager.disconnect(connection)
         await websocket.close(code=1000)
 
 

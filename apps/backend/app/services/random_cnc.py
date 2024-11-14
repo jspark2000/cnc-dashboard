@@ -1,14 +1,7 @@
-from datetime import datetime
 from app.db.postgres import PostgeSQL
 from app.dao.predict_result import *
 from sqlalchemy.orm import Session
-import numpy as np
-import pandas as pd
-import random
-import time
 from sqlalchemy import text
-import psycopg2
-import select
 
 
 class RandomCNCService:

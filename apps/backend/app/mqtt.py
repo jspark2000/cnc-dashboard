@@ -1,14 +1,11 @@
 import asyncio
 from datetime import datetime
 import json
-import logging
 import random
 
 # import paho.mqtt.client as mqtt
 from threading import Thread
 import numpy as np
-
-logger = logging.getLogger("uvicorn.info")
 
 # broker: str = "121.167.176.201"
 # port = 18810
@@ -18,7 +15,6 @@ logger = logging.getLogger("uvicorn.info")
 async def periodic_message_generator(message_queue: asyncio.Queue):
     while True:
         await message_queue.put(json.dumps(generate_fake_message()))
-        logger.info(f"Generated and pushed message")
         await asyncio.sleep(0.5)
 
 
