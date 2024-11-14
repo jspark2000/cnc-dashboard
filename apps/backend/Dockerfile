@@ -19,7 +19,7 @@ COPY ./apps/backend .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN rm .env.development
+RUN rm .env.example
 
 EXPOSE 4000
 
