@@ -1,6 +1,7 @@
 services:
   cnc_database:
     container_name: cnc_database
+    profiles: ['dev']
     image: postgres:14
     ports:
       - '5432:5432'
@@ -13,11 +14,25 @@ services:
 
   cnc_frontend:
     container_name: cnc_frontend
+    restart: always
+    profiles: ['time-series']
     build:
       context: .
       dockerfile: ./apps/frontend/Dockerfile
     ports:
       - '5174:5173'
+    networks:
+      - cnc_dashboard
+
+  cnc_backend:
+    container_name: cnc_backend
+    restart: always
+    profiles: ['time-series']
+    build:
+      context: .
+      dockerfile: ./apps/backend/Dockerfile
+    ports:
+      - '4001:4000'
     networks:
       - cnc_dashboard
 
