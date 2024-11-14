@@ -1,15 +1,18 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import DefaultLayout from './layouts/DefaultLayout'
-import MornitoringPage from './pages/monitoring/MonitoringPage'
-import DailyStatusPage from './pages/daily-status/DailyStatusPage'
-import DailyReportPage from './pages/daily-report/DailyReportPage'
-import WeeklyStatusPage from './pages/weekly-status/WeeklyStatusPage'
-import ModelPerformancePage from './pages/model-performance/ModelPerformancePage'
-import ModelTrainingPage from './pages/model-training/ModelTrainingPage'
-import ProductionFactorPage from './pages/production-factor/ProductionFactorPage'
-import RouteToMornitoring from './pages'
+import DefaultLayout from '@/components/layouts/DefaultLayout'
+import MornitoringPage from '@/pages/monitoring/MonitoringPage'
+import DailyStatusPage from '@/pages/daily-status/DailyStatusPage'
+import DailyReportPage from '@/pages/daily-report/DailyReportPage'
+import WeeklyStatusPage from '@/pages/weekly-status/WeeklyStatusPage'
+import ModelPerformancePage from '@/pages/model-performance/ModelPerformancePage'
+import ModelTrainingPage from '@/pages/model-training/ModelTrainingPage'
+import ProductionFactorPage from '@/pages/production-factor/ProductionFactorPage'
+import RouteToMornitoring from '@/pages'
+import useWebSocket from './libs/hooks'
 
 function App() {
+  useWebSocket()
+
   return (
     <BrowserRouter>
       <Routes>

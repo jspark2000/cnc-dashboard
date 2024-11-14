@@ -1,30 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import FFT from 'fft.js'
 import FFT2DComponent from './components/fft/FFT2DComponent'
 import FFT3DComponent from './components/fft/FFT3DComponent'
 import STFTSpectogram from './components/stft/STFTSpectogram'
-import type { CNCTempData } from '../../utils/cncData'
-import LineChart from '../common/charts/LineChart'
+import config from '@/libs/config'
+import {
+  SocketAction,
+  SocketSourceType,
+  type FFTChartData,
+  type SocketMessage,
+  type VibrationState
+} from '@/types'
 
-interface FFTData {
-  x: number[]
-  y: number[]
-  z: number[]
-  colors: string[]
-}
-
-interface FFTSectionProps {
+interface Props {
   col: 'x' | 'y' | 'z' | 'current'
   magnitudeThreshold?: number
 }
 
-const FFTSection: React.FC<FFTSectionProps> = ({
+const FFTSection: React.FC<Props> = ({
   col = 'current',
   magnitudeThreshold = 500
 }) => {
   const [loading, setLoading] = useState<number>(0)
   const [time, setTime] = useState<string>('')
-  const [data, setData] = useState<FFTData[]>([])
+  const [data, setData] = useState<FFTChartData[]>([])
   const [spectrogramData, setSpectrogramData] = useState<{
     t: number[]
     f: number[]
@@ -38,16 +37,23 @@ const FFTSection: React.FC<FFTSectionProps> = ({
     setData([])
     setSpectrogramData(null)
 
-    const socket = new WebSocket('ws://localhost:4000/mqtt/vibration')
+    const socket = new WebSocket(config.WEBSOCKET_URL)
 
     socket.onopen = (_) => {
-      console.log('Connected to the server')
+      socket.send(
+        JSON.stringify({
+          action: SocketAction.SUBSCRIBE,
+          source: 'vibration'
+        })
+      )
     }
 
     socket.onmessage = (event) => {
-      const data = JSON.parse(event.data) as CNCTempData
+      const { data, source } = JSON.parse(
+        event.data
+      ) as SocketMessage<VibrationState>
 
-      console.log(data)
+      if (source !== SocketSourceType.VIBRATION) return
 
       const newSignal = data[col]
       setSignalBuffer((prevBuffer) => {
@@ -72,7 +78,7 @@ const FFTSection: React.FC<FFTSectionProps> = ({
     const segmentSize = 4096
     const segments = Math.min(Math.floor(data.length / 5000), 10)
 
-    const fftData: FFTData[] = []
+    const fftData: FFTChartData[] = []
 
     for (let i = 0; i < segments; i++) {
       const segment = data.slice(i * segmentSize, (i + 1) * segmentSize)

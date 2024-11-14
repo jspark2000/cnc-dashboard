@@ -5,7 +5,7 @@ import LineChart from '../../components/common/charts/LineChart'
 import LineColumnChart from '../../components/common/charts/LineColumnChart'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { CNCData } from '../../utils/cncData'
+import { CNCData } from '../../libs/utils/cncData'
 import { mockdata } from './MockData'
 
 const ModelPerformancePage = () => {

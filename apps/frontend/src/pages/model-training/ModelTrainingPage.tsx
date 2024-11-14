@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import ParameterCard from '../../components/common/card/ParameterCard'
-import ColumnChart from '../../components/common/charts/ColumnChart'
-import List from '../../components/common/list/List'
+import ParameterCard from '@/components/common/card/ParameterCard'
+import ColumnChart from '@/components/common/charts/ColumnChart'
+import List from '@/components/common/list/List'
 import axios from 'axios'
 
 const ModelTrainingPage = () => {

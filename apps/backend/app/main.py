@@ -19,6 +19,14 @@ cnc_realtime_message_queue = asyncio.Queue()
 
 connected_clients = []
 
+ws_manager = WebSocketManager(
+    queues={
+        DataSource.CNC: cnc_message_queue,
+        DataSource.CNC_REALTIME: cnc_realtime_message_queue,
+        DataSource.VIBRATION: vibration_message_queue,
+    }
+)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -34,6 +42,9 @@ async def lifespan(app: FastAPI):
         ]
     )
 
+    for source in [DataSource.VIBRATION, DataSource.CNC, DataSource.CNC_REALTIME]:
+        asyncio.create_task(ws_manager.start_queue_listener(source))
+
     try:
         yield
     finally:
@@ -41,13 +52,6 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-ws_manager = WebSocketManager(
-    queues={
-        DataSource.CNC: cnc_message_queue,
-        DataSource.CNC_REALTIME: cnc_realtime_message_queue,
-        DataSource.VIBRATION: vibration_message_queue,
-    }
-)
 
 add_cors_settings(app)
 app.include_router(router)
@@ -76,13 +80,3 @@ async def websocket_endpoint(websocket: WebSocket):
         logger.error(f"Unexpected error: {e}")
         ws_manager.disconnect(connection)
         await websocket.close(code=1000)
-
-
-if __name__ == "__main__":
-    uvicorn.run(
-        "app.main:app",
-        host="0.0.0.0",
-        reload=False,
-        workers=1,
-        port=4000,
-    )

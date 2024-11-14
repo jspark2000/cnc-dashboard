@@ -1,8 +1,8 @@
 import { ChartBarIcon } from '@heroicons/react/24/outline'
-import LineChart from '../../../components/common/charts/LineChart'
+import LineChart from '@/components/common/charts/LineChart'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import type { GroupedPredictResult } from '../../../types/interfaces'
+import type { GroupedPredictResult } from '@/types/interfaces'
 
 const FeaturePage: React.FC = () => {
   const [data, setData] = useState<GroupedPredictResult>()

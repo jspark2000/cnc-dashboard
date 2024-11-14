@@ -1,4 +1,4 @@
-import { CNCData } from '../../../utils/cncData'
+import { CNCData } from '../../../libs/utils/cncData'
 
 const LabelItem = ({ title, text }: { title: string; text: string }) => (
   <div className="flex h-12 flex-col items-center justify-center border-b border-l border-gray-400 p-2">

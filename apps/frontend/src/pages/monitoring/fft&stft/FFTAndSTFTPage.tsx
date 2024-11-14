@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FFTSection from '../../../components/monitoring/FFTSection'
+import FFTSection from '@/components/monitoring/FFTSection'
 
 const FFTAndSTFTPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)

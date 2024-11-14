@@ -1,6 +1,6 @@
 import ReactApexChart, { Props as ChartProps } from 'react-apexcharts'
-import { CNCData } from '../../../utils/cncData'
-import { formatTime } from '../../../utils/formatTime'
+import { CNCData } from '../../../libs/utils/cncData'
+import { formatTime } from '../../../libs/utils/formatTime'
 
 const ToolAreaChart = ({
   data,

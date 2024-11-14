@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Plot from 'react-plotly.js'
-import type { CNCTempData } from '../../../../utils/cncData'
+import type { CNCTempData } from '../../../../libs/utils/cncData'
 
 const OrbitChart = ({ data }: { data: CNCTempData }) => {
   return (

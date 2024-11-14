@@ -1,7 +1,7 @@
-import ModelCard from '../../components/common/card/ModelCard'
-import ColumnChart from '../../components/common/charts/ColumnChart'
-import LineChart from '../../components/common/charts/LineChart'
-import { generateRandomList } from '../../utils/generate'
+import ModelCard from '@/components/common/card/ModelCard'
+import ColumnChart from '@/components/common/charts/ColumnChart'
+import LineChart from '@/components/common/charts/LineChart'
+import { generateRandomList } from '@/libs/utils/functions'
 
 const DailyStatusPage: React.FC = () => {
   const generateSequentialList = (maxVal: number): number[] => {

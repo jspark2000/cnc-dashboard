@@ -1,3 +1,5 @@
+import type { SocketDataType } from './socket.types'
+
 export interface CNCData {
   timestamp: string // TIMESTAMP
   spindlerpm?: number // INTEGER
@@ -63,12 +65,4 @@ export interface CNCRealTimeData {
   servomotorspeed4?: number // INTEGER
   servomotorspeed5?: number // INTEGER
   temp?: number // FLOAT
-}
-
-export interface CNCTempData {
-  current: number[]
-  time: string[]
-  x: number[]
-  y: number[]
-  z: number[]
 }
