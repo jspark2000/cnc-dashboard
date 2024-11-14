@@ -1,17 +1,21 @@
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
 
 COPY package*.json .
 
-COPY --chown=node:node . .
+COPY apps/frontend apps/frontend
 
 RUN rm -rf node_modules
 
+RUN rm -rf apps/frontend/node_modules
+
 RUN npm install
 
-ENV NODE_ENV=production
+WORKDIR /app/apps/frontend
 
-EXPOSE 3000
+RUN ls -al
 
-CMD [ "npm", "start" ]
+EXPOSE 5173
+
+CMD [ "npm", "run", "start" ]

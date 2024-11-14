@@ -14,12 +14,10 @@ services:
   cnc_frontend:
     container_name: cnc_frontend
     build:
-      context: ./apps/frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./apps/frontend/Dockerfile
     ports:
-      - '5173:5173'
-    volumes:
-      - ./apps/frontend:/app
+      - '5174:5173'
     networks:
       - cnc_dashboard
 
