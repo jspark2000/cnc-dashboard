@@ -1,4 +1,4 @@
-import Dashboard from '@/components/monitoring/Dashboard'
+import Dashboard from './Dashboard'
 
 const CncPage: React.FC = () => {
   return <Dashboard />

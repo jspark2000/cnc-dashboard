@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import CncPage from './cnc/CncPage'
+import CncPage from './cnc'
 import queryString from 'query-string'
-import FFTAndSTFTPage from './fft&stft/FFTAndSTFTPage'
+import FFTAndSTFTPage from './fft&stft'
 import SubNavigation from './SubNavigation'
-import FeaturePage from './features/FeaturePage'
+import FeaturePage from './features'
 
 const MornitoringPage: React.FC = () => {
   const navigate = useNavigate()

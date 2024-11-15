@@ -1,18 +1,16 @@
 import { ChartBarIcon } from '@heroicons/react/24/outline'
 import LineChart from '@/components/common/charts/LineChart'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
-import type { GroupedPredictResult } from '@/types/interfaces'
+import type { GroupedPredictResult } from '@/types'
+import { fetcher } from '@/libs/utils'
 
 const FeaturePage: React.FC = () => {
   const [data, setData] = useState<GroupedPredictResult>()
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios
-        .get<GroupedPredictResult>(
-          'http://127.0.0.1:4000/predict_result/factors'
-        )
+      const result = await fetcher
+        .get<GroupedPredictResult>('/predict_result/factors')
         .then((result) => result.data)
 
       result.time = result.time.map(

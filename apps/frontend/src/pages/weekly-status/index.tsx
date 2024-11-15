@@ -1,6 +1,6 @@
-import PieChart from '../../components/common/charts/PieChart'
-import ColumnChart from '../../components/common/charts/ColumnChart'
-import ModelCard from '../../components/common/card/ModelCard'
+import PieChart from '@/components/common/charts/PieChart'
+import ColumnChart from '@/components/common/charts/ColumnChart'
+import ModelCard from '@/components/common/card/ModelCard'
 
 const WeeklyStatusPage: React.FC = () => {
   const totalProductionSeries = [

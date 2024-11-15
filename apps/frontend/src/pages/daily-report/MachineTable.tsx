@@ -1,5 +1,5 @@
-import TableTitle from '../common/table/TableTitle'
-import TableValue from '../common/table/TableValue'
+import TableTitle from '@/components/common/table/TableTitle'
+import TableValue from '@/components/common/table/TableValue'
 
 const MachineTable = () => {
   const data = [

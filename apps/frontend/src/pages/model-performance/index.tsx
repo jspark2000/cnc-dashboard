@@ -1,5 +1,5 @@
-import Charts from '@/components/model-performance/Charts'
-import Lists from '@/components/model-performance/Lists'
+import Charts from './Charts'
+import Lists from './Lists'
 import LineColumnChart from '@/components/common/charts/LineColumnChart'
 import { useEffect, useState } from 'react'
 import { mockdata } from './MockData'

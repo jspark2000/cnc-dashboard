@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import FFT from 'fft.js'
-import FFT2DComponent from './components/fft/FFT2DComponent'
-import FFT3DComponent from './components/fft/FFT3DComponent'
-import STFTSpectogram from './components/stft/STFTSpectogram'
+import FFT2DComponent from './FFT2DComponent'
+import FFT3DComponent from './FFT3DComponent'
+import STFTSpectogram from './STFTSpectogram'
 import config from '@/libs/config'
 import {
   SocketAction,

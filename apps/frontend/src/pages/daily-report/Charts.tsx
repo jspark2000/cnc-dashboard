@@ -1,7 +1,7 @@
-import ColumnChart from '../common/charts/ColumnChart'
-import GaugeChart from '../common/charts/GaugeChart'
-import LineChart from '../common/charts/LineChart'
-import PieChart from '../common/charts/PieChart'
+import ColumnChart from '@/components/common/charts/ColumnChart'
+import GaugeChart from '@/components/common/charts/GaugeChart'
+import LineChart from '@/components/common/charts/LineChart'
+import PieChart from '@/components/common/charts/PieChart'
 
 // Function to generate a list of random integers
 const generateRandomList = (

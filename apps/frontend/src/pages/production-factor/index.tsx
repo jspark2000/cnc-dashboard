@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import ProductionFactorCard from '../../components/common/card/ProductionFactorCard'
-import RadarChart from '../../components/common/charts/RadarChart'
-import axios from 'axios'
-import type { PredictResult } from '../../types/interfaces'
+import ProductionFactorCard from '@/components/common/card/ProductionFactorCard'
+import RadarChart from '@/components/common/charts/RadarChart'
+import { fetcher } from '@/libs/utils'
+import type { PredictResult } from '@/types/interfaces'
 
 const ProductionFactorPage = () => {
   const [data, setData] = useState<number[]>([
@@ -14,8 +14,8 @@ const ProductionFactorPage = () => {
 
   // const fetchPower = async () => {
   //   try {
-  //     const predictResult = await axios
-  //       .get<PredictResult[]>('http://127.0.0.1:4000/predict_result')
+  //     const predictResult = await fetcher
+  //       .get<PredictResult[]>('/predict_result')
   //       .then((result) => result.data)
 
   //     if (predictResult.length > 0) {

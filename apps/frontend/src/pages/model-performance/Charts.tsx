@@ -1,11 +1,11 @@
 import axios from 'axios'
-import type { AnomalyData, AnomalyRatio } from '../../types/interfaces'
-import LineChart from '../common/charts/LineChart'
-import PieChart from '../common/charts/PieChart'
+import type { AnomalyData, AnomalyRatio } from '@/types'
+import LineChart from '@/components/common/charts/LineChart'
+import PieChart from '@/components/common/charts/PieChart'
 import { useEffect, useState } from 'react'
 
 const Charts = () => {
-  const [anomalyData, setAnomalyData] = useState<AnomalyData[]>()
+  const [_, setAnomalyData] = useState<AnomalyData[]>()
   const [anomalyRate, setAnomalyRate] = useState<AnomalyRatio>()
   const [anomalySeries, setAnomalySeries] = useState<{
     time: string[]

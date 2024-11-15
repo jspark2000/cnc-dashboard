@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import List from '../common/list/List'
-import type { AnomalyData } from '../../types/interfaces'
+import List from '@/components/common/list/List'
+import type { AnomalyData } from '@/types'
 
 const Lists = () => {
   const [anomalyData, _] = useState<Partial<AnomalyData>[]>([

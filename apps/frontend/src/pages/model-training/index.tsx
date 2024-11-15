@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import ParameterCard from '@/components/common/card/ParameterCard'
 import ColumnChart from '@/components/common/charts/ColumnChart'
 import List from '@/components/common/list/List'
-import axios from 'axios'
+import { fetcher } from '@/libs/utils'
 
 const ModelTrainingPage = () => {
   const [models, setModels] = useState<any[]>([])
@@ -24,8 +24,8 @@ const ModelTrainingPage = () => {
 
   useEffect(() => {
     const fetchModelData = async () => {
-      const data = await axios
-        .get('http://127.0.0.1:4000/model_evaluation')
+      const data = await fetcher
+        .get('/model_evaluation')
         .then((result) => result.data)
 
       const temp = categories.map((category) => {
