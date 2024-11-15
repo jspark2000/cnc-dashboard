@@ -1,3 +1,6 @@
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
 export function formatTime(input: string): string {
   const date = new Date(input)
 
@@ -25,4 +28,8 @@ export const generateRandomList = (
 
 export const generateRandomData = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
 }

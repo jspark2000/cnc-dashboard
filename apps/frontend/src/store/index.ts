@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import vibrationReducer from './vibration.slice'
+import settingReducer from './setting-state.slice'
 
 const store = configureStore({
   reducer: {
-    vibration: vibrationReducer
+    vibration: vibrationReducer,
+    setting: settingReducer
   }
 })
 

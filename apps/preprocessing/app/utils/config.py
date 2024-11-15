@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import router
 
-origins = ["http://localhost:7101"]
+origins = ["http://localhost:7101", "http://localhost:5173"]
 
 
 def add_cors_middleware(app: FastAPI):

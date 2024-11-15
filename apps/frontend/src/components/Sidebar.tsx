@@ -12,7 +12,7 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     { name: '모델학습', href: '/model-training' },
     { name: '생산주요인자', href: '/production-factor' },
     { name: 'MQTT 상태', href: '#' },
-    { name: '데이터 전처리', href: '#' }
+    { name: '데이터 전처리', href: '/data-preprocessing' }
   ]
 
   const classNames = (...classes: string[]) => {
