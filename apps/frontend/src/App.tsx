@@ -26,6 +26,9 @@ function App() {
           <Route path="/model-training" element={<ModelTrainingPage />} />
           <Route path="/production-factor" element={<ProductionFactorPage />} />
         </Route>
+        <Route path="/data-preprocessing">
+          <Route index />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

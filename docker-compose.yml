@@ -36,5 +36,17 @@ services:
     networks:
       - cnc_dashboard
 
+  data_preprocessing:
+    container_name: data_preprocessing
+    restart: always
+    profiles: ['time-series']
+    build:
+      context: .
+      dockerfile: ./apps/preprocessing/Dockerfile
+    ports:
+      - '4002:4000'
+    networks:
+      - cnc_dashboard
+
 networks:
   cnc_dashboard:
