@@ -25,8 +25,8 @@ def connect_mqtt(loop: asyncio.AbstractEventLoop, message_queue: asyncio.Queue):
         else:
             logger.error(f"Failed to connect to MQTT broker, return code {rc}")
 
-    def on_message(client, userdata, msg):
-        if msg.topic == "data/100000000f1e90c8":
+    def on_message(client, useardta, msg):
+        if msg.topic == broker_config.VIBRATION_TOPIC:
             asyncio.run_coroutine_threadsafe(message_queue.put(msg.payload), loop)
 
     client = mqtt.Client()
