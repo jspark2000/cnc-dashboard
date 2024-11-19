@@ -1,4 +1,3 @@
-import uvicorn
 import asyncio
 import logging
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
