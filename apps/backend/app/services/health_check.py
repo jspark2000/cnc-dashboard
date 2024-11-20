@@ -18,6 +18,8 @@ class TimeRange(Enum):
 class QueryType(Enum):
     AVG_PACKET_SIZE = "AVG_PACKET_SIZE"
     MSG_COUNT = "MSG_COUNT"
+    HEARTBEAT = "HEARTBEAT"
+    CONNECTED_COUNTS = "CONNECTED_COUNTS"
 
 
 class HealthCheckService:
@@ -32,6 +34,7 @@ class HealthCheckService:
 
     def _get_topics(self, query_type: QueryType):
         if query_type == QueryType.AVG_PACKET_SIZE:
+            index = "broker-topic*"
             key = "data"
             topics = {
                 "terms": {
@@ -39,10 +42,16 @@ class HealthCheckService:
                     "order": {"data": "desc"},
                     "size": 10,
                 },
-                "aggs": {"data": {"avg": {"field": "packet.length"}}},
+                "aggs": {
+                    "data": {
+                        "avg": {"field": "packet.length"},
+                    },
+                },
             }
             aggs = True
+
         elif query_type == QueryType.MSG_COUNT:
+            index = "broker-topic*"
             key = "doc_count"
             topics = {
                 "terms": {
@@ -52,10 +61,22 @@ class HealthCheckService:
                 },
             }
             aggs = False
+
+        elif query_type == QueryType.HEARTBEAT:
+            index = "broker-system*"
+            key = "doc_count"
+            topics = {
+                "terms": {
+                    "field": "packet.topic.keyword",
+                    "include": ".*heartbeat.*",
+                }
+            }
+            aggs = False
+
         else:
             raise ValueError(f"Invalid query type: {query_type}")
 
-        return key, topics, aggs
+        return index, key, topics, aggs
 
     def _calculate_time_range(
         self, time_range: TimeRange
@@ -91,11 +112,42 @@ class HealthCheckService:
 
         return start_time, end_time, interval
 
-    def query_to_elastic_search(
+    def none_ranged_query_to_elastic_search(self, query_type: QueryType) -> Dict:
+
+        if query_type == QueryType.CONNECTED_COUNTS:
+            query = {
+                "size": 1,
+                "query": {
+                    "bool": {
+                        "must": [],
+                        "filter": [],
+                        "should": [],
+                        "must_not": [],
+                    }
+                },
+                "sort": [{"@timestamp": {"order": "desc"}}],
+                "_source": ["@timestamp", "connectedCount"],
+            }
+
+            result = self._get_client().search(index="broker-topic*", body=query)
+
+            if result["hits"]["hits"]:
+                latest_doc = result["hits"]["hits"][0]
+                return {
+                    "data": {
+                        "timestamp": latest_doc["_source"]["@timestamp"],
+                        "connectedCount": latest_doc["_source"]["connectedCount"],
+                    },
+                    "key": "connectedCount",
+                }
+
+        return {"data": None, "key": None}
+
+    def ranged_query_to_elastic_search(
         self, time_range: TimeRange, query_type: QueryType
     ) -> Dict:
         start_time, end_time, interval = self._calculate_time_range(time_range)
-        key, topics, aggs = self._get_topics(query_type)
+        index, key, topics, aggs = self._get_topics(query_type)
 
         query = {
             "aggs": {
@@ -112,7 +164,12 @@ class HealthCheckService:
             "size": 0,
             "stored_fields": ["*"],
             "script_fields": {},
-            "docvalue_fields": [{"field": "@timestamp", "format": "date_time"}],
+            "docvalue_fields": [
+                {
+                    "field": "@timestamp",
+                    "format": "date_time",
+                }
+            ],
             "_source": {"excludes": []},
             "query": {
                 "bool": {
@@ -135,8 +192,11 @@ class HealthCheckService:
             },
         }
 
+        if query_type == QueryType.CONNECTED_COUNTS:
+            return self._get_client().search(index=index, body=query)
+
         return self.process_results(
-            self._get_client().search(index="broker-topic*", body=query),
+            self._get_client().search(index=index, body=query),
             key=key,
             aggs=aggs,
         )
