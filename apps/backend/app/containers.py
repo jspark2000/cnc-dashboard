@@ -8,13 +8,7 @@ from app.services.health_check import HealthCheckService
 
 
 class Container(containers.DeclarativeContainer):
-    wiring_config = containers.WiringConfiguration(
-        modules=[
-            "app.routes.data.model_evaluation",
-            "app.routes.data.predict_result",
-            "app.routes.data.random_cnc",
-        ]
-    )
+    wiring_config = containers.WiringConfiguration()
 
     database_resource = providers.Resource(PostgeSQL)
     database = providers.Singleton(database_resource)

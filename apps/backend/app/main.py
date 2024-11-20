@@ -38,6 +38,7 @@ async def lifespan(app: FastAPI):
             "app.routes.data.model_evaluation",
             "app.routes.data.predict_result",
             "app.routes.data.random_cnc",
+            "app.routes.health_check",
         ]
     )
 
