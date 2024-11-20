@@ -14,6 +14,7 @@ class DataSource(str, Enum):
     VIBRATION = "vibration"
     CNC = "cnc"
     CNC_REALTIME = "cnc_realtime"
+    STATUS = "status"
 
 
 class WebSocketConnection:
@@ -37,7 +38,7 @@ class WebSocketManager:
         self.active_connections.remove(connection)
 
     async def broadcast_to_subscribers(self, source: DataSource, message: dict):
-        message = json.loads(message.decode())
+        message = json.loads(message.decode())  # type: ignore
         message_with_source = {"source": source, "data": message}
         json_message = json.dumps(message_with_source)
 

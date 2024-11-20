@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
+import systemMetricReducer from './system-metric.slice'
 import vibrationReducer from './vibration.slice'
 import settingReducer from './setting-state.slice'
 
 const store = configureStore({
   reducer: {
+    systemMetric: systemMetricReducer,
     vibration: vibrationReducer,
     setting: settingReducer
   }

@@ -5,7 +5,8 @@ export enum SocketAction {
 export enum SocketSourceType {
   CNC_REALTIME = 'cnc_realtime',
   CNC = 'cnc',
-  VIBRATION = 'vibration'
+  VIBRATION = 'vibration',
+  STATUS = 'status'
 }
 
 export interface SocketDataType {}

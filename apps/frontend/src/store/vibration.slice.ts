@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { VibrationState } from '@/types'
+import config from '@/libs/config'
 
 const initialState: VibrationState = {
   x: [0],
@@ -15,11 +16,15 @@ const vibrationSlice = createSlice({
   reducers: {
     addVibrationState: (origin, action: PayloadAction<VibrationState>) => {
       return {
-        x: [...origin.x, ...action.payload.x].slice(-26000),
-        y: [...origin.y, ...action.payload.y].slice(-26000),
-        z: [...origin.z, ...action.payload.z].slice(-26000),
-        current: [...origin.current, ...action.payload.current].slice(-26000),
-        time: [...origin.time, ...action.payload.time].slice(-26000)
+        x: [...origin.x, ...action.payload.x].slice(-config.VIBRATION_HZ * 10),
+        y: [...origin.y, ...action.payload.y].slice(-config.VIBRATION_HZ * 10),
+        z: [...origin.z, ...action.payload.z].slice(-config.VIBRATION_HZ * 10),
+        current: [...origin.current, ...action.payload.current].slice(
+          -config.VIBRATION_HZ * 10
+        ),
+        time: [...origin.time, ...action.payload.time].slice(
+          -config.VIBRATION_HZ * 10
+        )
       }
     }
   }

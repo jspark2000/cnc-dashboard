@@ -7,10 +7,11 @@ class BrokerConfig(BaseSettings):
     TOPIC: str
     CNC_TOPIC: str
     VIBRATION_TOPIC: str
+    STATUS_TOPIC: str
 
     class Config:
         env_file = ".env"
         extra = "allow"
 
 
-broker_config = BrokerConfig()
+broker_config = BrokerConfig()  # type: ignore

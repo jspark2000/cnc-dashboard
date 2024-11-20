@@ -3,14 +3,10 @@ import FFT from 'fft.js'
 import FFT2DComponent from './FFT2DComponent'
 import FFT3DComponent from './FFT3DComponent'
 import STFTSpectogram from './STFTSpectogram'
+import { type FFTChartData } from '@/types'
+import { useSelector } from 'react-redux'
+import type { RootState } from '@/store'
 import config from '@/libs/config'
-import {
-  SocketAction,
-  SocketSourceType,
-  type FFTChartData,
-  type SocketMessage,
-  type VibrationState
-} from '@/types'
 
 interface Props {
   col: 'x' | 'y' | 'z' | 'current'
@@ -22,7 +18,6 @@ const FFTSection: React.FC<Props> = ({
   magnitudeThreshold = 500
 }) => {
   const [loading, setLoading] = useState<number>(0)
-  const [time, setTime] = useState<string>('')
   const [data, setData] = useState<FFTChartData[]>([])
   const [spectrogramData, setSpectrogramData] = useState<{
     t: number[]
@@ -30,49 +25,31 @@ const FFTSection: React.FC<Props> = ({
     Zxx: number[][]
   } | null>(null)
   const [_, setSignalBuffer] = useState<number[]>([])
+  const vibration = useSelector((state: RootState) => state.vibration)
+  const targetLength = config.VIBRATION_HZ * 10
 
   useEffect(() => {
     setSignalBuffer([])
     setLoading(0)
     setData([])
     setSpectrogramData(null)
-
-    const socket = new WebSocket(config.WEBSOCKET_URL)
-
-    socket.onopen = (_) => {
-      socket.send(
-        JSON.stringify({
-          action: SocketAction.SUBSCRIBE,
-          source: 'vibration'
-        })
-      )
-    }
-
-    socket.onmessage = (event) => {
-      const { data, source } = JSON.parse(
-        event.data
-      ) as SocketMessage<VibrationState>
-
-      if (source !== SocketSourceType.VIBRATION) return
-
-      const newSignal = data[col]
-      setSignalBuffer((prevBuffer) => {
-        setTime(data.time.pop() ?? '')
-        const updatedBuffer = [...prevBuffer, ...newSignal]
-        setLoading((updatedBuffer.length / 25000) * 100)
-        if (updatedBuffer.length >= 25000) {
-          const latestBuffer = updatedBuffer.slice(-25000)
-          processFFT(latestBuffer)
-          const spectrogramResult = performSTFT(latestBuffer)
-          setSpectrogramData(spectrogramResult)
-          return latestBuffer
-        }
-        return updatedBuffer
-      })
-    }
-
-    return () => socket.close()
   }, [col])
+
+  useEffect(() => {
+    const newSignal = vibration[col]
+    setSignalBuffer(() => {
+      const updatedBuffer = [...newSignal]
+      setLoading((updatedBuffer.length / targetLength) * 100)
+      if (updatedBuffer.length >= targetLength) {
+        const latestBuffer = updatedBuffer.slice(-targetLength)
+        processFFT(latestBuffer)
+        const spectrogramResult = performSTFT(latestBuffer)
+        setSpectrogramData(spectrogramResult)
+        return latestBuffer
+      }
+      return updatedBuffer
+    })
+  }, [vibration])
 
   const processFFT = (data: number[]) => {
     const segmentSize = 4096
@@ -157,8 +134,9 @@ const FFTSection: React.FC<Props> = ({
 
   return (
     <div className="grid h-full w-full grid-cols-2 gap-3">
-      <p className="col-span-2">CNC 데이터 시각: {time}</p>
-      {loading < 100 && <p className="col-span-2">데이터 로딩: {loading}%</p>}
+      {loading < 100 && (
+        <p className="col-span-2">데이터 로딩: {loading.toFixed(2)}%</p>
+      )}
       <div>
         {data.length > 0 && (
           <div className="mb-5 h-[400px]">

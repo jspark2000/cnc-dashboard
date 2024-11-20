@@ -4,10 +4,12 @@ import {
   SocketAction,
   SocketSourceType,
   type SocketMessage,
+  type SystemMetricState,
   type VibrationState
 } from '@/types'
 import { addVibrationState } from '@/store/vibration.slice'
 import { useCallback, useEffect, useRef } from 'react'
+import { setSystemMetricState } from '@/store/system-metric.slice'
 
 const useWebSocket = () => {
   const dispatch = useDispatch()
@@ -18,7 +20,8 @@ const useWebSocket = () => {
     const topics = [
       SocketSourceType.VIBRATION,
       SocketSourceType.CNC_REALTIME,
-      SocketSourceType.CNC
+      SocketSourceType.CNC,
+      SocketSourceType.STATUS
     ]
 
     topics.forEach((topic) => {
@@ -53,6 +56,10 @@ const useWebSocket = () => {
             return
           case SocketSourceType.CNC:
           case SocketSourceType.CNC_REALTIME:
+            return
+          case SocketSourceType.STATUS:
+            dispatch(setSystemMetricState(data as SystemMetricState))
+            return
           default:
             console.log('unsupported socket source type')
             return

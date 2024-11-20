@@ -15,6 +15,7 @@ logger = logging.getLogger("uvicorn.info")
 vibration_message_queue = asyncio.Queue()
 cnc_message_queue = asyncio.Queue()
 cnc_realtime_message_queue = asyncio.Queue()
+system_status_message_queue = asyncio.Queue()
 
 connected_clients = []
 
@@ -23,6 +24,7 @@ ws_manager = WebSocketManager(
         DataSource.CNC: cnc_message_queue,
         DataSource.CNC_REALTIME: cnc_realtime_message_queue,
         DataSource.VIBRATION: vibration_message_queue,
+        DataSource.STATUS: system_status_message_queue,
     }
 )
 
@@ -42,7 +44,12 @@ async def lifespan(app: FastAPI):
         ]
     )
 
-    for source in [DataSource.VIBRATION, DataSource.CNC, DataSource.CNC_REALTIME]:
+    for source in [
+        DataSource.VIBRATION,
+        DataSource.CNC,
+        DataSource.CNC_REALTIME,
+        DataSource.STATUS,
+    ]:
         asyncio.create_task(ws_manager.start_queue_listener(source))
 
     try:
@@ -55,7 +62,7 @@ app = FastAPI(lifespan=lifespan)
 
 add_cors_settings(app)
 app.include_router(router)
-include_mqtt(vibration_message_queue)
+include_mqtt(ws_manager.queues)
 
 
 @app.websocket("/ws/mqtt")
@@ -76,6 +83,7 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         ws_manager.disconnect(connection)
         logger.info("Client disconnected")
+
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
         ws_manager.disconnect(connection)
