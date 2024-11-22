@@ -9,6 +9,7 @@ import ModelTrainingPage from '@/pages/model-training'
 import ProductionFactorPage from '@/pages/production-factor'
 import RouteToMornitoring from '@/pages'
 import DataPreprocessingPage from '@/pages/data-preprocessing'
+import HealthCheckingPage from '@/pages/health-checking'
 import useWebSocket from './libs/hooks'
 import DataPreprocessingLayout from './components/layouts/DataPreprocessingLayout'
 import { useEffect } from 'react'
@@ -60,6 +61,7 @@ function App() {
           <Route path="/model-performance" element={<ModelPerformancePage />} />
           <Route path="/model-training" element={<ModelTrainingPage />} />
           <Route path="/production-factor" element={<ProductionFactorPage />} />
+          <Route path="/health-check" element={<HealthCheckingPage />} />
         </Route>
         <Route path="/data-preprocessing" element={<DataPreprocessingLayout />}>
           <Route index element={<DataPreprocessingPage />} />
