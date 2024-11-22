@@ -68,11 +68,12 @@ const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </nav>
           </div>
         </div>
-        <div className="pl-36">
-          <main>
-            <div className="min-h-screen w-full overflow-auto bg-gray-50 p-4">
-              {children}
-            </div>
+        <div className="pl-40">
+          <main
+            className="grid h-full overflow-x-hidden bg-zinc-50"
+            style={{ height: 'calc(100vh)' }}
+          >
+            {children}
           </main>
         </div>
       </div>

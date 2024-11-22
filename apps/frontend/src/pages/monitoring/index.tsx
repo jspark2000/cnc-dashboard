@@ -28,7 +28,7 @@ const MornitoringPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col py-5">
       <div>
         <SubNavigation />
       </div>
