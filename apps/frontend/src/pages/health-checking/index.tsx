@@ -11,14 +11,24 @@ import {
 import MessageCountChart from './MessageCountChart'
 import ConnectedCountChart from './ConnectedCountChart'
 import HeartBeatChart from './HeartBeatChart'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function HealthCheckingPage() {
   const [range, setRange] = useState<ChartRange>(ChartRange.ONE_HOUR)
+  const [tab, setTab] = useState('mqtt')
 
   return (
     <div className="flex h-full w-full flex-col space-y-2 px-4 pb-5">
       <div className="flex basis-1/12 items-center space-x-8">
-        <h1 className="text-2xl font-bold text-zinc-800">MQTT 상태 모니터링</h1>
+        <h1 className="text-2xl font-bold text-zinc-800">
+          시스템 상태 모니터링
+        </h1>
+        <Tabs value={tab} onValueChange={(value) => setTab(value)}>
+          <TabsList>
+            <TabsTrigger value="mqtt">MQTT 브로커</TabsTrigger>
+            <TabsTrigger value="iot">IOT 기기</TabsTrigger>
+          </TabsList>
+        </Tabs>
         <div className="w-[200px]">
           <Select
             defaultValue={ChartRange.ONE_HOUR}
@@ -39,26 +49,32 @@ export default function HealthCheckingPage() {
           </Select>
         </div>
       </div>
-      <div className="flex basis-5/12 space-x-2">
-        <ConnectedCountChart
-          range={range}
-          className="h-full w-full basis-1/5 rounded-md border border-zinc-400/30 bg-white pl-2 pr-2 pt-3 shadow-sm"
-        />
-        <MessageCountChart
-          range={range}
-          className="h-full w-full basis-4/5 rounded-md border border-zinc-400/30 bg-white pl-2 pr-2 pt-3 shadow-sm"
-        />
-      </div>
-      <div className="flex basis-6/12 space-x-2">
-        <AveragePayloadChart
-          range={range}
-          className="h-full w-full basis-2/3 rounded-md border border-zinc-400/30 bg-white pl-2 pr-2 pt-3 shadow-sm"
-        />
-        <HeartBeatChart
-          range={range}
-          className="h-full w-full basis-1/3 rounded-md border border-zinc-400/30 bg-white pl-2 pr-2 pt-3 shadow-sm"
-        />
-      </div>
+      {tab === 'mqtt' ? (
+        <>
+          <div className="flex basis-5/12 space-x-2">
+            <ConnectedCountChart
+              range={range}
+              className="h-full w-full basis-1/5 rounded-md border border-zinc-400/30 bg-white pl-2 pr-2 pt-3 shadow-sm"
+            />
+            <MessageCountChart
+              range={range}
+              className="h-full w-full basis-4/5 rounded-md border border-zinc-400/30 bg-white pl-2 pr-2 pt-3 shadow-sm"
+            />
+          </div>
+          <div className="flex basis-6/12 space-x-2">
+            <AveragePayloadChart
+              range={range}
+              className="h-full w-full basis-2/3 rounded-md border border-zinc-400/30 bg-white pl-2 pr-2 pt-3 shadow-sm"
+            />
+            <HeartBeatChart
+              range={range}
+              className="h-full w-full basis-1/3 rounded-md border border-zinc-400/30 bg-white pl-2 pr-2 pt-3 shadow-sm"
+            />
+          </div>
+        </>
+      ) : (
+        <div>IOT 상태</div>
+      )}
     </div>
   )
 }
