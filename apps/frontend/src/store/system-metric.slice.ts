@@ -31,7 +31,8 @@ const initialState: SystemMetricState = {
     dropout: 0,
     wifi_strength: null
   },
-  process_list: []
+  process_list: [],
+  time: new Date().toLocaleString()
 }
 
 const systemMetricSlice = createSlice({
@@ -39,7 +40,10 @@ const systemMetricSlice = createSlice({
   initialState,
   reducers: {
     setSystemMetricState: (_, action) => {
-      return action.payload
+      return {
+        ...action.payload,
+        time: new Date().toLocaleString()
+      }
     }
   }
 })

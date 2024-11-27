@@ -22,7 +22,6 @@ connected_clients = []
 ws_manager = WebSocketManager(
     queues={
         DataSource.CNC: cnc_message_queue,
-        DataSource.CNC_REALTIME: cnc_realtime_message_queue,
         DataSource.VIBRATION: vibration_message_queue,
         DataSource.STATUS: system_status_message_queue,
     }
@@ -47,7 +46,6 @@ async def lifespan(app: FastAPI):
     for source in [
         DataSource.VIBRATION,
         DataSource.CNC,
-        DataSource.CNC_REALTIME,
         DataSource.STATUS,
     ]:
         asyncio.create_task(ws_manager.start_queue_listener(source))

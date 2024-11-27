@@ -13,7 +13,6 @@ logger = logging.getLogger("uvicorn.info")
 class DataSource(str, Enum):
     VIBRATION = "vibration"
     CNC = "cnc"
-    CNC_REALTIME = "cnc_realtime"
     STATUS = "status"
 
 

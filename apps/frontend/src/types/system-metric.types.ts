@@ -29,4 +29,5 @@ export interface SystemMetricState {
     wifi_strength: number | null
   }
   process_list: any[]
+  time: string
 }

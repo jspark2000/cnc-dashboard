@@ -10,6 +10,7 @@ import {
 import { addVibrationState } from '@/store/vibration.slice'
 import { useCallback, useEffect, useRef } from 'react'
 import { setSystemMetricState } from '@/store/system-metric.slice'
+import { setCncDataState } from '@/store/cnc-data.slice'
 
 const useWebSocket = () => {
   const dispatch = useDispatch()
@@ -19,7 +20,6 @@ const useWebSocket = () => {
   const subscribeToTopics = (socket: WebSocket) => {
     const topics = [
       SocketSourceType.VIBRATION,
-      SocketSourceType.CNC_REALTIME,
       SocketSourceType.CNC,
       SocketSourceType.STATUS
     ]
@@ -55,7 +55,7 @@ const useWebSocket = () => {
             dispatch(addVibrationState(data as VibrationState))
             return
           case SocketSourceType.CNC:
-          case SocketSourceType.CNC_REALTIME:
+            dispatch(setCncDataState(data as CNCState))
             return
           case SocketSourceType.STATUS:
             dispatch(setSystemMetricState(data as SystemMetricState))
