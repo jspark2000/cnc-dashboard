@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
-import ProductionFactorCard from '@/components/common/card/ProductionFactorCard'
+import { useState } from 'react'
+import ProductionFactorCard from './ProductionFactorCard'
 import RadarChart from '@/components/common/charts/RadarChart'
-import { fetcher } from '@/libs/utils'
-import type { PredictResult } from '@/types/interfaces'
 
 const ProductionFactorPage = () => {
   const [data, setData] = useState<number[]>([
@@ -11,46 +9,6 @@ const ProductionFactorPage = () => {
   const [goodData, setGoodData] = useState<number[]>([
     5.01, 4.53, 4.82, 4.45, 4.22, 3.57, 3.2, 2.0
   ])
-
-  // const fetchPower = async () => {
-  //   try {
-  //     const predictResult = await fetcher
-  //       .get<PredictResult[]>('/predict_result')
-  //       .then((result) => result.data)
-
-  //     if (predictResult.length > 0) {
-  //       const target = predictResult[0]
-
-  //       const totalVibrationRms =
-  //         (target.x_rms || 0) * (target.x_rms || 0) +
-  //         (target.y_rms || 0) * (target.y_rms || 0) +
-  //         (target.z_rms || 0) * (target.z_rms || 0)
-
-  //       setData([
-  //         target.x_rms || 0,
-  //         target.x_std || 0,
-  //         target.x_impact_factor || 0,
-  //         target.x_crest_factor || 0,
-  //         target.pf_p2p_1 || 0,
-  //         target.pf_p2p_2 || 0,
-  //         target.pf_p2p_3 || 0,
-  //         Math.sqrt(totalVibrationRms)
-  //       ])
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   fetchPower()
-
-  //   const intervalId = setInterval(() => {
-  //     fetchPower()
-  //   }, 1000)
-
-  //   return () => clearInterval(intervalId)
-  // }, [])
 
   const titles = [
     'Peak',
@@ -88,7 +46,7 @@ const ProductionFactorPage = () => {
   return (
     <div>
       <RadarChart series={series} categories={titles} />
-      <div className="mt-4 grid grid-cols-4 gap-4">
+      <div className="mt-4 grid grid-cols-4 gap-4 px-4">
         {titles.map((title, index) => (
           <ProductionFactorCard
             title={title}
