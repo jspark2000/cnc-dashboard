@@ -77,7 +77,7 @@ const ModelTrainingPage = () => {
 
   return (
     <div>
-      <div className="flex w-full">
+      <div className="flex w-full px-4">
         <div className="mt-8 flow-root w-1/2 pl-6 pr-10">
           <div className="mb-2 text-lg font-semibold text-gray-800">
             모델별 학습소요시간

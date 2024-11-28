@@ -1,7 +1,7 @@
 const config = {
-  API_BASE_URL: 'http://localhost:4001',
-  PREPROCESSING_API_BASE_URL: 'http://localhost:4002',
-  WEBSOCKET_URL: 'ws://localhost:4001/ws/mqtt',
+  API_BASE_URL: 'http://192.168.30.211:4001',
+  PREPROCESSING_API_BASE_URL: 'http://192.168.30.211:4002',
+  WEBSOCKET_URL: 'ws://192.168.30.211:4001/ws/mqtt',
   WEBSOCKET_RECONNECTION_DELAY: 5000,
   VIBRATION_HZ: 2500
 }
