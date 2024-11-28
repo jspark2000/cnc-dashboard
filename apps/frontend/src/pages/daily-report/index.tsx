@@ -4,10 +4,16 @@ import MachineTable from './MachineTable'
 
 const DailyReportPage: React.FC = () => {
   return (
-    <div className="flex flex-col">
-      <MachineTable />
-      <Charts />
-      <ItemTable />
+    <div className="grid grid-cols-1 px-4 py-10">
+      <div>
+        <MachineTable />
+      </div>
+      <div>
+        <Charts />
+      </div>
+      <div>
+        <ItemTable />
+      </div>
     </div>
   )
 }

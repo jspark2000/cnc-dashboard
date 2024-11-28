@@ -46,11 +46,11 @@ const ItemTable = () => {
   ]
 
   return (
-    <div className="flex w-full border-b border-r border-gray-400">
-      <div className="flex w-3/5 border-b-2 border-l-2 border-gray-500">
+    <div className="flex w-full items-center justify-center">
+      <div className="flex border-b-2 border-l-2 border-gray-500">
         {data.map((item, index) => (
-          <div key={index} className="">
-            <div className="z-10 flex h-6 w-full items-start justify-center border-t-2 border-gray-500 bg-gray-400"></div>
+          <div key={index}>
+            <div className="z-10 flex h-6 w-full items-start justify-center border-t-2 border-gray-500 bg-gray-500"></div>
             <TableTitle title={item.title} unit={item.unit} />
             <TableValue value={item.value} />
           </div>
@@ -68,6 +68,7 @@ const ItemTable = () => {
           ))}
         </div>
       </div>
+
       <div className="border-b-2 border-r-2 border-gray-500">
         <SectionTitle title="성능" />
         <div className="flex">

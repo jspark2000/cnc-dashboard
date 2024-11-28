@@ -74,7 +74,7 @@ const GaugeChart = ({
         }}
         series={series}
         type="radialBar"
-        height={350}
+        height={240}
       />
       <div>
         <h1 className="text-center text-xs">{label}</h1>
