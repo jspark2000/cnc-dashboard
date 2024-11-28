@@ -21,18 +21,18 @@ const WeeklyStatusPage: React.FC = () => {
   const weeklyOperationTimeSeries = [6510.6, 797.7]
 
   return (
-    <div className="grid w-full grid-cols-12 gap-3">
-      <div className="col-span-12">
+    <div className="flex w-full flex-col space-y-5 px-4 py-10">
+      <div>
         <h1 className="text-2xl font-bold">주간현황</h1>
       </div>
-      <div className="col-span-4">
+      <div className="w-1/3">
         <ModelCard
           productNumber={'APH 025 MAIN'}
           programName={'O7534'}
           equipmentModel={'WIAVF500D'}
         />
       </div>
-      <div className="col-span-12 mt-5 grid grid-cols-5 gap-1">
+      <div className="grid grid-cols-5 gap-1">
         <div className="col-span-3">
           <div className="flex justify-between bg-gray-600 px-2 py-1 text-center text-sm font-bold text-white">
             <p>DAILY PRODUCT STATUS</p>
@@ -45,12 +45,12 @@ const WeeklyStatusPage: React.FC = () => {
                 <span className="block">가</span>
                 <span className="block">공</span>
               </div>
-              <div className="flex w-full">
+              <div className="flex h-[420px] w-full">
                 <ColumnChart
                   series={totalProductionSeries}
                   labels={['월', '화', '수', '목', '금', '토', '일']}
                   isStacked={true}
-                  height={400}
+                  height={'100%'}
                 />
               </div>
             </div>
@@ -61,11 +61,11 @@ const WeeklyStatusPage: React.FC = () => {
             <p>WEEKLY PRODUCT STATUS</p>
           </div>
           <div className="flex flex-col space-y-1">
-            <div className="flex h-[420px] items-center justify-center bg-white">
+            <div className="flex h-[420px] w-full bg-white">
               <PieChart
                 series={weeklyProductStatusSeries}
                 labels={['lv1_ratio', 'lv2_ratio', 'lv3_ratio']}
-                height={350}
+                height={'100%'}
               />
             </div>
           </div>
@@ -75,11 +75,11 @@ const WeeklyStatusPage: React.FC = () => {
             <p>WEEKLY OPERATION TIME</p>
           </div>
           <div className="flex flex-col space-y-1">
-            <div className="flex h-[420px] items-center justify-center bg-white">
+            <div className="flex h-[420px] w-full bg-white">
               <PieChart
                 series={weeklyOperationTimeSeries}
                 labels={['MACHINE A', 'MACHINE B']}
-                height={350}
+                height={'100%'}
               />
             </div>
           </div>

@@ -9,7 +9,7 @@ const PieChart = ({
   series: ChartProps['series']
   labels: any[]
   title?: string
-  height?: number
+  height?: number | string
 }) => {
   return (
     <div className="p-4">
@@ -17,6 +17,7 @@ const PieChart = ({
         series={series}
         type="donut"
         height={height}
+        width={'100%'}
         options={{
           chart: {
             type: 'donut'
@@ -24,7 +25,7 @@ const PieChart = ({
           plotOptions: {
             pie: {
               donut: {
-                size: '65%'
+                size: '60%'
               }
             }
           },
@@ -36,7 +37,7 @@ const PieChart = ({
           labels: labels,
           legend: {
             show: true,
-            position: 'bottom'
+            position: 'top'
           }
         }}
       />

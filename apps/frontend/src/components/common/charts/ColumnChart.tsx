@@ -8,7 +8,7 @@ const ColumnChart = ({
 }: {
   series: ChartProps['series']
   labels: any[]
-  height?: number
+  height?: number | string
   isStacked?: boolean
 }) => {
   return (
