@@ -1,4 +1,5 @@
 import type { RootState } from '@/store'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { useSelector } from 'react-redux'
 
 export default function IoTStatusSection() {
@@ -11,18 +12,31 @@ export default function IoTStatusSection() {
   return (
     <div className="grid grid-cols-4 gap-x-3 gap-y-5">
       <div className="col-span-4">
-        <div className="pb-2 text-2xl font-bold">기본 정보</div>
-        <div className="w-full max-w-lg rounded-md border border-zinc-400/30 bg-white p-5 shadow-sm">
-          <h2 className="pb-5 text-lg font-semibold">전체</h2>
-          <div className="flex justify-between">
-            <span className="text-gray-600">데이터 기준 시각:</span>
-            <span>{iot.time}</span>
+        {iot.cpu.boot_time !== 0 ? (
+          <>
+            <div className="pb-2 text-2xl font-bold">기본 정보</div>
+            <div className="w-full max-w-lg rounded-md border border-zinc-400/30 bg-white p-5 shadow-sm">
+              <h2 className="pb-5 text-lg font-semibold">전체</h2>
+              <div className="flex justify-between">
+                <span className="text-gray-600">마지막 업데이트:</span>
+                <span>{iot.time}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">시스템 부팅 시각:</span>
+                <span>
+                  {new Date(iot.cpu.boot_time * 1000).toLocaleString()}
+                </span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center text-xl font-bold">
+            <span>
+              <ExclamationTriangleIcon className="mr-2 h-10 w-10 text-yellow-500" />
+            </span>{' '}
+            아직 IoT 데이터를 불러오지 못했습니다
           </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">시스템 부팅 시각:</span>
-            <span>{new Date(iot.cpu.boot_time * 1000).toLocaleString()}</span>
-          </div>
-        </div>
+        )}
       </div>
 
       <div className="flex flex-col space-y-2">
@@ -113,19 +127,19 @@ export default function IoTStatusSection() {
           <div className="w-full max-w-lg rounded-md border border-zinc-400/30 bg-white p-5 shadow-sm">
             <h2 className="pb-5 text-lg font-semibold">전체</h2>
             <div className="flex justify-between">
-              <span className="text-gray-600">전송 바이트:</span>
+              <span className="text-gray-600">누적 전송 바이트:</span>
               <span>{bytesToGB(iot.net_io.bytes_sent)} GB</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">수신 바이트:</span>
+              <span className="text-gray-600">누적 수신 바이트:</span>
               <span>{bytesToGB(iot.net_io.bytes_recv)} GB</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">전송 패킷:</span>
+              <span className="text-gray-600">누적 전송 패킷 수:</span>
               <span>{iot.net_io.packets_sent}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">수신 패킷:</span>
+              <span className="text-gray-600">누적 수신 패킷 수:</span>
               <span>{iot.net_io.packets_recv}</span>
             </div>
             <div className="flex justify-between">
