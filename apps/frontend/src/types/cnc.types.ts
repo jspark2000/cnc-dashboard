@@ -1,15 +1,15 @@
-interface ModalGCode {
+export interface ModalGCode {
   group: string
   flag: string
   code: string
 }
 
-interface ModalData {
+export interface ModalData {
   code: string
   commanded: boolean
 }
 
-interface OtherData {
+export interface OtherData {
   type: string
   aux_data: number
   inputs: number
@@ -19,7 +19,7 @@ interface OtherData {
   decimal: number
 }
 
-interface CNCState {
+export interface CNCState {
   id: string
   feed_rate_unit: string
   speed: number

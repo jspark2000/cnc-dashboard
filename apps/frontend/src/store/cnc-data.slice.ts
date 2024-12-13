@@ -1,3 +1,4 @@
+import type { CNCState } from '@/types'
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: CNCState = {

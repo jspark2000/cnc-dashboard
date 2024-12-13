@@ -33,3 +33,8 @@ export const generateRandomData = (min: number, max: number): number => {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+export function calculateFinalValue(auxData: number, decimal: number): number {
+  const divisor = Math.pow(10, decimal)
+  return auxData / divisor
+}
