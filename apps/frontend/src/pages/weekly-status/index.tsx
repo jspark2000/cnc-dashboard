@@ -21,8 +21,13 @@ const WeeklyStatusPage: React.FC = () => {
   const weeklyOperationTimeSeries = [6510.6, 797.7]
 
   return (
-    <div className="flex w-full flex-col space-y-5 px-4 py-10">
-      <div>
+    <div className="w-full space-y-5 px-4">
+      <iframe
+        src="http://192.168.30.211:5601/goto/33797ce5d31b29ef2805077a1f846114"
+        height="100%"
+        width="100%"
+      ></iframe>
+      {/* <div>
         <h1 className="text-2xl font-bold">주간현황</h1>
       </div>
       <div className="w-1/3">
@@ -84,7 +89,7 @@ const WeeklyStatusPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

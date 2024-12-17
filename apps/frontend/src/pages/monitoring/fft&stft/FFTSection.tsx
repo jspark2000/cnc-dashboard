@@ -133,26 +133,25 @@ const FFTSection: React.FC<Props> = ({
   }
 
   return (
-    <div className="grid h-full w-full grid-cols-2 gap-3">
+    <div className="grid w-full grid-cols-2 grid-rows-2 gap-3">
       {loading < 100 && (
         <p className="col-span-2">데이터 로딩: {loading.toFixed(2)}%</p>
       )}
-      <div>
-        {data.length > 0 && (
-          <div className="mb-5 h-[400px]">
-            <FFT2DComponent data={data} />
-          </div>
-        )}
-        {data.length > 0 && (
-          <div className="h-[400px]">
-            <FFT3DComponent data={data} />{' '}
-          </div>
-        )}
-      </div>
+
+      {data.length > 0 && (
+        <div className="row-span-1">
+          <FFT2DComponent data={data} />
+        </div>
+      )}
       {spectrogramData && (
-        <div className="h-[820px]">
+        <div className="row-span-2">
           {' '}
           <STFTSpectogram spectrogramData={spectrogramData} />{' '}
+        </div>
+      )}
+      {data.length > 0 && (
+        <div className="row-span-1">
+          <FFT3DComponent data={data} />{' '}
         </div>
       )}
     </div>
